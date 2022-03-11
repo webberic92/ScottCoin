@@ -40,22 +40,21 @@ body {
   padding: 0 20px;
   font-size: 1rem;
   text-align: center;
-  color: #fff;
+  color: #f0b90b;
   text-shadow: 1px 1px 1px #000;
   border-radius: 10px;
-  background-color: black;
+  background-color: rgb(61, 57, 2);
   background-image: linear-gradient(
     to top left,
     rgba(0, 0, 0, 0.2),
     rgba(0, 0, 0, 0.2) 30%,
     rgba(0, 0, 0, 0)
   );
-  box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.6),
-    inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 2px 2px 3px #f0b90b, inset -2px -2px 3px rgba(0, 0, 0, 0.6);
 }
 
 .styled:hover {
-  background-color: slategrey;
+  background-color: #f0b90b;
 }
 
 .styled:active {
@@ -78,6 +77,7 @@ h3,
 h4,
 h5,
 h6 {
+  color: #f0b90b;
   font-family: RapidFinger101;
   font-size: 1em;
 }
@@ -89,10 +89,11 @@ button {
 p {
   font-family: EncodeSansCondensedBold;
   font-size: 1em;
+  color: #f0b90b;
 }
 
 #list {
-  background-color: slategray;
+  background-color: black;
 }
 
 #page-container {
@@ -110,4 +111,33 @@ p {
   bottom: 0;
   width: 100%;
   height: 2.5rem; /* Footer height */
+}
+
+#yellow {
+  color: #f0b90b;
+}
+
+#yellow:hover {
+  color: #a07c07;
+  text-decoration: underline;
+}
+
+#yellowHamburger {
+  color: #f0b90b;
+}
+
+#yellowHamburger:hover {
+  color: #a07c07;
+}
+#teamCard {
+  width: 95%;
+  margin-bottom: 25px;
+  min-width: 275px;
+  max-width: 310px;
+  background-color: rgba(54, 45, 3, 0.753);
+  border: 2mm ridge #f0b90b;
+}
+
+#mintInput {
+  background-color: rgba(54, 45, 3, 0.753);
 }

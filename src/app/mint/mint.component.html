@@ -1,0 +1,49 @@
+<div class="center-div">
+  <div
+    class="card"
+    style="
+      background-color: black;
+      border: 4mm ridge #f0b90b;
+      width: 65%;
+      min-width: 400px;
+    "
+  >
+    <div class="center-img">
+      <br />
+      <img
+        src="../../assets/My_Coin.gif"
+        alt="unfold"
+        height="33%"
+        width="33%"
+        style="border-radius: 50%"
+      />
+    </div>
+    <div class="card-body">
+      <h3 class="card-text" style="font-size: 2em">
+        <u> Mint ScottCoin. </u>
+      </h3>
+      <br />
+      <p>Current price of SCB is .001 BNB</p>
+
+      <div class="form-outline" id="mintInput">
+        <input
+          type="number"
+          min="0"
+          step="1"
+          onfocus="this.previousValue = this.value"
+          onkeydown="this.previousValue = this.value"
+          oninput="validity.valid || (value = this.previousValue)"
+          class="form-control"
+        />
+        <label class="form-label" for="typeNumber"><p>Amount to buy</p></label>
+      </div>
+      <br />
+      <p>Total price with out gas fees for X amount of BSC is X BNB</p>
+
+      <br />
+      <div class="center-div">
+        <button class="favorite styled" type="button">Mint</button>
+      </div>
+    </div>
+  </div>
+</div>

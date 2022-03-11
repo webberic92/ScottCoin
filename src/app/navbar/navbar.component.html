@@ -3,17 +3,18 @@
   <!-- Container wrapper -->
   <div class="container-fluid">
     <!-- Navbar brand -->
-    <h6>
-      <a class="navbar-brand text-white" routerLink="home">
+    <a class="navbar-brand text-white" routerLink="home">
+      <h6 id="yellow">
         <img
-          src="assets/unfold.png"
+          src="../../assets/binanceSymbol.png"
           alt="logo"
           width="50"
           style="border-radius: 50%"
         />
-        &nbsp; Project Unfold
-      </a>
-    </h6>
+      </h6>
+      &nbsp;
+      <h6 id="yellow">Scott Coin</h6>
+    </a>
 
     <!-- Toggle button -->
     <button
@@ -23,7 +24,7 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-      <i class="fas fa-bars"></i>
+      <i class="fas fa-bars" id="yellowHamburger"></i>
     </button>
 
     <!-- Collapsible wrapper -->
@@ -36,11 +37,35 @@
       <!-- Left links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link text-white" routerLink="team"><h5>Team</h5></a>
+          <a
+            class="nav-link text-white"
+            routerLink="mint"
+            (click)="basicNavbar.toggle()"
+            ><h5 id="yellow">Mint</h5></a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" routerLink="roadmap"
-            ><h5>RoadMap</h5></a
+          <a
+            class="nav-link text-white"
+            routerLink="manage"
+            (click)="basicNavbar.toggle()"
+            ><h5 id="yellow">Manage</h5></a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link text-white"
+            routerLink="team"
+            (click)="basicNavbar.toggle()"
+            ><h5 id="yellow">Team</h5></a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link text-white"
+            routerLink="roadmap"
+            (click)="basicNavbar.toggle()"
+            ><h5 id="yellow">RoadMap</h5></a
           >
         </li>
       </ul>

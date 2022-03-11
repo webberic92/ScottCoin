@@ -7,6 +7,7 @@ import { TeamComponent } from './team/team.component';
 import { RoadMapComponent } from './road-map/road-map.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 // import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -22,6 +23,8 @@ import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 // import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 // import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
+import { MintComponent } from './mint/mint.component';
+import { ManageComponent } from './manage/manage.component';
 
 @NgModule({
   declarations: [
@@ -30,12 +33,15 @@ import { HomeComponent } from './home/home.component';
     RoadMapComponent,
     NavbarComponent,
     FooterComponent,
-    HomeComponent],
+    HomeComponent,
+    MintComponent,
+    ManageComponent],
   imports: [
 
     BrowserModule,
     AppRoutingModule,
     MdbCollapseModule,
+    MdbFormsModule
 
   ],
   providers: [],

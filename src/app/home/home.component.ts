@@ -12,11 +12,17 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  murderGang = () => {
-    this.router.navigateByUrl('/murderGang');
+  // murderGang = () => {
+  //   this.router.navigateByUrl('/murderGang');
+  // };
+  mint = () => {
+    this.router.navigateByUrl('/mint');
+  };
+  manage = () => {
+    this.router.navigateByUrl('/manage');
   };
 
-  saviors = () => {
+  team = () => {
     this.router.navigateByUrl('/team');
   };
 
