@@ -8,6 +8,7 @@ import { RoadMapComponent } from './road-map/road-map.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { FormsModule } from '@angular/forms';
 
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 // import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -37,7 +38,7 @@ import { ManageComponent } from './manage/manage.component';
     MintComponent,
     ManageComponent],
   imports: [
-
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     MdbCollapseModule,
