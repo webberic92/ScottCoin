@@ -18,14 +18,20 @@ export class MintComponent implements OnInit {
   test: string = ''
 
   updatePrice(e: Event) { // without type info
-    console.log()
-    if (isNaN(Number(e))) {
+    this.test = ''
+    console.log("event " + e)
+    this.numToBuy = String(e);
+    this.totalPrice = (Number(this.numToBuy) * .001).toFixed(4)
+    if (Number(this.numToBuy) >= 100000000000) {
       this.numToBuy = '0'
       this.totalPrice = '0'
-    } else {
-      this.numToBuy = String(e);
-      this.totalPrice = (Number(this.numToBuy) * .001).toFixed(4)
     }
+    if (isNaN(Number(this.totalPrice))) {
+      console.log(this.totalPrice)
+      this.numToBuy = '0';
+      this.totalPrice = '0'
+    }
+
 
   }
 
@@ -33,6 +39,8 @@ export class MintComponent implements OnInit {
   buy() {
     console.log("BUY " + this.numToBuy + " For " + this.totalPrice + " BNB")
     this.test = "BUY " + this.numToBuy + " For " + this.totalPrice + " BNB"
+
+
   }
 
 
