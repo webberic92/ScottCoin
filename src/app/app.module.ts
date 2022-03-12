@@ -3,29 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TeamComponent } from './team/team.component';
-import { RoadMapComponent } from './road-map/road-map.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
+import { TeamComponent } from './components/team/team.component';
+import { RoadMapComponent } from './components/road-map/road-map.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { FormsModule } from '@angular/forms';
 
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
-// import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
-// import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
-// import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
-// import { MdbPopoverModule } from 'mdb-angular-ui-kit/popover';
-// import { MdbRadioModule } from 'mdb-angular-ui-kit/radio';
-// import { MdbRangeModule } from 'mdb-angular-ui-kit/range';
-// import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
-// import { MdbScrollspyModule } from 'mdb-angular-ui-kit/scrollspy';
-// import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
-// import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
-// import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
-// import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeComponent } from './home/home.component';
-import { MintComponent } from './mint/mint.component';
-import { ManageComponent } from './manage/manage.component';
+import { StoreModule } from '@ngrx/store';
+import { counterReducer } from './store/reducers';
+import { HomeComponent } from './components/home/home.component';
+import { MintComponent } from './components/mint/mint.component';
+import { ManageComponent } from './components/manage/manage.component';
 
 @NgModule({
   declarations: [
@@ -36,8 +26,10 @@ import { ManageComponent } from './manage/manage.component';
     FooterComponent,
     HomeComponent,
     MintComponent,
-    ManageComponent],
+    ManageComponent,
+  ],
   imports: [
+    StoreModule.forRoot({ count: counterReducer }),
     FormsModule,
     BrowserModule,
     AppRoutingModule,

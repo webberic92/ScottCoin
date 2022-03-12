@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { decrement, increment, reset } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +11,12 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) { }
-
+  constructor(private router: Router, private store: Store<{ count: number }>) {
+    this.count$ = store.select('count');
+  }
   ngOnInit(): void {
   }
-  // murderGang = () => {
-  //   this.router.navigateByUrl('/murderGang');
-  // };
+
   mint = () => {
     this.router.navigateByUrl('/mint');
   };
@@ -29,5 +31,24 @@ export class HomeComponent implements OnInit {
   roadmap = () => {
     this.router.navigateByUrl('/roadmap');
   };
+
+
+
+
+  count$: Observable<number> | undefined
+
+
+  increment() {
+    this.store.dispatch(increment());
+  }
+
+  decrement() {
+    this.store.dispatch(decrement());
+  }
+
+  reset() {
+    this.store.dispatch(reset());
+  }
+
 }
 
