@@ -23,7 +23,25 @@
         <u> Mint ScottCoin. </u>
       </h3>
       <br />
-      <p>Current price of SCB is .001 BNB</p>
+
+      <br />
+      <p style="font-size: 1.25em">
+        Token Address: {{ contractAddress }}
+        <br />
+        Name: {{ contractName }}
+        <br />
+        Symbol : {{ contractSymbol }}
+        <br />
+        Minted: {{ contractMinted }}
+        <br />
+        Total Supply : {{ contractTotalSupply }}
+        <br />
+        Current Price : {{ contractPrice }}
+      </p>
+
+      <div *ngIf="error">
+        <p style="font-size: 1.25em">{{ error }}</p>
+      </div>
 
       <div
         class="form-outline"

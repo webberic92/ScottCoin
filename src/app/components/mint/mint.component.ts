@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import bscContract from "src/app/services/Solidity/contract.service"
+import Web3 from 'web3';
 @Component({
   selector: 'app-mint',
   templateUrl: './mint.component.html',
@@ -10,24 +11,44 @@ export class MintComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<any> {
+    this.contractAddress = bscContract._address
+    try {
+      this.contractName = await bscContract.methods.name().call()
+      this.contractSymbol = await bscContract.methods.symbol().call()
+      this.contractMinted = await bscContract.methods.totalSupply().call()
+      this.contractTotalSupply = await bscContract.methods.maxSupply().call()
+      this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
+
+
+    } catch (e) {
+      this.error = e.error
+      console.log("error " + e)
+    }
+
   }
+
+  contractAddress: string = ''
+  contractOwner: string = ''
+  contractName: string = ''
+  contractSymbol: string = ''
+  contractMinted: string = ''
+  contractTotalSupply: string = ''
+  contractPrice: string = ''
 
   numToBuy: string = '0';
   totalPrice: string = '0';
   test: string = ''
-
+  error: string = ''
   updatePrice(e: Event) { // without type info
     this.test = ''
-    console.log("event " + e)
     this.numToBuy = String(e);
-    this.totalPrice = (Number(this.numToBuy) * .001).toFixed(4)
+    this.totalPrice = (Number(this.numToBuy) * Number(this.contractPrice)).toFixed(6)
     if (Number(this.numToBuy) >= 100000000000) {
       this.numToBuy = '0'
       this.totalPrice = '0'
     }
     if (isNaN(Number(this.totalPrice))) {
-      console.log(this.totalPrice)
       this.numToBuy = '0';
       this.totalPrice = '0'
     }
@@ -37,17 +58,9 @@ export class MintComponent implements OnInit {
 
 
   buy() {
-    console.log("BUY " + this.numToBuy + " For " + this.totalPrice + " BNB")
     this.test = "BUY " + this.numToBuy + " For " + this.totalPrice + " BNB"
 
 
   }
 
-
-  // changeFn(e: { target: { value: string; }; }) {
-  //   this.foo = e.target.value;
-  // }
-  // modelChangeFn(e: Event) {
-  //   this.bar = String(e);
-  // }
 }

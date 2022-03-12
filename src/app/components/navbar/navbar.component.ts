@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { updateAddress, clearAddress } from 'src/app/store/actions';
 import { Store } from '@ngrx/store';
-import { Web3Service } from 'src/app/services/web3.service';
+import { Web3Service } from 'src/app/services/Web3/web3.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
