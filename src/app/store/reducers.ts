@@ -1,15 +1,17 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { increment, decrement, reset } from './actions';
+import { increment, decrement, reset, clearAddress, updateAddress } from './actions';
 
-export const initialState = 0;
+export const initialAddressState = '';
 
-const _counterReducer = createReducer(
-	initialState,
-	on(increment, (state) => state + 1),
-	on(decrement, (state) => state - 1),
-	on(reset, (state) => 0)
+
+
+
+const _addressReducer = createReducer(
+	initialAddressState,
+	on(updateAddress, (state, { address }) => state = address),
+	on(clearAddress, (state) => state = '')
 );
 
-export function counterReducer(state: number | undefined, action: Action) {
-	return _counterReducer(state, action);
+export function addressReducer(state: string | undefined, action: Action) {
+	return _addressReducer(state, action);
 }

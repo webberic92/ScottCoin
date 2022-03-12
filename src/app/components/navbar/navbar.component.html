@@ -68,11 +68,41 @@
             ><h5 id="yellow">RoadMap</h5></a
           >
         </li>
+        <li class="nav-item">
+          <div *ngIf="address$ | async as a; else notFound">
+            <p>
+              &nbsp;Current address: {{ address$ | async }} &nbsp;
+              <button (click)="clearAddress()">clearAddress</button>
+            </p>
+          </div>
+        </li>
+        <li class="nav-item">
+          <ng-template #notFound>
+            <div class="row">
+              <p style="color: red">
+                MetaMask Not Connected. Please connect to BSC test net
+                <button (click)="updateAddress()">Connect to MetaMask</button>
+              </p>
+            </div>
+          </ng-template>
+        </li>
       </ul>
       <!-- Left links -->
     </div>
+
+    <!-- <div *ngIf="address$ | async as a; else notFound">
+      <p>Current address: {{ address$ | async }}</p>
+      <button (click)="clearAddress()">clearAddress</button>
+    </div>
+
+    <ng-template #notFound>
+      <p style="color: red">
+        MetaMask Not Connected. <br />Please connect to BSC test net
+      </p>
+      <button (click)="updateAddress()">Connect to MetaMask</button>
+    </ng-template> -->
+
     <!-- Collapsible wrapper -->
   </div>
   <!-- Container wrapper -->
 </nav>
-<!-- Navbar -->

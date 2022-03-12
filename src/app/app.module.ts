@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { StoreModule } from '@ngrx/store';
-import { counterReducer } from './store/reducers';
+import { addressReducer } from './store/reducers';
 import { HomeComponent } from './components/home/home.component';
 import { MintComponent } from './components/mint/mint.component';
 import { ManageComponent } from './components/manage/manage.component';
@@ -29,7 +29,7 @@ import { ManageComponent } from './components/manage/manage.component';
     ManageComponent,
   ],
   imports: [
-    StoreModule.forRoot({ count: counterReducer }),
+    StoreModule.forRoot({ address: addressReducer }),
     FormsModule,
     BrowserModule,
     AppRoutingModule,
