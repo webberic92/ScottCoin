@@ -18,129 +18,172 @@
         style="border-radius: 50%"
       />
     </div>
-    <div class="card-body">
-      <h3 class="card-text" style="font-size: 2em">
-        <u> Manage ScottCoin. </u>
-      </h3>
-      <br />
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
+    <div *ngIf="!this.isLoading">
+      <p>
+        <u>Manage {{ contractName }} ({{ contractSymbol }})</u>
+      </p>
+      <p style="font-size: 1.25em">
+        Token Address: {{ contractAddress }}
+        <br />
+        https://testnet.bscscan.com/address/0xf4a085B3d7A6720A6Eb1e0820E3C425156fAcD3e
+
+        <br />
+        Minted: {{ contractMinted }}
+        <br />
+        Total Supply : {{ contractTotalSupply }}
+        <br />
+      </p>
+
+      <div *ngIf="this.userAddress != ''">
+        <div *ngIf="this.contractOwner == this.userAddress">
+          <br />
+
+          <p><u>OWNER ONLY DASHBOARD</u></p>
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card-body" id="manageCard">
+                <p class="card-text" style="font-size: 1em">
+                  <u> Distribute Rewards. </u><br />**will be based off of
+                  time**
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card-body" id="manageCard">
+                <p class="card-text" style="font-size: 1em">
+                  <u> SET NFT ADDRESS </u>
+                  <br />
+                  **Will be map/array of NFTS to stake....**<br />
+                  Current NFT address :
+                  {{ contractERC721Token }}
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card-body" id="manageCard">
+                <p class="card-text" style="font-size: 1em">
+                  <u> WITHDRAW {{ contractBnbBalance }} BNB. </u>
+                </p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card-body" id="manageCard">
+                <p class="card-text" style="font-size: 1em">
+                  <u> SET COST </u>
+
+                  <br />
+                  Current Price : {{ contractPrice }}
+                </p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card-body" id="manageCard">
+                <p class="card-text" style="font-size: 1em">
+                  <u> TRANSFER OWNERSHIP </u>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
+
+        <p>
+          <u>USER DASHBOARD</u> <br />{{ userAddress }}<br />
+          <br />
+          Your {{ contractSymbol }} : {{ tokensOwned }}
+          <br />
+          Staked {{ contractSymbol }} : {{ tokensStaked }}
+        </p>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card-body" id="manageCard">
+              <p class="card-text" style="font-size: 1em">
+                <u> Manage ScottCoin. </u>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card-body" id="manageCard">
+              <p class="card-text" style="font-size: 1em">
+                <u> Manage ScottCoin. </u>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card-body" id="manageCard">
+              <p class="card-text" style="font-size: 1em">
+                <u> Manage ScottCoin. </u>
+              </p>
+            </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card-body" id="manageCard">
+              <p class="card-text" style="font-size: 1em">
+                <u> Manage ScottCoin. </u>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card-body" id="manageCard">
+              <p class="card-text" style="font-size: 1em">
+                <u> Manage ScottCoin. </u>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card-body" id="manageCard">
+              <p class="card-text" style="font-size: 1em">
+                <u> Manage ScottCoin. </u>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card-body" id="manageCard">
+              <p class="card-text" style="font-size: 1em">
+                <u> Manage ScottCoin. </u>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card-body" id="manageCard">
+              <p class="card-text" style="font-size: 1em">
+                <u> Manage ScottCoin. </u>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card-body" id="manageCard">
+              <p class="card-text" style="font-size: 1em">
+                <u> Manage ScottCoin. </u>
+              </p>
+            </div>
           </div>
         </div>
       </div>
+      <div *ngIf="this.isLoading">
+        <br />
+        <div
+          class="spinner-grow"
+          style="width: 10em; height: 10em; color: #f0b90b"
+          role="status"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <br />
+        <br />
+        <br />
 
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-body" id="manageCard">
-            <h3 class="card-text" style="font-size: 2em">
-              <u> Manage ScottCoin. </u>
-            </h3>
-          </div>
-        </div>
+        <p style="font-size: 1.25em; color: #f0b90b">Loading...</p>
+        <br />
       </div>
     </div>
   </div>
