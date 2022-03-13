@@ -38,8 +38,14 @@
           Current Price : {{ contractPrice }}
         </p>
 
-        <div *ngIf="this.userAddress; else notFound">
-          <p>&nbsp;Current address: {{ userAddress }} &nbsp;</p>
+        <div *ngIf="this.userAddress != ''">
+          <p>
+            &nbsp;Your address: {{ userAddress }}
+            <br />
+            Your {{ contractSymbol }} : {{ tokensOwned }}
+            <br />
+            Staked {{ contractSymbol }} : {{ tokensStaked }}
+          </p>
           <div
             class="form-outline"
             id="mintInput"
@@ -60,8 +66,8 @@
           </div>
           <br />
           <p>
-            Total price with out gas fees for {{ numToBuy }} SCB is
-            {{ totalPrice }} BNB
+            Total price with out gas fees for {{ numToBuy }}
+            {{ contractSymbol }} is {{ totalPrice }} BNB
           </p>
 
           <br />
@@ -71,7 +77,7 @@
               class="favorite styledDisabled"
               disabled
             >
-              Mint
+              Disabled
             </button>
             <button
               *ngIf="this.numToBuy != '0' && this.numToBuy != 'null'"
@@ -88,13 +94,11 @@
           </div>
         </div>
 
-        <ng-template #notFound>
-          <div class="row">
-            <p style="color: red">
-              MetaMask Not Connected. Please connect to BSC test net
-            </p>
-          </div>
-        </ng-template>
+        <div *ngIf="this.userAddress == ''">
+          <p style="color: red">
+            MetaMask Not Connected. Please connect to BSC test net
+          </p>
+        </div>
         <div *ngIf="this.error">
           <p style="color: red">Found Error : {{ error }}</p>
         </div>
@@ -103,7 +107,7 @@
         <br />
         <div
           class="spinner-grow"
-          style="width: 15em; height: 15em; color: #f0b90b"
+          style="width: 10em; height: 10em; color: #f0b90b"
           role="status"
         >
           <span class="visually-hidden">Loading...</span>

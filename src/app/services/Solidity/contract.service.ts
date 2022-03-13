@@ -11,6 +11,8 @@ export class ContractService {
   constructor() { }
 }
 
+web3.eth.setProvider(Web3.givenProvider);
+
 
 const bscContract = new web3.eth.Contract(
   (contract.abi),

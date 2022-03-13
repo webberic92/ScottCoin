@@ -16,6 +16,8 @@ export class MintComponent implements OnInit {
     // this.userAddress$ = store.select('address')
 
   }
+  tokensOwned: string = ''
+  tokensStaked: string = ''
 
   isLoading: boolean = false;
   userAddress: string = ''
@@ -32,6 +34,10 @@ export class MintComponent implements OnInit {
   error: string = ''
 
   async ngOnInit(): Promise<any> {
+    this.getContent()
+
+  }
+  async getContent() {
     try {
       this.isLoading = true;
       this.contractAddress = bscContract._address
@@ -42,17 +48,17 @@ export class MintComponent implements OnInit {
       this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
       this.isLoading = false;
 
-      this.userAddress = await this.web3.openMetamask()
+      this.userAddress = await this.web3.getAccounts()
+      this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
+      this.tokensStaked = await bscContract.methods.stakeOf(this.userAddress[0]).call()
 
 
 
     } catch (e) {
       this.error = e.message
-      console.log("error " + e.message)
       this.isLoading = false;
 
     }
-
   }
 
 
@@ -75,10 +81,20 @@ export class MintComponent implements OnInit {
   }
 
 
-  buy() {
-    this.purchaseString = "BUY " + this.numToBuy + " For " + this.totalPrice + " BNB"
+  async buy() {
+    this.isLoading = true;
+    try {
+      await bscContract.methods.buy(this.numToBuy).send({
+        from: this.userAddress[0],
+        value: Web3.utils.toWei(this.totalPrice, 'ether')
+      })
+      this.isLoading = false;
+      this.getContent()
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
 
-
+    }
   }
 
 }
