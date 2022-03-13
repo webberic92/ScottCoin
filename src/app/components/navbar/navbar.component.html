@@ -13,7 +13,7 @@
         />
       </h6>
       &nbsp;
-      <h6 id="yellow">Scott Coin</h6>
+      <h6 id="yellow">{{ contractName }}</h6>
     </a>
 
     <!-- Toggle button -->
@@ -67,24 +67,6 @@
             (click)="basicNavbar.toggle()"
             ><h5 id="yellow">RoadMap</h5></a
           >
-        </li>
-        <li class="nav-item">
-          <div *ngIf="address$ | async as a; else notFound">
-            <p>
-              &nbsp;Current address: {{ address$ | async }} &nbsp;
-              <button (click)="clearAddress()">clearAddress</button>
-            </p>
-          </div>
-        </li>
-        <li class="nav-item">
-          <ng-template #notFound>
-            <div class="row">
-              <p style="color: red">
-                MetaMask Not Connected. Please connect to BSC test net
-                <button (click)="updateAddress()">Connect to MetaMask</button>
-              </p>
-            </div>
-          </ng-template>
         </li>
       </ul>
       <!-- Left links -->

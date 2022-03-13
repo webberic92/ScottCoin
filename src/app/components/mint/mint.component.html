@@ -20,77 +20,100 @@
     </div>
     <div class="card-body">
       <h3 class="card-text" style="font-size: 2em">
-        <u> Mint ScottCoin. </u>
+        <u> Mint {{ contractName }} </u>
       </h3>
       <br />
+      <div *ngIf="!this.isLoading">
+        <br />
+        <p style="font-size: 1.25em">
+          Token Address: {{ contractAddress }}
+          <br />
 
-      <br />
-      <p style="font-size: 1.25em">
-        Token Address: {{ contractAddress }}
-        <br />
-        Name: {{ contractName }}
-        <br />
-        Symbol : {{ contractSymbol }}
-        <br />
-        Minted: {{ contractMinted }}
-        <br />
-        Total Supply : {{ contractTotalSupply }}
-        <br />
-        Current Price : {{ contractPrice }}
-      </p>
+          Symbol : {{ contractSymbol }}
+          <br />
+          Minted: {{ contractMinted }}
+          <br />
+          Total Supply : {{ contractTotalSupply }}
+          <br />
+          Current Price : {{ contractPrice }}
+        </p>
 
-      <div *ngIf="error">
-        <p style="font-size: 1.25em">{{ error }}</p>
+        <div *ngIf="this.userAddress; else notFound">
+          <p>&nbsp;Current address: {{ userAddress }} &nbsp;</p>
+          <div
+            class="form-outline"
+            id="mintInput"
+            style="max-width: 60%; margin-left: auto; margin-right: auto"
+          >
+            <input
+              [ngModel]="numToBuy"
+              type="number"
+              (ngModelChange)="updatePrice($event)"
+              min="0"
+              max="100000000000"
+              step="1"
+              onfocus="this.previousValue = this.value"
+              onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
+              class="form-control"
+              placeholder="Amount To Buy"
+            />
+          </div>
+          <br />
+          <p>
+            Total price with out gas fees for {{ numToBuy }} SCB is
+            {{ totalPrice }} BNB
+          </p>
+
+          <br />
+          <div class="center-div">
+            <button
+              *ngIf="this.numToBuy == '0' || this.numToBuy == 'null'"
+              class="favorite styledDisabled"
+              disabled
+            >
+              Mint
+            </button>
+            <button
+              *ngIf="this.numToBuy != '0' && this.numToBuy != 'null'"
+              class="favorite styled"
+              type="submit"
+              (click)="buy()"
+            >
+              Mint
+            </button>
+          </div>
+          <div *ngIf="this.purchaseString">
+            <br />
+            <p>{{ purchaseString }}</p>
+          </div>
+        </div>
+
+        <ng-template #notFound>
+          <div class="row">
+            <p style="color: red">
+              MetaMask Not Connected. Please connect to BSC test net
+            </p>
+          </div>
+        </ng-template>
+        <div *ngIf="this.error">
+          <p style="color: red">Found Error : {{ error }}</p>
+        </div>
       </div>
-
-      <div
-        class="form-outline"
-        id="mintInput"
-        style="max-width: 60%; margin-left: auto; margin-right: auto"
-      >
-        <input
-          [ngModel]="numToBuy"
-          type="number"
-          (ngModelChange)="updatePrice($event)"
-          min="0"
-          max="100000000000"
-          step="1"
-          onfocus="this.previousValue = this.value"
-          onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
-          class="form-control"
-          placeholder="Amount To Buy"
-        />
-      </div>
-
-      <!-- <input [ngModel]="bar" (ngModelChange)="modelChangeFn($event)" /> -->
-
-      <br />
-      <p>
-        Total price with out gas fees for {{ numToBuy }} SCB is
-        {{ totalPrice }} BNB
-      </p>
-
-      <br />
-      <div class="center-div">
-        <button
-          *ngIf="this.numToBuy == '0' || this.numToBuy == 'null'"
-          class="favorite styledDisabled"
-          disabled
+      <div *ngIf="this.isLoading">
+        <br />
+        <div
+          class="spinner-grow"
+          style="width: 15em; height: 15em; color: #f0b90b"
+          role="status"
         >
-          Mint
-        </button>
-        <button
-          *ngIf="this.numToBuy != '0' && this.numToBuy != 'null'"
-          class="favorite styled"
-          type="submit"
-          (click)="buy()"
-        >
-          Mint
-        </button>
-      </div>
-      <div *ngIf="this.test">
+          <span class="visually-hidden">Loading...</span>
+        </div>
         <br />
-        <p>{{ this.test }}</p>
+        <br />
+        <br />
+
+        <p style="font-size: 1.25em; color: #f0b90b">Loading...</p>
+        <br />
       </div>
     </div>
   </div>

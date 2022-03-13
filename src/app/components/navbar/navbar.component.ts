@@ -1,38 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { updateAddress, clearAddress } from 'src/app/store/actions';
-import { Store } from '@ngrx/store';
-import { Web3Service } from 'src/app/services/Web3/web3.service';
+import bscContract from "src/app/services/Solidity/contract.service"
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  contractName: string = '';
 
-  constructor(private store: Store<{ address: string }>, private web3: Web3Service) {
-    this.address$ = store.select('address')
+  constructor() {
   }
 
-  ngOnInit(): void {
-  }
+  async ngOnInit(): Promise<void> {
+    try {
+      this.contractName = await bscContract.methods.name().call()
+    } catch (e) {
+      console.log(e)
 
-
-
-  address$: Observable<string> | undefined
-
-
-
-
-  async updateAddress() {
-    await this.web3.openMetamask().then(async (resp: any) => {
-      this.store.dispatch(updateAddress({ address: resp }));
-    })
-
-  }
-
-  clearAddress() {
-    this.store.dispatch(clearAddress());
+    }
   }
 
 }

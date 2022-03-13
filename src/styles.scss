@@ -103,6 +103,8 @@ h6 {
   color: #f0b90b;
   font-family: RapidFinger101;
   font-size: 1em;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 button {
@@ -113,6 +115,8 @@ p {
   font-family: EncodeSansCondensedBold;
   font-size: 1em;
   color: #f0b90b;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 #list {
