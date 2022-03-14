@@ -5,6 +5,7 @@ import { ManageComponent } from './components/manage/manage.component';
 import { MintComponent } from './components/mint/mint.component';
 import { RoadMapComponent } from './components/road-map/road-map.component';
 import { TeamComponent } from './components/team/team.component';
+import { NFTComponent } from './components/nft/nft.component';
 const routes: Routes = [
 
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -12,7 +13,9 @@ const routes: Routes = [
   { path: 'roadmap', component: RoadMapComponent },
   { path: 'team', component: TeamComponent },
   { path: 'mint', component: MintComponent },
-  { path: 'manage', component: ManageComponent }
+  { path: 'manage', component: ManageComponent },
+  { path: 'nft', component: NFTComponent },
+
 
 ];
 

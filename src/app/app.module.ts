@@ -16,6 +16,7 @@ import { addressReducer } from './store/reducers';
 import { HomeComponent } from './components/home/home.component';
 import { MintComponent } from './components/mint/mint.component';
 import { ManageComponent } from './components/manage/manage.component';
+import { NFTComponent } from './components/nft/nft.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ManageComponent } from './components/manage/manage.component';
     HomeComponent,
     MintComponent,
     ManageComponent,
+    NFTComponent,
   ],
   imports: [
     StoreModule.forRoot({ address: addressReducer }),

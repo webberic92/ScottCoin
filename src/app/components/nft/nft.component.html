@@ -1,0 +1,67 @@
+<div class="center-div">
+  <div
+    class="card"
+    style="
+      background-color: black;
+      border: 4mm ridge #f0b90b;
+      width: 65%;
+      min-width: 400px;
+    "
+  >
+    <div class="center-img">
+      <br />
+      <img
+        src="../../assets/binanceSymbol.png"
+        alt="unfold"
+        height="33%"
+        width="33%"
+        style="border-radius: 50%"
+      />
+    </div>
+    <div *ngIf="!this.isLoading">
+      <p>
+        <u>Manage {{ contractName }} ({{ contractSymbol }}) NFT's!</u>
+      </p>
+      <p style="font-size: 1.25em">
+        {{ contractSymbol }} Address: {{ contractAddress }}
+        <br />
+      </p>
+
+      <div *ngIf="this.userAddress != ''">
+        <div *ngIf="this.contractOwner == this.userAddress">
+          <p><u>Admin View.</u></p>
+        </div>
+
+        <p>
+          {{ userAddress }}<br />
+          Your {{ contractSymbol }} : {{ tokensOwned }}
+        </p>
+
+        <div class="row">
+          <p><u> UNSTAKED NFT's </u></p>
+        </div>
+
+        <div class="row">
+          <p><u> STAKED NFT'S </u></p>
+        </div>
+
+        <div *ngIf="this.isLoading">
+          <br />
+          <div
+            class="spinner-grow"
+            style="width: 10em; height: 10em; color: #f0b90b"
+            role="status"
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <br />
+          <br />
+          <br />
+
+          <p style="font-size: 1.25em; color: #f0b90b">Loading...</p>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

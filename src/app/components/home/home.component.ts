@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import bscContract from "src/app/services/Solidity/contract.service"
 
 @Component({
   selector: 'app-home',
@@ -7,10 +8,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  contractName: string = '';
 
   constructor(private router: Router) {
   }
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    try {
+      this.contractName = await bscContract.methods.name().call()
+    } catch (e) {
+      console.log(e)
+
+    }
   }
 
   mint = () => {
@@ -19,7 +27,9 @@ export class HomeComponent implements OnInit {
   manage = () => {
     this.router.navigateByUrl('/manage');
   };
-
+  nft = () => {
+    this.router.navigateByUrl('/nft');
+  };
   team = () => {
     this.router.navigateByUrl('/team');
   };

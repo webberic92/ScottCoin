@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import bscContract from 'src/app/services/Solidity/contract.service';
 
 @Component({
   selector: 'app-footer',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
+  contractName: string = '';
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  async ngOnInit(): Promise<void> {
+    try {
+      this.contractName = await bscContract.methods.name().call()
+    } catch (e) {
+      console.log(e)
 
+    }
+
+  }
 }

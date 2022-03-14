@@ -20,7 +20,7 @@
     </div>
     <div class="card-body">
       <h3 class="card-text" style="font-size: 2em">
-        <u> Welcome to Project ScottCoin. </u>
+        <u> Welcome to Project {{ contractName }} </u>
       </h3>
       <br />
 
@@ -35,6 +35,11 @@
             Manage
           </button>
         </div>
+
+        <div class="col-md">
+          <button class="favorite styled" (click)="nft()">Nft's</button>
+        </div>
+
         <div class="col-md">
           <button class="favorite styled" type="button" (click)="team()">
             Team
