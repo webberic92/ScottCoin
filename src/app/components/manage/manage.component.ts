@@ -24,11 +24,14 @@ export class ManageComponent implements OnInit {
   contractPrice: string = ''
   contractERC721Token: string = ''
   contractBnbBalance: string | void = ''
-
   numToBuy: string = '0';
   totalPrice: string = '0';
   purchaseString: string = ''
   error: string = ''
+
+  setERC721Token: string = ''
+  setCostvalue: string = ''
+
   constructor(private web3: Web3Service) { }
 
   async ngOnInit(): Promise<any> {
@@ -53,15 +56,72 @@ export class ManageComponent implements OnInit {
       this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
       this.tokensStaked = await bscContract.methods.stakeOf(this.userAddress).call()
       this.contractBnbBalance = Web3.utils.fromWei(await web3.eth.getBalance(this.contractAddress), 'ether')
-
-
-
-
     } catch (e) {
       this.error = e.message
       this.isLoading = false;
 
     }
+  }
+
+  async withdrawBNB() {
+    try {
+      this.isLoading = true;
+      await bscContract.methods.withdrawBNBFromContractToOwner().send({
+        from: this.userAddress
+      })
+      this.isLoading = false;
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+    }
+  }
+
+  async updateNFTAddress() {
+    try {
+      this.isLoading = true;
+      await bscContract.methods.withdrawBNBFromContractToOwner().call()
+      this.isLoading = false;
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+    }
+  }
+
+  async setErc721address() {
+    try {
+      this.isLoading = true;
+      await bscContract.methods.setErc721address("adfadsfdafs").send({
+        from: this.userAddress
+      })
+      this.isLoading = false;
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+    }
+  }
+
+  async setCost() {
+    try {
+      this.isLoading = true;
+      await bscContract.methods.setCost(Web3.utils.toWei(this.setCostvalue, 'ether')).send({
+        from: this.userAddress
+      })
+      this.contractPrice = this.setCostvalue;
+      this.isLoading = false;
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+    }
+  }
+
+  updatePrice(e: Event) {
+    if (e == null || String(e) == '0') {
+      this.setCostvalue = ''
+    } else {
+      this.setCostvalue = String(e)
+    }
+
+
   }
 
 }

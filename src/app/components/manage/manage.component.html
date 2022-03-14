@@ -68,7 +68,7 @@
                   style="max-width: 60%; margin-left: auto; margin-right: auto"
                 >
                   <input
-                    [ngModel]="contractERC721Token"
+                    [ngModel]="setERC721Token"
                     type="text"
                     onfocus="this.previousValue = this.value"
                     onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
@@ -77,7 +77,11 @@
                   />
                 </div>
                 <br />
-                <button class="favorite styled" type="button">
+                <button
+                  class="favorite styled"
+                  type="button"
+                  (click)="setErc721address()"
+                >
                   UPDATE NFT ADDRESS
                 </button>
               </div>
@@ -90,7 +94,11 @@
                 <p class="card-text" style="font-size: 1em">
                   <u> WITHDRAW {{ contractBnbBalance }} BNB. </u>
                 </p>
-                <button class="favorite styled" type="button">
+                <button
+                  class="favorite styled"
+                  type="button"
+                  (click)="withdrawBNB()"
+                >
                   WITHDRAW {{ contractBnbBalance }} BNB
                 </button>
               </div>
@@ -102,21 +110,27 @@
                   <u> SET COST </u>
 
                   <br />
-                  Current Price : {{ contractPrice }}
+                  Current Price : {{ contractPrice }} BNB
                 </p>
+                <br />
+                <div *ngIf="setCostvalue != ''">
+                  <p>Propsoed new cost : {{ setCostvalue }}</p>
+                </div>
+                <br />
                 <div
                   class="form-outline"
                   id="mintInput"
                   style="max-width: 60%; margin-left: auto; margin-right: auto"
                 >
                   <input
-                    [ngModel]="numToBuy"
+                    [ngModel]="this.setCostvalue"
                     type="number"
-                    min="0"
-                    max="100000000000"
-                    step="1"
+                    (ngModelChange)="updatePrice($event)"
+                    min=".0000001"
+                    max="100"
+                    step=".0000001"
                     onfocus="this.previousValue = this.value"
-                    onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
+                    onkeydown="this.previousValue =this.value"
                     class="form-control"
                     placeholder="Amount To Buy"
                   />
@@ -124,7 +138,25 @@
 
                 <br />
                 <div class="center-div">
-                  <button class="favorite styled" type="button">UPDATE</button>
+                  <div *ngIf="setCostvalue == ''">
+                    <button
+                      class="favorite styledDisabled"
+                      disabled
+                      type="button"
+                      (click)="setCost()"
+                    >
+                      Set Cost
+                    </button>
+                  </div>
+                  <div *ngIf="setCostvalue != ''">
+                    <button
+                      class="favorite styled"
+                      type="button"
+                      (click)="setCost()"
+                    >
+                      Set Cost
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
