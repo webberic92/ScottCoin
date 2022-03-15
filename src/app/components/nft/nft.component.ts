@@ -6,6 +6,7 @@ const web3 = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545');
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs/internal/Observable';
 import bscContract from "src/app/services/Solidity/contract.service"
+import { TestBed } from '@angular/core/testing';
 
 @Component({
   selector: 'app-nft',
@@ -23,7 +24,7 @@ export class NFTComponent implements OnInit {
   contractName: string = ''
   contractSymbol: string = ''
   userNFTs: number[] = []
-  userStakeNFTs: number[] = []
+  userStakedNFTs: number[] = []
 
   contractTotalSupply: string = ''
   contractPrice: string = ''
@@ -35,9 +36,11 @@ export class NFTComponent implements OnInit {
   purchaseString: string = ''
   error: string = ''
   jsonString$!: Observable<Object>;
-  response: any;
-  nftMapping = new Map<number, any>();
-  unstakeNftMapping = new Map<number, any>();
+  unstakedResponse: any;
+  stakedResponse: any;
+
+  unstakedNfts = new Map<number, any>();
+  stakedNfts = new Map<number, any>();
 
 
   constructor(private web3: Web3Service, private http: HttpClient,) { }
@@ -69,38 +72,39 @@ export class NFTComponent implements OnInit {
       this.userNFTs.forEach(async (value) => {
         let tokenURI = await nftContract.methods.tokenURI(value).call()
         this.http.get<string>(tokenURI).subscribe(data => {
-          this.response = JSON.parse(JSON.stringify(data));
-          console.log(this.response.image)
-          this.response.id = value
-          this.response.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + value + ".png"
-          this.nftMapping.set(value, this.response)
+          this.unstakedResponse = JSON.parse(JSON.stringify(data));
+          this.unstakedResponse.id = value
+          this.unstakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + value + ".png"
+          this.unstakedNfts.set(value, this.unstakedResponse)
 
         });
 
       });
-      console.log(this.nftMapping)
-      this.userStakeNFTs = await bscContract.methods.getUsersStakedNfts(this.userAddress).call()
+      this.userStakedNFTs = await bscContract.methods.getUsersStakedNfts(this.userAddress).call()
 
-      this.userStakeNFTs.forEach(async (value) => {
-        let tokenURI = await nftContract.methods.tokenURI(value).call()
+
+      this.userStakedNFTs.forEach(async (id) => {
+        let tokenURI = await nftContract.methods.tokenURI(id).call()
+        let stakedNftReward = await bscContract.methods.potentialStakedNftReward(this.userAddress, id).call()
+
         this.http.get<string>(tokenURI).subscribe(data => {
-          this.response = JSON.parse(JSON.stringify(data));
-          console.log(this.response.image)
-          this.response.id = value
-          this.response.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + value + ".png"
-          this.unstakeNftMapping.set(value, this.response)
 
+          this.stakedResponse = JSON.parse(JSON.stringify(data));
+          this.stakedResponse.id = id
+          this.stakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + id + ".png"
+          this.stakedResponse.potentialReward = stakedNftReward
+          this.stakedNfts.set(id, this.stakedResponse)
+
+
+
+          // console.log(id + " + " + this.stakedResponse.id)
+          //this.stakedNfts.set(id, this.stakedResponse)
         });
 
       });
 
-
-      // this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
-      // this.tokensStaked = await bscContract.methods.stakeOf(this.userAddress).call()
-      this.contractBnbBalance = Web3.utils.fromWei(await web3.eth.getBalance(this.contractAddress), 'ether')
 
     } catch (e) {
-      console.log(e)
       this.error = e.message
       this.isLoading = false;
 
@@ -126,8 +130,8 @@ export class NFTComponent implements OnInit {
         })
       }
 
-
-
+      this.isLoading = false
+      this.getContent()
     } catch (e) {
       this.error = e.message
       this.isLoading = false;
@@ -136,14 +140,29 @@ export class NFTComponent implements OnInit {
   }
 
   async stake(id: any) {
-    console.log(id)
     try {
       this.isLoading = true;
       await bscContract.methods.stakeNft(id).send({
         from: this.userAddress
       })
+      this.isLoading = false
+      this.getContent()
     } catch (e) {
-      console.log(e)
+      this.error = e.message
+      this.isLoading = false;
+
+    }
+  }
+
+  async unstake(id: any) {
+    try {
+      this.isLoading = true;
+      await bscContract.methods.removeStakedNft(id).send({
+        from: this.userAddress
+      })
+      this.isLoading = false
+      this.getContent()
+    } catch (e) {
       this.error = e.message
       this.isLoading = false;
 

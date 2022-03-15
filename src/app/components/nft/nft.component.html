@@ -11,7 +11,7 @@
     <div class="center-img">
       <br />
       <img
-        src="../../assets/binanceSymbol.png"
+        src="../../../assets/bi_coin.gif"
         alt="unfold"
         height="33%"
         width="33%"
@@ -50,7 +50,7 @@
           {{ userNFTs }}<br />
 
           <div class="row">
-            <div class="col-md-4" *ngFor="let obj of nftMapping | keyvalue">
+            <div class="col-md-4" *ngFor="let obj of unstakedNfts | keyvalue">
               <div class="card-body" id="manageCard">
                 <p class="card-text" style="font-size: 1em">
                   {{ obj.value.name }}<br />
@@ -66,13 +66,15 @@
                 <div *ngFor="let t of obj.value.attributes">
                   <p>{{ t.trait_type }} &nbsp;{{ t.value }}</p>
                 </div>
-                <button
-                  class="favorite styled"
-                  type="button"
-                  (click)="stake(obj.value.id)"
-                >
-                  Stake
-                </button>
+                <div class="center-div">
+                  <button
+                    class="favorite styled"
+                    type="button"
+                    (click)="stake(obj.value.id)"
+                  >
+                    Stake
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -81,10 +83,7 @@
         <div class="row">
           <p><u> STAKED NFT'S </u></p>
           <div class="row">
-            <div
-              class="col-md-4"
-              *ngFor="let obj of unstakeNftMapping | keyvalue"
-            >
+            <div class="col-md-4" *ngFor="let obj of stakedNfts | keyvalue">
               <div class="card-body" id="manageCard">
                 <p class="card-text" style="font-size: 1em">
                   {{ obj.value.name }}<br />
@@ -100,13 +99,25 @@
                 <div *ngFor="let t of obj.value.attributes">
                   <p>{{ t.trait_type }} &nbsp;{{ t.value }}</p>
                 </div>
-                <button
-                  class="favorite styled"
-                  type="button"
-                  (click)="stake(obj.value.id)"
-                >
-                  Unstake
-                </button>
+
+                <div class="center-div">
+                  <button
+                    class="favorite styled"
+                    type="button"
+                    (click)="unstake(obj.value.id)"
+                  >
+                    Unstake
+                  </button>
+                </div>
+                <div class="center-div">
+                  <button
+                    class="favorite styled"
+                    type="button"
+                    (click)="unstake(obj.value.id)"
+                  >
+                    Claim {{ obj.value.potentialReward }} {{ contractSymbol }}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
