@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import bscContract from "src/app/services/Solidity/contract.service"
+import nftContract from "src/app/services/nft.service"
 import Web3 from 'web3';
 import { Web3Service } from 'src/app/services/Web3/web3.service';
 const web3 = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545');
@@ -18,7 +18,7 @@ export class NFTComponent implements OnInit {
   contractOwner: string = ''
   contractName: string = ''
   contractSymbol: string = ''
-  contractMinted: string = ''
+  userNFTs: number[] = []
   contractTotalSupply: string = ''
   contractPrice: string = ''
   contractERC721Token: string = ''
@@ -38,20 +38,42 @@ export class NFTComponent implements OnInit {
   async getContent() {
     try {
       this.isLoading = true;
-      this.contractAddress = bscContract._address
-      this.contractName = await bscContract.methods.name().call()
-      this.contractSymbol = await bscContract.methods.symbol().call()
-      this.contractMinted = await bscContract.methods.totalSupply().call()
-      this.contractTotalSupply = await bscContract.methods.maxSupply().call()
-      this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
-      this.contractOwner = await bscContract.methods.owner().call()
-      this.contractERC721Token = await bscContract.methods.erc721Token().call()
+      this.contractAddress = nftContract._address
+      this.contractName = await nftContract.methods.name().call()
+      this.contractSymbol = await nftContract.methods.symbol().call()
+      console.log("test")
+      console.log("test2")
+
+      // this.contractTotalSupply = await bscContract.methods.maxSupply().call()
+      // this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
+      // this.contractOwner = await bscContract.methods.owner().call()
+      // this.contractERC721Token = await bscContract.methods.erc721Token().call()
       this.isLoading = false;
       this.userAddress = await this.web3.getAccounts()
       this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
-      this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
-      this.tokensStaked = await bscContract.methods.stakeOf(this.userAddress).call()
+      this.userNFTs = await nftContract.methods.walletOfOwner(this.userAddress).call()
+
+      // this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
+      // this.tokensStaked = await bscContract.methods.stakeOf(this.userAddress).call()
       this.contractBnbBalance = Web3.utils.fromWei(await web3.eth.getBalance(this.contractAddress), 'ether')
+
+    } catch (e) {
+      console.log(e)
+      this.error = e.message
+      this.isLoading = false;
+
+    }
+  }
+
+
+  async mint() {
+    try {
+      this.isLoading = true;
+      this.contractAddress = nftContract._address
+      this.contractName = await nftContract.methods.mint(1).send({
+        from: this.userAddress
+      })
+
 
     } catch (e) {
       this.error = e.message

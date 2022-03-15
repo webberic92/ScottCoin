@@ -34,11 +34,20 @@
 
         <p>
           {{ userAddress }}<br />
-          Your {{ contractSymbol }} : {{ tokensOwned }}
+          Your {{ contractSymbol }} : {{ userNFTs.length }}
         </p>
-
+        <img
+          src="../../assets/example.gif"
+          alt="logo"
+          width="35%"
+          style="border-radius: 50%"
+        /><br /><br />
+        <button class="favorite styled" type="button" (click)="mint()">
+          Mint!</button
+        ><br />
         <div class="row">
           <p><u> UNSTAKED NFT's </u></p>
+          {{ userNFTs }}
         </div>
 
         <div class="row">

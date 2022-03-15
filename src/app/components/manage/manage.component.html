@@ -37,16 +37,29 @@
       <div *ngIf="this.userAddress != ''">
         <div *ngIf="this.contractOwner == this.userAddress">
           <br />
-
+          <hr
+            style="
+              color: #f0b90b;
+              width: 85%;
+              margin-left: auto;
+              margin-right: auto;
+            "
+          />
           <p><u>OWNER ONLY DASHBOARD</u></p>
 
           <div class="row" style="margin-left: auto; margin-right: auto">
             <div class="col-xl-4">
               <div class="card-body" id="manageCard">
                 <p class="card-text" style="font-size: 1em">
-                  <u> Distribute Rewards. </u><br />**will be based off of
-                  time**
+                  <u> Distribute Rewards. </u><br />
+                  <br />
+
+                  Based off 4% a year but 1% can be forced here.
                 </p>
+                <br />
+                <br />
+                <br />
+
                 <button
                   class="favorite styled"
                   type="button"
@@ -65,13 +78,13 @@
                   <u> SET NFT ADDRESS </u>
                   <br />
 
-                  Current NFT address :
-                  {{ contractERC721Token }}
+                  Current address : <br />
+                  {{ contractERC721Token }}<br />
                 </p>
                 <div
                   class="form-outline"
                   id="mintInput"
-                  style="max-width: 60%; margin-left: auto; margin-right: auto"
+                  style="max-width: 75%; margin-left: auto; margin-right: auto"
                 >
                   <input
                     [ngModel]="setERC721Token"
@@ -79,7 +92,7 @@
                     onfocus="this.previousValue = this.value"
                     onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
                     class="form-control"
-                    placeholder="NEW NFT CONTRACT ADDRESS"
+                    placeholder="Address"
                   />
                 </div>
                 <br />
@@ -88,7 +101,7 @@
                   type="button"
                   (click)="setErc721address()"
                 >
-                  UPDATE NFT ADDRESS
+                  Update
                 </button>
               </div>
             </div>
@@ -98,14 +111,16 @@
             >
               <div class="card-body" id="manageCard">
                 <p class="card-text" style="font-size: 1em">
-                  <u> WITHDRAW {{ contractBnbBalance }} BNB. </u>
+                  <u> WITHDRAW. </u><br /><br />
+                  <br />{{ contractBnbBalance }} BNB
                 </p>
+                <br /><br /><br />
                 <button
                   class="favorite styled"
                   type="button"
                   (click)="withdrawBNB()"
                 >
-                  WITHDRAW {{ contractBnbBalance }} BNB
+                  Withdraw
                 </button>
               </div>
             </div>
@@ -113,18 +128,15 @@
             <div class="col-xl-4">
               <div class="card-body" id="manageCard">
                 <p class="card-text" style="font-size: 1em">
-                  <u> SET COST </u><br />
+                  <u> SET COST </u><br /><br /><br />
 
                   Current Price : {{ contractPrice }} BNB
                 </p>
 
-                <div *ngIf="setCostvalue != ''">
-                  <p>Propsoed new cost : {{ setCostvalue }} BNB</p>
-                </div>
                 <div
                   class="form-outline"
                   id="mintInput"
-                  style="max-width: 60%; margin-left: auto; margin-right: auto"
+                  style="max-width: 75%; margin-left: auto; margin-right: auto"
                 >
                   <input
                     [ngModel]="this.setCostvalue"
@@ -136,7 +148,7 @@
                     onfocus="this.previousValue = this.value"
                     onkeydown="this.previousValue =this.value"
                     class="form-control"
-                    placeholder="Amount To Buy"
+                    placeholder="Cost"
                   />
                 </div>
 
@@ -169,13 +181,13 @@
               <div class="card-body" id="manageCard">
                 <p class="card-text" style="font-size: 1em">
                   <u> TRANSFER OWNERSHIP </u>
-                  <br />
-                  {{ setNewOwnerAddress }}
+                  <br /><br />
+                  This will transfer ownership of contract.
                 </p>
                 <div
                   class="form-outline"
                   id="mintInput"
-                  style="max-width: 60%; margin-left: auto; margin-right: auto"
+                  style="max-width: 75%; margin-left: auto; margin-right: auto"
                 >
                   <input
                     [ngModel]="setNewOwnerAddress"
@@ -184,7 +196,7 @@
                     onfocus="this.previousValue = this.value"
                     onkeydown=" this.previousValue =this.value"
                     class="form-control"
-                    placeholder="NEW NFT CONTRACT ADDRESS"
+                    placeholder="Address"
                   />
                 </div>
                 <br />
@@ -208,6 +220,14 @@
           </div>
         </div>
 
+        <hr
+          style="
+            color: #f0b90b;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+          "
+        />
         <p>
           <u>USER DASHBOARD</u> <br />{{ userAddress }}<br />
           Your {{ contractSymbol }} : {{ tokensOwned }}
@@ -219,13 +239,14 @@
           <div class="col-md-4">
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
-                <u> BURN </u><br />
-                {{ setBurnAmount }}
+                <u> BURN </u><br /><br />
+                Burn Tokens.
               </p>
+              <br />
               <div
                 class="form-outline"
                 id="mintInput"
-                style="max-width: 60%; margin-left: auto; margin-right: auto"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
                   [ngModel]="setBurnAmount"
@@ -237,7 +258,7 @@
                   onfocus="this.previousValue = this.value"
                   onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
                   class="form-control"
-                  placeholder="Amount To Burn"
+                  placeholder="Burn"
                 />
               </div>
               <br />
@@ -263,12 +284,13 @@
               <p class="card-text" style="font-size: 1em">
                 <u> STAKE </u>
                 <br />
-                {{ setStakeAmount }}
+                Has to be more than 100. In order to get 1%.<br />
               </p>
+              <br />
               <div
                 class="form-outline"
                 id="mintInput"
-                style="max-width: 60%; margin-left: auto; margin-right: auto"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
                   [ngModel]="setStakeAmount"
@@ -280,11 +302,11 @@
                   onfocus="this.previousValue = this.value"
                   onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
                   class="form-control"
-                  placeholder="Amount To Buy"
+                  placeholder="Stake"
                 />
               </div>
-
               <br />
+
               <div class="center-div">
                 <button
                   *ngIf="setStakeAmount != ''"
@@ -307,12 +329,13 @@
           <div class="col-md-4">
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
-                <u> UNSTAKE </u>
+                <u> UNSTAKE </u><br />
+                <br />Has to be exactly 0 or greater than 100.
               </p>
               <div
                 class="form-outline"
                 id="mintInput"
-                style="max-width: 60%; margin-left: auto; margin-right: auto"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
                   [ngModel]="setUnstakeAmount"
@@ -324,7 +347,7 @@
                   onfocus="this.previousValue = this.value"
                   onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
                   class="form-control"
-                  placeholder="Amount To Unstake"
+                  placeholder="Unstake"
                 />
               </div>
 
@@ -354,9 +377,13 @@
           <div class="col-md-4">
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
-                <u> CLAIM STAKING REWARD</u>
+                <u> CLAIM STAKING REWARD</u> <br />
+
                 <br />Potential Reward: {{ contractUsersRewardFromStaking }}
               </p>
+              <br />
+              <br />
+              <br />
               <button
                 *ngIf="contractUsersRewardFromStaking != '0'"
                 class="favorite styled"
@@ -383,11 +410,12 @@
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> Allowance </u><br />
+                Allow others to spend your {{ contractSymbol }}
               </p>
               <div
                 class="form-outline"
                 id="mintInput"
-                style="max-width: 60%; margin-left: auto; margin-right: auto"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
                   [ngModel]="setAllowanceAdd"
@@ -404,7 +432,7 @@
               <div
                 class="form-outline"
                 id="mintInput"
-                style="max-width: 60%; margin-left: auto; margin-right: auto"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
                   [ngModel]="setAllowanceAddNum"
@@ -416,7 +444,7 @@
                   onfocus="this.previousValue = this.value"
                   onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
                   class="form-control"
-                  placeholder="Amount To Allow"
+                  placeholder="Amount"
                 />
               </div>
 
@@ -444,11 +472,12 @@
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> Check Allowance </u><br />
+                See how much can be spent.
               </p>
               <div
                 class="form-outline"
                 id="mintInput"
-                style="max-width: 60%; margin-left: auto; margin-right: auto"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
                   [ngModel]="setAllowanceCheck"
@@ -465,7 +494,7 @@
               <div
                 class="form-outline"
                 id="mintInput"
-                style="max-width: 60%; margin-left: auto; margin-right: auto"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
                   [ngModel]="setAllowanceCheck2"
@@ -507,11 +536,12 @@
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> Increase Allowance </u><br />
+                Add more to allowance.
               </p>
               <div
                 class="form-outline"
                 id="mintInput"
-                style="max-width: 60%; margin-left: auto; margin-right: auto"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
                   [ngModel]="setAllowanceIncrease"
@@ -527,7 +557,7 @@
               <div
                 class="form-outline"
                 id="mintInput"
-                style="max-width: 60%; margin-left: auto; margin-right: auto"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
                   [ngModel]="setAllowanceIncreaseNum"
@@ -576,11 +606,12 @@
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> Decrease Allowance </u><br />
+                Subtract amount of allowance.
               </p>
               <div
                 class="form-outline"
                 id="mintInput"
-                style="max-width: 60%; margin-left: auto; margin-right: auto"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
                   [ngModel]="setAllowanceDecrease"
@@ -596,7 +627,7 @@
               <div
                 class="form-outline"
                 id="mintInput"
-                style="max-width: 60%; margin-left: auto; margin-right: auto"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
                   [ngModel]="setAllowanceDecreaseNum"
