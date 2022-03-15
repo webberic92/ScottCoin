@@ -115,7 +115,7 @@ export class ManageComponent implements OnInit {
   async setErc721address() {
     try {
       this.isLoading = true;
-      await bscContract.methods.setErc721address("adfadsfdafs").send({
+      await bscContract.methods.setErc721address(this.setERC721Token).send({
         from: this.userAddress
       })
       this.getContent()
@@ -395,6 +395,17 @@ export class ManageComponent implements OnInit {
       this.setAllowanceIncreaseNum = String(e)
     }
   }
+
+  erc721Token(e: Event) {
+    this.setERC721Token = ''
+
+    if (e == null || String(e) == '' || String(e) == '0') {
+      this.setERC721Token = ''
+    } else {
+      this.setERC721Token = String(e)
+    }
+  }
+
 
   allowanceDecrease(e: Event) {
     this.setAllowanceDecrease = ''

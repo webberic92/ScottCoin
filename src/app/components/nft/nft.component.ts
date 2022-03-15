@@ -5,7 +5,7 @@ import { Web3Service } from 'src/app/services/Web3/web3.service';
 const web3 = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545');
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs/internal/Observable';
-import { firstValueFrom } from 'rxjs';
+import bscContract from "src/app/services/Solidity/contract.service"
 
 @Component({
   selector: 'app-nft',
@@ -23,6 +23,8 @@ export class NFTComponent implements OnInit {
   contractName: string = ''
   contractSymbol: string = ''
   userNFTs: number[] = []
+  userStakeNFTs: number[] = []
+
   contractTotalSupply: string = ''
   contractPrice: string = ''
   contractERC721Token: string = ''
@@ -35,6 +37,7 @@ export class NFTComponent implements OnInit {
   jsonString$!: Observable<Object>;
   response: any;
   nftMapping = new Map<number, any>();
+  unstakeNftMapping = new Map<number, any>();
 
 
   constructor(private web3: Web3Service, private http: HttpClient,) { }
@@ -64,12 +67,11 @@ export class NFTComponent implements OnInit {
       this.userNFTs = await nftContract.methods.walletOfOwner(this.userAddress).call()
 
       this.userNFTs.forEach(async (value) => {
-        //console.log(value);
         let tokenURI = await nftContract.methods.tokenURI(value).call()
-        // console.log(tokenURI)
         this.http.get<string>(tokenURI).subscribe(data => {
           this.response = JSON.parse(JSON.stringify(data));
           console.log(this.response.image)
+          this.response.id = value
           this.response.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + value + ".png"
           this.nftMapping.set(value, this.response)
 
@@ -77,6 +79,20 @@ export class NFTComponent implements OnInit {
 
       });
       console.log(this.nftMapping)
+      this.userStakeNFTs = await bscContract.methods.getUsersStakedNfts(this.userAddress).call()
+
+      this.userStakeNFTs.forEach(async (value) => {
+        let tokenURI = await nftContract.methods.tokenURI(value).call()
+        this.http.get<string>(tokenURI).subscribe(data => {
+          this.response = JSON.parse(JSON.stringify(data));
+          console.log(this.response.image)
+          this.response.id = value
+          this.response.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + value + ".png"
+          this.unstakeNftMapping.set(value, this.response)
+
+        });
+
+      });
 
 
       // this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
@@ -113,6 +129,21 @@ export class NFTComponent implements OnInit {
 
 
     } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+
+    }
+  }
+
+  async stake(id: any) {
+    console.log(id)
+    try {
+      this.isLoading = true;
+      await bscContract.methods.stakeNft(id).send({
+        from: this.userAddress
+      })
+    } catch (e) {
+      console.log(e)
       this.error = e.message
       this.isLoading = false;
 

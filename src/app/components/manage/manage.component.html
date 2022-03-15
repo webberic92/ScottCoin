@@ -88,6 +88,7 @@
                 >
                   <input
                     [ngModel]="setERC721Token"
+                    (ngModelChange)="erc721Token($event)"
                     type="text"
                     onfocus="this.previousValue = this.value"
                     onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
