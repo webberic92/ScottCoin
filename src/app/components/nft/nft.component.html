@@ -39,7 +39,7 @@
         <img
           src="../../assets/example.gif"
           alt="logo"
-          width="35%"
+          width="10%"
           style="border-radius: 50%"
         /><br /><br />
         <button class="favorite styled" type="button" (click)="mint()">
@@ -47,7 +47,28 @@
         ><br />
         <div class="row">
           <p><u> UNSTAKED NFT's </u></p>
-          {{ userNFTs }}
+          {{ userNFTs }}<br />
+
+          <div class="row">
+            <div class="col-md-4" *ngFor="let obj of nftMapping | keyvalue">
+              <div class="card-body" id="manageCard">
+                <p class="card-text" style="font-size: 1em">
+                  {{ obj.value.name }}<br />
+                  <img
+                    src="{{ obj.value.image }}"
+                    alt="logo"
+                    width="35%"
+                    style="border-radius: 50%"
+                  />
+                  <br />
+                </p>
+
+                <div *ngFor="let t of obj.value.attributes">
+                  <p>{{ t.trait_type }} &nbsp;{{ t.value }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="row">

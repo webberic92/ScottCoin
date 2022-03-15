@@ -6,6 +6,7 @@ import { MintComponent } from './components/mint/mint.component';
 import { RoadMapComponent } from './components/road-map/road-map.component';
 import { TeamComponent } from './components/team/team.component';
 import { NFTComponent } from './components/nft/nft.component';
+
 const routes: Routes = [
 
   { path: '', pathMatch: 'full', redirectTo: 'home' },
