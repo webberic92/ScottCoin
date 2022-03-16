@@ -1,12 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 body {
-  background-image: url("./assets/bsc1.png");
+  background-image: url("./assets/test.png");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   background-attachment: fixed;
+}
+.main {
+  background-color: black;
+  border: 1mm ridge #f0b90b;
+  width: 65%;
+  min-width: 400px;
 }
 
 .card {
@@ -164,16 +170,17 @@ p {
   min-width: 275px;
   max-width: 310px;
   background-color: rgba(54, 45, 3, 0.753);
-  border: 2mm ridge #f0b90b;
+  border: 1mm ridge #f0b90b;
 }
 #manageCard {
   width: 95%;
   margin-bottom: 25px;
   background-color: rgba(54, 45, 3, 0.753);
-  border: 2mm ridge #f0b90b;
+  border: 1mm ridge #f0b90b;
   margin-left: auto;
   margin-right: auto;
   min-height: 275px;
+  border-radius: 5px;
 }
 
 .cards {

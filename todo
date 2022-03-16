@@ -1,0 +1,21 @@
+-----Front End Work-------
+Background scale up / down.
+Dont break on words text.
+manager nft for admin page
+
+-----Contract Work-------
+Be able to change name of bep20
+Be able to change symbol of bep20
+Removed current NFT address... What happens? send back?
+Set up 5% automatic staking yiled for bep20 stakers.
+Update withdrawBNBFromContractToOwner in contract.
+Unstake/stake all gas saver.
+toggle prereveal
+
+---------Other--------
+Home page verbiage.
+Team page verbiage.
+Roadmap page verbiage.
+Discord.
+Twitter.
+LLC/Trademark.
