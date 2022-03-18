@@ -10,6 +10,14 @@
         style="border-radius: 50%"
       />
     </div>
+    <div *ngIf="this.userAddress == ''">
+      <p style="color: red">
+        MetaMask Not Connected. Please connect to BSC test net
+      </p>
+    </div>
+    <div *ngIf="this.error">
+      <p style="color: red">Found Error : {{ error }}</p>
+    </div>
     <div *ngIf="!this.isLoading">
       <p>
         <u>Manage {{ contractName }} ({{ contractSymbol }}) NFT's!</u>
@@ -26,14 +34,6 @@
           width="10%"
           style="border-radius: 50%"
         /><br /><br />
-        <div *ngIf="this.userAddress == ''">
-          <p style="color: red">
-            MetaMask Not Connected. Please connect to BSC test net
-          </p>
-        </div>
-        <div *ngIf="this.error">
-          <p style="color: red">Found Error : {{ error }}</p>
-        </div>
 
         <div class="center-div">
           <div class="col-sm-4">

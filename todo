@@ -4,13 +4,10 @@ Dont break on words text.
 manager nft for admin page
 
 -----Contract Work-------
-Be able to change name of bep20
-Be able to change symbol of bep20
-Removed current NFT address... What happens? send back?
-Set up 5% automatic staking yiled for bep20 stakers.
-Update withdrawBNBFromContractToOwner in contract.
-Unstake/stake all gas saver.
+Set up 5% automatic staking yieled for bep20 stakers.
+Unstake/stake all gas saver. ---- testing....
 toggle prereveal
+transfer tokens from bep20 if owner.
 
 ---------Other--------
 Home page verbiage.
@@ -19,3 +16,12 @@ Roadmap page verbiage.
 Discord.
 Twitter.
 LLC/Trademark.
+
+------topics-----
+Be able to change name of bep20 // Can implement but not 100% functional (skip) wont show up on ethscan
+Be able to change symbol of bep20 // Can implement but not 100% functional (skip) wont show up on ethscan
+Removed current NFT address... What happens? send back?
+
+----when deploying.----
+Bep20 needs to set ERC721
+ERC721 needs to setApprovalForAll() for bep20

@@ -56,6 +56,7 @@ export class NFTComponent implements OnInit {
   }
 
   async getContent() {
+    this.error = ''
     try {
       this.isLoading = true;
       this.contractAddress = nftContract._address
@@ -106,6 +107,8 @@ export class NFTComponent implements OnInit {
 
 
   async mint() {
+    this.error = ''
+
     try {
       this.isLoading = true;
       this.contractAddress = nftContract._address
@@ -133,7 +136,10 @@ export class NFTComponent implements OnInit {
   }
 
   async stake(id: any) {
+    this.error = ''
+
     try {
+      console.log(id)
       this.isLoading = true;
       await bscContract.methods.stakeNft(id).send({
         from: this.userAddress
@@ -148,6 +154,8 @@ export class NFTComponent implements OnInit {
   }
 
   async unstake(id: any) {
+    this.error = ''
+
     try {
       this.isLoading = true;
       await bscContract.methods.removeStakedNft(id).send({
@@ -164,6 +172,8 @@ export class NFTComponent implements OnInit {
 
 
   async collectStakedNftReward(id: any) {
+    this.error = ''
+
     try {
       this.isLoading = true;
       await bscContract.methods.collectStakedNftReward(this.userAddress, id).send({
@@ -178,6 +188,8 @@ export class NFTComponent implements OnInit {
     }
   }
   async collectAllStakedNftReward() {
+    this.error = ''
+
     try {
       this.isLoading = true;
       await bscContract.methods.collectAllStakedNftReward(this.userAddress).send({
