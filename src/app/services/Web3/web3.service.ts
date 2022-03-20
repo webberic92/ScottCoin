@@ -1,5 +1,5 @@
-import { Injectable, NgZone } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import Web3 from "web3";
 
 declare const window: any;
@@ -27,6 +27,10 @@ export class Web3Service {
   }
   public getAccounts = async () => {
     try {
+      new Web3(window.ethereum)
+      window.ethereum.enable().catch((error: any) => {
+        console.log(error)
+      })
       return await window.ethereum.request({ method: 'eth_accounts' });
     } catch (e) {
       return [];

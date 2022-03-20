@@ -29,7 +29,6 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     mapping(address => uint256[])  private nftStakersWithArray;
 
 
-    mapping(address => uint256) internal rewards;
     mapping(address => uint256) public rewardsInWei;
 
     uint256 SECONDS_IN_YEAR = 31536000;
@@ -37,12 +36,14 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     constructor(string memory name, string memory symbol) ERC20(name, symbol) payable {
         _mint(address(this), 1000000);
         buy(150);
-        console.log("Bought 150");
+        // console.log("Bought 150");
         createStake(100);
+        //createStake(50);
+        //collectStakingReward();
+        //removeStake(50);
         // console.log("Staked 100");
         // console.log("erc20StakersWithTime[msg.sender] = ", erc20StakersWithTime[msg.sender]);
         // console.log("erc20StakersArray[msg.sender] = ", erc20StakersArray[msg.sender]);
-        // createStake(50);
     }
     
     function decimals() public view virtual override returns (uint8) {
@@ -157,78 +158,44 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
             uint256 timeSpentStakingInWei = (((block.timestamp)-origStakedTime)*1e18/SECONDS_IN_YEAR);
             uint256 dividend = principal * (APY) * timeSpentStakingInWei / 1000000000000000000;
              console.log("dividend In Wei :", dividend);
+             
             return dividend;
 
         }
 
-
-   
-
-
-   function rewardOf(address _stakeholder) public view returns(uint256) {
-       return rewards[_stakeholder];
+   function collectStakingReward() public  payable {
+       if(rewardsInWei[msg.sender] == 0){
+        rewardsInWei[msg.sender] = calculateDividendsinWei();
+       }  
+       uint256 amountThatCanBeWithdrawn = rewardsInWei[msg.sender]  / 1e18;
+       require(amountThatCanBeWithdrawn > 0, "Need atleast 1 to be able to withdraw.");
+       console.log('amountThatCanBeWithdrawn = ',amountThatCanBeWithdrawn);
+       console.log('balanceOf address this = ',balanceOf(address(this)));
+       _transfer(address(this),msg.sender, amountThatCanBeWithdrawn);
+       console.log("test");
+       erc20StakersWithTime[msg.sender] = block.timestamp;
+       rewardsInWei[msg.sender] -=  amountThatCanBeWithdrawn*1e18;
+       console.log(rewardsInWei[msg.sender]);
    }
 
- 
-   function totalRewards() public view returns(uint256) {
-       uint256 _totalRewards = 0;
-       for (uint256 s = 0; s < stakeholders.length; s += 1){
-           _totalRewards = _totalRewards.add(rewards[stakeholders[s]]);
-       }
-       return _totalRewards;
-   }
-
-
-   function calculateReward(address _stakeholder) public view returns(uint256) {
-       
-       return stakeOf(_stakeholder) / 100;
-   }
-
-  
-   function distributeRewards() public onlyOwner {
-       for (uint256 s = 0; s < stakeholders.length; s += 1){
-           address stakeholder = stakeholders[s];
-           uint256 reward = calculateReward(stakeholder);
-           rewards[stakeholder] = rewards[stakeholder].add(reward);
-       }
-   }
-
-      function distributeRewardForUser() public onlyOwner {
-
-           uint256 reward = calculateReward(msg.sender);
-           rewards[msg.sender] = rewards[msg.sender].add(reward);
-       }
-   
-
- 
-   function withdrawReward() public {
-       uint256 reward = rewards[msg.sender];
-       rewards[msg.sender] = 0;
-       this.transfer(msg.sender, reward -1);
-       burn(1); 
-   }
-
-
- 
-   function removeStake(uint256 _stake) public {
+      function removeStake(uint256 _stake) public payable {
         if(erc20StakersArray[msg.sender].sub(_stake) == 0){
-            this.transfer(msg.sender, _stake -1);
+            this.transfer(msg.sender, _stake);
+            rewardsInWei[msg.sender] += calculateDividendsinWei();
+
             erc20StakersArray[msg.sender] = erc20StakersArray[msg.sender].sub(_stake);
-            erc20sStaked -= _stake;   
+            erc20StakersWithTime[msg.sender] = 0;
             removeStakeholder();  
         }else{
             require(erc20StakersArray[msg.sender].sub(_stake) > 99,"Cant have less than 100 in account");
-            this.transfer(msg.sender, _stake -1);
-            erc20StakersArray[msg.sender] = erc20StakersArray[msg.sender].sub(_stake);
+            this.transfer(msg.sender, _stake);
+            rewardsInWei[msg.sender] += calculateDividendsinWei();
+            erc20StakersArray[msg.sender] = erc20StakersArray[msg.sender].sub(_stake);         
            
-           
-            erc20sStaked -= _stake;
         }
+         erc20sStaked -= _stake;
     }
-
-
-
-
+   
     function stakeNft(uint256 _tokenID) public  {
         require(nftStakersWithTime[msg.sender][_tokenID] == 0,"This token already staked.");
         erc721Token.transferFrom(msg.sender,address(this),_tokenID);

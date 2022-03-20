@@ -12,8 +12,7 @@ import { Store } from '@ngrx/store';
 })
 export class MintComponent implements OnInit {
 
-  constructor(private store: Store<{ address: string }>, private web3: Web3Service) {
-    // this.userAddress$ = store.select('address')
+  constructor(private web3: Web3Service) {
 
   }
   tokensOwned: string = ''
@@ -47,10 +46,17 @@ export class MintComponent implements OnInit {
       this.contractTotalSupply = await bscContract.methods.maxSupply().call()
       this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
       this.isLoading = false;
-
+      console.log("test")
       this.userAddress = await this.web3.getAccounts()
-      this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
-      this.tokensStaked = await bscContract.methods.stakeOf(this.userAddress[0]).call()
+      // console.log("test2")
+      // console.log(this.web3)
+      console.log(this.userAddress)
+      // console.log(this.userAddress[0])
+      // this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
+      // console.log("test3")
+
+      // this.tokensStaked = await bscContract.methods.stakeOf(this.userAddress[0]).call()
+      // console.log("test4")
 
 
 

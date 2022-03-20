@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-const contract = require("../Solidity/bep20/Abi.json");
+const contract = require("../Solidity/bep20/testABI.json");
 const Web3 = require('web3');
 //testNet
 const web3 = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545');
@@ -16,7 +16,7 @@ web3.eth.setProvider(Web3.givenProvider);
 
 const bscContract = new web3.eth.Contract(
   (contract.abi),
-  '0xf4a085B3d7A6720A6Eb1e0820E3C425156fAcD3e'
+  '0x87176c8273969c7fD31602bb2643cA0948eB72eD'
 );
 
 
