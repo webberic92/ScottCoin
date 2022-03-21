@@ -40,27 +40,6 @@
           <p><u>OWNER ONLY DASHBOARD</u></p>
 
           <div class="row" style="margin-left: auto; margin-right: auto">
-            <div class="col-xl-4">
-              <div class="card-body" id="manageCard">
-                <p class="card-text" style="font-size: 1em">
-                  <u> Distribute Rewards. </u><br />
-                  <br />
-
-                  Based off 4% a year but 1% can be forced here.
-                </p>
-                <br />
-                <br />
-                <br />
-
-                <button
-                  class="favorite styled"
-                  type="button"
-                  (click)="distributeRewards()"
-                >
-                  Distrbute
-                </button>
-              </div>
-            </div>
             <div
               class="col-xl-4"
               style="grid-template-columns: repeat(auto-fit, minmax(275, auto))"
@@ -229,7 +208,7 @@
         </p>
 
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-xl-4">
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> BURN </u><br /><br />
@@ -272,12 +251,14 @@
               </button>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-xl-4">
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> STAKE </u>
                 <br />
-                Has to be more than 100. In order to get 1%.<br />
+                Has to be more than 100. <br />
+                Current Staking based off of 5% a year (31,536,000 seconds)
+                excluding leap years compounded quarterly. APY = %5.09
               </p>
               <br />
               <div
@@ -319,7 +300,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-xl-4">
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> UNSTAKE </u><br />
@@ -367,18 +348,22 @@
         </div>
 
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-xl-4">
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> CLAIM STAKING REWARD</u> <br />
 
-                <br />Potential Reward: {{ contractUsersRewardFromStaking }}
+                <br />Potential Reward: <br />
+                {{ contractUsersRewardFromStaking }}
+
+                <br />
+                Has to be greater than 1 to claim.
               </p>
               <br />
               <br />
               <br />
               <button
-                *ngIf="contractUsersRewardFromStaking != '0'"
+                *ngIf="contractUsersRewardFromStaking >= 1"
                 class="favorite styled"
                 type="button"
                 (click)="claimRewards()"
@@ -386,7 +371,7 @@
                 Claim
               </button>
               <button
-                *ngIf="contractUsersRewardFromStaking == '0'"
+                *ngIf="contractUsersRewardFromStaking <= 1"
                 class="favorite styledDisabled"
                 type="button"
               >
@@ -399,7 +384,7 @@
         <p><u> ALLOWANCE DASHBOARD </u></p>
 
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-xl-4">
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> Allowance </u><br />
@@ -461,7 +446,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-xl-4">
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> Check Allowance </u><br />
@@ -525,7 +510,7 @@
             </div>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-xl-4">
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> Increase Allowance </u><br />
@@ -595,7 +580,7 @@
               </p>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-xl-4">
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> Decrease Allowance </u><br />

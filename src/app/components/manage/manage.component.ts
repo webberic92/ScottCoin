@@ -24,7 +24,7 @@ export class ManageComponent implements OnInit {
   contractPrice: string = ''
   contractERC721Token: string = ''
   contractBnbBalance: string | void = ''
-  contractUsersRewardFromStaking: string = ''
+  contractUsersRewardFromStaking: number = 0
   numToBuy: string = '0';
   totalPrice: string = '0';
   purchaseString: string = ''
@@ -48,16 +48,37 @@ export class ManageComponent implements OnInit {
   allowanceCheckFinal: string = ''
   allowanceIncreaseFinal: string = ''
   allowanceDecreaseFinal: string = ''
+  intervalId!: number;
 
 
 
-
-  constructor(private web3: Web3Service) { }
-
-  async ngOnInit(): Promise<any> {
-    this.getContent()
-
+  constructor(private web3: Web3Service) {
+    setInterval(() => { this.updateRewards() }, 30000);
   }
+
+  async ngOnInit() {
+    this.getContent()
+  }
+
+
+
+
+  ngOnDestroy() {
+    clearInterval(this.intervalId);
+  }
+
+
+  async updateRewards() {
+
+    let stakingRewardA = Number(await bscContract.methods.rewardsInWei(this.userAddress).call())
+    let stakingRewardB = Number(await bscContract.methods.calculateDividendsinWei().call({
+      from: this.userAddress
+    }))
+
+    this.contractUsersRewardFromStaking = Number(Web3.utils.fromWei(String(stakingRewardA + stakingRewardB), "ether"))
+  }
+
+
 
   async getContent() {
     try {
@@ -77,7 +98,13 @@ export class ManageComponent implements OnInit {
       this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
       this.tokensStaked = await bscContract.methods.stakeOf(this.userAddress).call()
       this.contractBnbBalance = Web3.utils.fromWei(await web3.eth.getBalance(this.contractAddress), 'ether')
-      this.contractUsersRewardFromStaking = await bscContract.methods.rewardOf(this.userAddress).call()
+      let stakingRewardA = Number(await bscContract.methods.rewardsInWei(this.userAddress).call())
+      let stakingRewardB = Number(await bscContract.methods.calculateDividendsinWei().call({
+        from: this.userAddress
+      }))
+
+      this.contractUsersRewardFromStaking = Number(Web3.utils.fromWei(String(stakingRewardA + stakingRewardB), "ether"))
+
 
     } catch (e) {
       this.error = e.message
@@ -244,19 +271,6 @@ export class ManageComponent implements OnInit {
   }
 
 
-  async distributeRewards() {
-    try {
-      this.isLoading = true;
-      await bscContract.methods.distributeRewards().send({
-        from: this.userAddress,
-      })
-      this.getContent()
-      this.isLoading = false;
-    } catch (e) {
-      this.error = e.message
-      this.isLoading = false;
-    }
-  }
 
   async claimRewards() {
     try {
@@ -430,3 +444,5 @@ export class ManageComponent implements OnInit {
 
 
 }
+
+

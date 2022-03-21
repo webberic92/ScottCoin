@@ -46,19 +46,9 @@ export class MintComponent implements OnInit {
       this.contractTotalSupply = await bscContract.methods.maxSupply().call()
       this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
       this.isLoading = false;
-      console.log("test")
       this.userAddress = await this.web3.getAccounts()
-      // console.log("test2")
-      // console.log(this.web3)
-      console.log(this.userAddress)
-      // console.log(this.userAddress[0])
-      // this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
-      // console.log("test3")
-
-      // this.tokensStaked = await bscContract.methods.stakeOf(this.userAddress[0]).call()
-      // console.log("test4")
-
-
+      this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
+      this.contractOwner = await bscContract.methods.owner().call()
 
     } catch (e) {
       this.error = e.message
@@ -90,10 +80,18 @@ export class MintComponent implements OnInit {
   async buy() {
     this.isLoading = true;
     try {
-      await bscContract.methods.buy(this.numToBuy).send({
-        from: this.userAddress[0],
-        value: Web3.utils.toWei(this.totalPrice, 'ether')
-      })
+      if (this.contractOwner == Web3.utils.toChecksumAddress(this.userAddress[0])) {
+        await bscContract.methods.buy(this.numToBuy).send({
+          from: this.userAddress[0],
+        })
+      } else {
+        await bscContract.methods.buy(this.numToBuy).send({
+          from: this.userAddress[0],
+          value: Web3.utils.toWei(this.totalPrice, 'ether')
+        })
+      }
+
+
       this.isLoading = false;
       this.getContent()
     } catch (e) {
