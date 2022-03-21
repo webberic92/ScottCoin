@@ -59,6 +59,7 @@ export class NFTComponent implements OnInit {
 
   async getContent() {
     this.error = ''
+
     try {
       this.isLoading = true;
       this.contractAddress = nftContract._address
@@ -99,7 +100,10 @@ export class NFTComponent implements OnInit {
         this.http.get<string>(tokenURI).subscribe(data => {
           this.stakedResponse = JSON.parse(JSON.stringify(data));
           this.stakedResponse.id = id
-          this.stakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + id + ".png"
+          if (this.isRevealed) {
+
+            this.stakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + id + ".png"
+          }
           this.stakedResponse.potentialReward = stakedNftReward
           this.stakedNfts.set(id, this.stakedResponse)
         });
@@ -185,6 +189,8 @@ export class NFTComponent implements OnInit {
       await bscContract.methods.stakeNft(id).send({
         from: this.userAddress
       })
+      this.unstakedNfts = new Map<number, any>();
+      this.stakedNfts = new Map<number, any>();
       this.isLoading = false
       this.getContent()
     } catch (e) {
@@ -202,6 +208,8 @@ export class NFTComponent implements OnInit {
       await bscContract.methods.removeStakedNft(id).send({
         from: this.userAddress
       })
+      this.unstakedNfts = new Map<number, any>();
+      this.stakedNfts = new Map<number, any>();
       this.isLoading = false
       this.getContent()
     } catch (e) {
