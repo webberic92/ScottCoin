@@ -86,21 +86,61 @@
                   <u> WITHDRAW. </u><br /><br />
                   <br />{{ contractBnbBalance }} BNB
                 </p>
-                <br /><br /><br />
-                <button
+
+                <div
+                  class="form-outline"
+                  id="mintInput"
+                  style="max-width: 75%; margin-left: auto; margin-right: auto"
+                >
+                  <input
+                    [ngModel]="this.setAmountToWithdrawal"
+                    type="number"
+                    (ngModelChange)="updateAmountToWithDrawal($event)"
+                    min=".000001"
+                    max="10000000"
+                    step=".000001"
+                    onfocus="this.previousValue = this.value"
+                    onkeydown="this.previousValue =this.value"
+                    class="form-control"
+                    placeholder="Withdrawal"
+                  />
+                </div>
+                <br />
+                <div class="center-div">
+                  <div *ngIf="setAmountToWithdrawal == ''">
+                    <button
+                      class="favorite styledDisabled"
+                      disabled
+                      type="button"
+                      (click)="withdrawBNB()"
+                    >
+                      Withdrawal
+                    </button>
+                  </div>
+                  <div *ngIf="setAmountToWithdrawal != ''">
+                    <button
+                      class="favorite styled"
+                      type="button"
+                      (click)="withdrawBNB()"
+                    >
+                      Withdrawal
+                    </button>
+                  </div>
+                </div>
+                <!-- <button
                   class="favorite styled"
                   type="button"
                   (click)="withdrawBNB()"
                 >
                   Withdraw
-                </button>
+                </button> -->
               </div>
             </div>
 
             <div class="col-xl-4">
               <div class="card-body" id="manageCard">
                 <p class="card-text" style="font-size: 1em">
-                  <u> SET COST </u><br /><br /><br />
+                  <u> SET COST </u><br /><br />
 
                   Current Price : {{ contractPrice }} BNB
                 </p>
@@ -205,6 +245,12 @@
           Your {{ contractSymbol }} : {{ tokensOwned }}
           <br />
           Staked {{ contractSymbol }} : {{ tokensStaked }}
+          <br />
+          Current Staking based off of 5% a year (31,536,000 seconds)
+          <br />
+          Excluding leap years compounded quarterly.
+          <br />
+          APY = %5.09
         </p>
 
         <div class="row">
@@ -256,9 +302,7 @@
               <p class="card-text" style="font-size: 1em">
                 <u> STAKE </u>
                 <br />
-                Has to be more than 100. <br />
-                Current Staking based off of 5% a year (31,536,000 seconds)
-                excluding leap years compounded quarterly. APY = %5.09
+                Has to be more than 100.
               </p>
               <br />
               <div
@@ -366,7 +410,7 @@
                 *ngIf="contractUsersRewardFromStaking >= 1"
                 class="favorite styled"
                 type="button"
-                (click)="claimRewards()"
+                (click)="collectStakingReward()"
               >
                 Claim
               </button>

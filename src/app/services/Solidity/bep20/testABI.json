@@ -271,7 +271,7 @@
       "inputs": [],
       "name": "collectStakingReward",
       "outputs": [],
-      "stateMutability": "payable",
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {

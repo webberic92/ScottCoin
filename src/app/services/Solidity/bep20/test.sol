@@ -35,15 +35,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     uint256 APY = .0509*1e18;
     constructor(string memory name, string memory symbol) ERC20(name, symbol) payable {
         _mint(address(this), 1000000);
-        buy(150);
-        // console.log("Bought 150");
-        createStake(100);
-        //createStake(50);
-        //collectStakingReward();
-        //removeStake(50);
-        // console.log("Staked 100");
-        // console.log("erc20StakersWithTime[msg.sender] = ", erc20StakersWithTime[msg.sender]);
-        // console.log("erc20StakersArray[msg.sender] = ", erc20StakersArray[msg.sender]);
+  
     }
     
     function decimals() public view virtual override returns (uint8) {
@@ -163,7 +155,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
 
         }
 
-   function collectStakingReward() public  payable {
+   function collectStakingReward() public  {
        if(rewardsInWei[msg.sender] == 0){
         rewardsInWei[msg.sender] = calculateDividendsinWei();
        }  
@@ -172,10 +164,8 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
        console.log('amountThatCanBeWithdrawn = ',amountThatCanBeWithdrawn);
        console.log('balanceOf address this = ',balanceOf(address(this)));
        _transfer(address(this),msg.sender, amountThatCanBeWithdrawn);
-       console.log("test");
        erc20StakersWithTime[msg.sender] = block.timestamp;
        rewardsInWei[msg.sender] -=  amountThatCanBeWithdrawn*1e18;
-       console.log(rewardsInWei[msg.sender]);
    }
 
       function removeStake(uint256 _stake) public payable {

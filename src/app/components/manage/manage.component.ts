@@ -49,6 +49,7 @@ export class ManageComponent implements OnInit {
   allowanceIncreaseFinal: string = ''
   allowanceDecreaseFinal: string = ''
   intervalId!: number;
+  setAmountToWithdrawal: string = ''
 
 
 
@@ -116,7 +117,7 @@ export class ManageComponent implements OnInit {
   async withdrawBNB() {
     try {
       this.isLoading = true;
-      await bscContract.methods.withdrawBNBFromContractToOwner().send({
+      await bscContract.methods.withdrawFromContractToOwner(web3.utils.toWei(this.setAmountToWithdrawal, "ether")).send({
         from: this.userAddress
       })
       this.getContent()
@@ -127,17 +128,17 @@ export class ManageComponent implements OnInit {
     }
   }
 
-  async updateNFTAddress() {
-    try {
-      this.isLoading = true;
-      await bscContract.methods.withdrawBNBFromContractToOwner().call()
-      this.getContent()
-      this.isLoading = false;
-    } catch (e) {
-      this.error = e.message
-      this.isLoading = false;
-    }
-  }
+  // async updateNFTAddress() {
+  //   try {
+  //     this.isLoading = true;
+  //     await bscContract.methods.withdrawFromContractToOwner().call()
+  //     this.getContent()
+  //     this.isLoading = false;
+  //   } catch (e) {
+  //     this.error = e.message
+  //     this.isLoading = false;
+  //   }
+  // }
 
   async setErc721address() {
     try {
@@ -152,6 +153,22 @@ export class ManageComponent implements OnInit {
       this.isLoading = false;
     }
   }
+
+  async collectStakingReward() {
+    try {
+      this.isLoading = true;
+      await bscContract.methods.collectStakingReward().send({
+        from: this.userAddress
+      })
+      this.getContent()
+      this.isLoading = false;
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+    }
+  }
+
+
 
   async setCost() {
     try {
@@ -271,25 +288,6 @@ export class ManageComponent implements OnInit {
   }
 
 
-
-  async claimRewards() {
-    try {
-      this.isLoading = true;
-      await bscContract.methods.withdrawReward().send({
-        from: this.userAddress,
-      })
-      this.getContent()
-      this.isLoading = false;
-    } catch (e) {
-      this.error = e.message
-      this.isLoading = false;
-    }
-  }
-
-
-
-
-
   allowanceAdd(e: Event) {
     this.setAllowanceAdd = ''
 
@@ -309,6 +307,8 @@ export class ManageComponent implements OnInit {
       this.setAllowanceAddNum = String(e)
     }
   }
+
+
 
 
   async setAllowance() {
@@ -441,6 +441,16 @@ export class ManageComponent implements OnInit {
     }
   }
 
+
+  updateAmountToWithDrawal(e: Event) {
+    this.setAmountToWithdrawal = ''
+
+    if (e == null || String(e) == '' || String(e) == '0') {
+      this.setAmountToWithdrawal = ''
+    } else {
+      this.setAmountToWithdrawal = String(e)
+    }
+  }
 
 
 }

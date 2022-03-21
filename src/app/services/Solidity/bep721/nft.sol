@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity^0.8.11;
-
-import "openzeppelin-solidity/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "openzeppelin-solidity/contracts/access/Ownable.sol";
-
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract NFT is ERC721Enumerable, Ownable {
   using Strings for uint256;
@@ -12,11 +11,13 @@ contract NFT is ERC721Enumerable, Ownable {
   string baseURI;
   string public baseExtension = ".json";
   uint256 public cost = 0.025 ether;
+  uint256 public costInUtilityToken = 500;
   uint256 public maxSupply = 50;
   uint256 public maxMintAmount = 2;
   bool public paused = true;
   bool public revealed = false;
   string public notRevealedUri;
+  ERC20 public erc20Token;
 
   constructor(
     string memory _name,
@@ -28,12 +29,14 @@ contract NFT is ERC721Enumerable, Ownable {
     setNotRevealedURI(_initNotRevealedUri);
   }
 
-  // internal
   function _baseURI() internal view virtual override returns (string memory) {
     return baseURI;
   }
 
-  // public
+  function setErc20address(address addy) public onlyOwner {
+        erc20Token = ERC20(addy);
+    }
+
   function mint(uint256 _mintAmount) public payable {
     uint256 supply = totalSupply();
     require(!paused);
@@ -43,6 +46,22 @@ contract NFT is ERC721Enumerable, Ownable {
 
     if (msg.sender != owner()) {
       require(msg.value >= cost * _mintAmount);
+    }
+
+    for (uint256 i = 1; i <= _mintAmount; i++) {
+      _safeMint(msg.sender, supply + i);
+    }
+  }
+
+    function mintWithUtilityToken(uint256 _mintAmount) public payable {
+    uint256 supply = totalSupply();
+    require(!paused);
+    require(_mintAmount > 0);
+    require(_mintAmount <= maxMintAmount);
+    require(supply + _mintAmount <= maxSupply);
+
+    if (msg.sender != owner()) {
+      erc20Token.transferFrom(msg.sender,address(this), costInUtilityToken * _mintAmount);
     }
 
     for (uint256 i = 1; i <= _mintAmount; i++) {

@@ -10,14 +10,7 @@
         style="border-radius: 50%"
       />
     </div>
-    <div *ngIf="this.userAddress == ''">
-      <p style="color: red">
-        MetaMask Not Connected. Please connect to BSC test net
-      </p>
-    </div>
-    <div *ngIf="this.error">
-      <p style="color: red">Found Error : {{ error }}</p>
-    </div>
+
     <div *ngIf="!this.isLoading">
       <p>
         <u>Manage {{ contractName }} ({{ contractSymbol }}) NFT's!</u>
@@ -25,7 +18,16 @@
       <p style="font-size: 1.25em">
         {{ contractSymbol }} Address: {{ contractAddress }}
         <br />
+        BINU20 tokens: {{ tokensOwned }}
       </p>
+      <div *ngIf="this.userAddress == ''">
+        <p style="color: red">
+          MetaMask Not Connected. Please connect to BSC test net
+        </p>
+      </div>
+      <div *ngIf="this.error">
+        <p style="color: red">Found Error : {{ error }}</p>
+      </div>
 
       <div *ngIf="this.userAddress != ''">
         <img
@@ -35,77 +37,78 @@
           style="border-radius: 50%"
         /><br /><br />
 
-        <div class="center-div">
-          <div class="col-sm-4">
-            <div class="card-body" id="manageCard">
-              <p class="card-text" style="font-size: 1em">MINT with BNB</p>
-              <div
-                class="form-outline"
-                id="mintInput"
-                style="max-width: 75%; margin-left: auto; margin-right: auto"
-              >
-                <input
-                  [ngModel]="numToBuy"
-                  (ngModelChange)="setMintAmount($event)"
-                  type="number"
-                  min="0"
-                  max="100000000000"
-                  step="1"
-                  onfocus="this.previousValue = this.value"
-                  onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
-                  class="form-control"
-                  placeholder="Amount"
-                />
+        <div class="row" style="margin-left: auto; margin-right: auto">
+          <div class="center-div">
+            <div class="col-xl-4">
+              <div class="card-body" id="manageCard">
+                <p class="card-text" style="font-size: 1em">MINT with BNB</p>
+                <div
+                  class="form-outline"
+                  id="mintInput"
+                  style="max-width: 75%; margin-left: auto; margin-right: auto"
+                >
+                  <input
+                    [ngModel]="numToBuy"
+                    (ngModelChange)="setMintAmount($event)"
+                    type="number"
+                    min="0"
+                    max="100000000000"
+                    step="1"
+                    onfocus="this.previousValue = this.value"
+                    onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
+                    class="form-control"
+                    placeholder="Amount"
+                  />
+                </div>
+                <br />
+                <p>Buy {{ numToBuy }} for {{ totalPrice }}</p>
+                <button class="favorite styled" type="button" (click)="mint()">
+                  Mint!
+                </button>
               </div>
-              <br />
-              Buy {{ numToBuy }} for {{ totalPrice }}<br />
-              <button class="favorite styled" type="button" (click)="mint()">
-                Mint!
-              </button>
             </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="card-body" id="manageCard">
-              <p class="card-text" style="font-size: 1em">
-                MINT with {{ contractSymbol }}
-              </p>
-              <div
-                class="form-outline"
-                id="mintInput"
-                style="max-width: 75%; margin-left: auto; margin-right: auto"
-              >
-                <input
-                  [ngModel]="numToBuyWithToken"
-                  (ngModelChange)="setMintAmountWithToken($event)"
-                  type="number"
-                  min="0"
-                  max="100000000000"
-                  step="1"
-                  onfocus="this.previousValue = this.value"
-                  onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
-                  class="form-control"
-                  placeholder="Amount"
-                />
+            <div class="col-xl-4">
+              <div class="card-body" id="manageCard">
+                <p class="card-text" style="font-size: 1em">
+                  MINT with {{ contractSymbol }}
+                </p>
+                <div
+                  class="form-outline"
+                  id="mintInput"
+                  style="max-width: 75%; margin-left: auto; margin-right: auto"
+                >
+                  <input
+                    [ngModel]="numToBuyWithToken"
+                    (ngModelChange)="setMintAmountWithToken($event)"
+                    type="number"
+                    min="0"
+                    max="100000000000"
+                    step="1"
+                    onfocus="this.previousValue = this.value"
+                    onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
+                    class="form-control"
+                    placeholder="Amount"
+                  />
+                </div>
+                <br />
+                <p>Buy {{ numToBuyWithToken }} for {{ totalPriceWithToken }}</p>
+                <button class="favorite styled" type="button" (click)="mint()">
+                  Mint!
+                </button>
               </div>
-              <br />
-              Buy {{ numToBuyWithToken }} for {{ totalPriceWithToken }}<br />
-              <button class="favorite styled" type="button" (click)="mint()">
-                Mint!
-              </button>
             </div>
           </div>
         </div>
 
         <br />
-        BINU20 tokens: {{ tokensOwned }}
-        <div class="row">
+
+        <div class="row" style="margin-left: auto; margin-right: auto">
           <p>
             <u> UNSTAKED NFT's ({{ userNFTs.length }}) </u>
           </p>
-          {{ userNFTs }}<br />
 
-          <div class="row">
-            <div class="col-md-4" *ngFor="let obj of unstakedNfts | keyvalue">
+          <div class="row" style="margin-left: auto; margin-right: auto">
+            <div class="col-xl-4" *ngFor="let obj of unstakedNfts | keyvalue">
               <div class="card-body" id="manageCard">
                 <p class="card-text" style="font-size: 1em">
                   {{ obj.value.name }}<br />
@@ -135,7 +138,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="margin-left: auto; margin-right: auto">
           <p>
             <u> STAKED NFT'S ({{ userStakedNFTs.length }})</u>
           </p>
