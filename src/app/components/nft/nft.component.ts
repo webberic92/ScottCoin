@@ -48,7 +48,11 @@ export class NFTComponent implements OnInit {
   contractPriceInUtilityToken: string = ''
   erc20ContractSymbol: string = ''
   isRevealed: boolean = false
-
+  isPaused: boolean = false
+  setERC20Token: string = ''
+  setERC20TokenBool: boolean = false;
+  isERC20ApprovedForAll: boolean = false
+  erc20ContractAddress: string = ''
 
   constructor(private web3: Web3Service, private http: HttpClient,) { }
 
@@ -62,53 +66,78 @@ export class NFTComponent implements OnInit {
 
     try {
       this.isLoading = true;
+      this.userAddress = await this.web3.getAccounts()
+      this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
+      this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
+
       this.contractAddress = nftContract._address
       this.contractName = await nftContract.methods.name().call()
       this.contractSymbol = await nftContract.methods.symbol().call()
       this.erc20ContractSymbol = await bscContract.methods.symbol().call()
-      this.isRevealed = await nftContract.methods.revealed().call()
-      console.log(this.isRevealed)
-
-      this.contractPrice = Web3.utils.fromWei(await nftContract.methods.cost().call(), "ether")
-      this.contractPriceInUtilityToken = await nftContract.methods.costInUtilityToken().call()
-
-      this.isLoading = false;
-      this.userAddress = await this.web3.getAccounts()
-      this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
-
-      this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
+      this.erc20ContractAddress = await nftContract.methods.erc20Token().call()
+      this.isPaused = await nftContract.methods.paused().call()
       this.contractOwner = await nftContract.methods.owner().call()
-      this.userNFTs = await nftContract.methods.walletOfOwner(this.userAddress).call()
 
-      this.userNFTs.forEach(async (value) => {
-        let tokenURI = await nftContract.methods.tokenURI(value).call()
-        this.http.get<string>(tokenURI).subscribe(data => {
-          this.unstakedResponse = JSON.parse(JSON.stringify(data));
-          this.unstakedResponse.id = value
-          if (this.isRevealed) {
-            this.unstakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + value + ".png"
+      if (!this.isPaused) {
+        this.isRevealed = await nftContract.methods.revealed().call()
+
+        this.contractPrice = Web3.utils.fromWei(await nftContract.methods.cost().call(), "ether")
+
+        this.contractPriceInUtilityToken = await nftContract.methods.costInUtilityToken().call()
+
+        this.userNFTs = await nftContract.methods.walletOfOwner(this.userAddress).call()
+        let tokenURI = '';
+        this.userNFTs.forEach(async (value) => {
+          if (!this.isRevealed) {
+            tokenURI = await nftContract.methods.notRevealedUri().call()
+          } else {
+            tokenURI = await nftContract.methods.tokenURI(value).call()
+
           }
-          this.unstakedNfts.set(value, this.unstakedResponse)
+
+          this.http.get<string>(tokenURI).subscribe(data => {
+            this.unstakedResponse = JSON.parse(JSON.stringify(data));
+            this.unstakedResponse.id = value
+            if (this.isRevealed) {
+
+              this.unstakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + value + ".png"
+            }
+            else {
+              this.unstakedResponse.image = "https://ipfs.io/ipfs/QmPmQ5UvdGxXAWtg7JJm9iePbkE4yHQrpjVfa2BQRqD8Ng?filename=example.gif"
+
+            }
+            this.unstakedNfts.set(value, this.unstakedResponse)
+
+          });
 
         });
-
-      });
-      this.userStakedNFTs = await bscContract.methods.getUsersStakedNfts(this.userAddress).call()
-      this.userStakedNFTs.forEach(async (id) => {
-        let tokenURI = await nftContract.methods.tokenURI(id).call()
-        let stakedNftReward = await bscContract.methods.potentialStakedNftReward(this.userAddress, id).call()
-        this.http.get<string>(tokenURI).subscribe(data => {
-          this.stakedResponse = JSON.parse(JSON.stringify(data));
-          this.stakedResponse.id = id
-          if (this.isRevealed) {
-
-            this.stakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + id + ".png"
+        this.userStakedNFTs = await bscContract.methods.getUsersStakedNfts(this.userAddress).call()
+        this.userStakedNFTs.forEach(async (id) => {
+          if (!this.isRevealed) {
+            tokenURI = await nftContract.methods.notRevealedUri().call()
+          } else {
+            tokenURI = await nftContract.methods.tokenURI(id).call()
           }
-          this.stakedResponse.potentialReward = stakedNftReward
-          this.stakedNfts.set(id, this.stakedResponse)
-        });
+          let stakedNftReward = await bscContract.methods.potentialStakedNftReward(this.userAddress, id).call()
+          this.http.get<string>(tokenURI).subscribe(data => {
+            this.stakedResponse = JSON.parse(JSON.stringify(data));
+            this.stakedResponse.id = id
+            if (this.isRevealed) {
 
-      });
+              this.stakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + id + ".png"
+            }
+            else {
+              this.stakedResponse.image = "https://ipfs.io/ipfs/QmPmQ5UvdGxXAWtg7JJm9iePbkE4yHQrpjVfa2BQRqD8Ng?filename=example.gif"
+
+            }
+            this.stakedResponse.potentialReward = stakedNftReward
+            this.stakedNfts.set(id, this.stakedResponse)
+          });
+
+        });
+      }
+      this.isLoading = false;
+
 
 
     } catch (e) {
@@ -186,6 +215,13 @@ export class NFTComponent implements OnInit {
 
     try {
       this.isLoading = true;
+      let isApprovedForAll = await nftContract.methods.isApprovedForAll(this.userAddress, this.erc20ContractAddress).call()
+      console.log("is Approved for all = " + isApprovedForAll)
+      if (!isApprovedForAll) {
+        await nftContract.methods.setApprovalForAll(this.erc20ContractAddress, true).send({
+          from: this.userAddress
+        })
+      }
       await bscContract.methods.stakeNft(id).send({
         from: this.userAddress
       })
@@ -208,6 +244,13 @@ export class NFTComponent implements OnInit {
       await bscContract.methods.removeStakedNft(id).send({
         from: this.userAddress
       })
+      let userStakedNFTs = await bscContract.methods.getUsersStakedNfts(this.userAddress).call()
+      console.log("User STAKED NFTS " + userStakedNFTs)
+      if (userStakedNFTs.length! > 0) {
+        await nftContract.methods.setApprovalForAll(this.erc20ContractAddress, false).send({
+          from: this.userAddress
+        })
+      }
       this.unstakedNfts = new Map<number, any>();
       this.stakedNfts = new Map<number, any>();
       this.isLoading = false
@@ -272,9 +315,6 @@ export class NFTComponent implements OnInit {
 
   setMintAmountWithToken(e: Event) {
     this.numToBuyWithToken = String(e);
-    console.log(this.numToBuyWithToken)
-    console.log(this.contractPriceInUtilityToken)
-
     this.totalPriceWithToken = (Number(this.numToBuyWithToken) * Number(this.contractPriceInUtilityToken)).toFixed(0)
     if (Number(this.numToBuyWithToken) >= 100000000000) {
       this.numToBuyWithToken = '0'
@@ -286,6 +326,66 @@ export class NFTComponent implements OnInit {
     }
 
 
+  }
+
+  async setPaused(b: boolean) {
+    this.error = ''
+
+    try {
+      this.isLoading = true;
+      await nftContract.methods.pause(b).send({
+        from: this.userAddress
+      })
+      this.unstakedNfts = new Map<number, any>();
+      this.stakedNfts = new Map<number, any>();
+      this.isLoading = false
+      this.getContent()
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+
+    }
+  }
+
+  async setRevealed(b: boolean) {
+    this.error = ''
+
+    try {
+      this.isLoading = true;
+      await nftContract.methods.reveal(b).send({
+        from: this.userAddress
+      })
+      this.unstakedNfts = new Map<number, any>();
+      this.stakedNfts = new Map<number, any>();
+      this.isLoading = false
+      this.getContent()
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+
+    }
+  }
+  async setErc20address() {
+    try {
+      this.isLoading = true;
+      await nftContract.methods.setErc20address(this.setERC20Token).send({
+        from: this.userAddress
+      })
+      this.getContent()
+      this.isLoading = false;
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+    }
+  }
+  erc20Token(e: Event) {
+    this.setERC20Token = ''
+
+    if (e == null || String(e) == '' || String(e) == '0') {
+      this.setERC20Token = ''
+    } else {
+      this.setERC20Token = String(e)
+    }
   }
 
 

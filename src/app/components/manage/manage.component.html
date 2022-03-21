@@ -25,6 +25,14 @@
         Total Supply : {{ contractTotalSupply }}
         <br />
       </p>
+      <div *ngIf="this.userAddress == ''">
+        <p style="color: red">
+          MetaMask Not Connected. Please connect to BSC test net
+        </p>
+      </div>
+      <div *ngIf="this.error">
+        <p style="color: red">Found Error : {{ error }}</p>
+      </div>
 
       <div *ngIf="this.userAddress != ''">
         <div *ngIf="this.contractOwner == this.userAddress">
@@ -69,7 +77,16 @@
                 </div>
                 <br />
                 <button
+                  *ngIf="this.setERC721Token != ''"
                   class="favorite styled"
+                  type="button"
+                  (click)="setErc721address()"
+                >
+                  Update
+                </button>
+                <button
+                  *ngIf="this.setERC721Token == ''"
+                  class="favorite styledDisabled"
                   type="button"
                   (click)="setErc721address()"
                 >
@@ -127,13 +144,6 @@
                     </button>
                   </div>
                 </div>
-                <!-- <button
-                  class="favorite styled"
-                  type="button"
-                  (click)="withdrawBNB()"
-                >
-                  Withdraw
-                </button> -->
               </div>
             </div>
 
@@ -695,14 +705,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div *ngIf="this.userAddress == ''">
-        <p style="color: red">
-          MetaMask Not Connected. Please connect to BSC test net
-        </p>
-      </div>
-      <div *ngIf="this.error">
-        <p style="color: red">Found Error : {{ error }}</p>
       </div>
     </div>
 

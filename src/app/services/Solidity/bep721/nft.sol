@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity^0.8.11;
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "openzeppelin-solidity/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "openzeppelin-solidity/contracts/access/Ownable.sol";
 
 contract NFT is ERC721Enumerable, Ownable {
   using Strings for uint256;
 
-  string baseURI;
+  string public baseURI;
   string public baseExtension = ".json";
   uint256 public cost = 0.025 ether;
   uint256 public costInUtilityToken = 500;
@@ -104,13 +104,16 @@ contract NFT is ERC721Enumerable, Ownable {
         : "";
   }
 
-  //only owner
-  function reveal() public onlyOwner {
-      revealed = true;
+  function reveal(bool _b) public onlyOwner {
+      revealed = _b;
   }
   
   function setCost(uint256 _newCost) public onlyOwner {
     cost = _newCost;
+  }
+
+  function setCostInUtilityToken(uint256 _newCost) public onlyOwner {
+    costInUtilityToken = _newCost;
   }
 
   function setmaxMintAmount(uint256 _newmaxMintAmount) public onlyOwner {

@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "hardhat/console.sol";
 
 
 contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{   
@@ -55,9 +54,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         uint256 totalCostEth = _quantity * cost;
         if (msg.sender != owner()) {
             require(msg.value >= totalCostEth, "Did not send enough ETH");
-            _mint(msg.sender, _quantity + 2);
-            burn(1);
-            transfer(address(this),1);
+            _mint(msg.sender, _quantity);
             emit Bought(_quantity);
         }else{
             _mint(msg.sender, _quantity);
