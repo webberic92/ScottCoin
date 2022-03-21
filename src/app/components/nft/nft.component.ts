@@ -27,7 +27,6 @@ export class NFTComponent implements OnInit {
 
   contractTotalSupply: string = ''
   contractPrice: string = ''
-  contractPriceForToken: string = ''
 
   contractERC721Token: string = ''
   contractBnbBalance: string | void = ''
@@ -46,6 +45,9 @@ export class NFTComponent implements OnInit {
 
   unstakedNfts = new Map<number, any>();
   stakedNfts = new Map<number, any>();
+  contractPriceInUtilityToken: string = ''
+  erc20ContractSymbol: string = ''
+  isRevealed: boolean = false
 
 
   constructor(private web3: Web3Service, private http: HttpClient,) { }
@@ -62,13 +64,18 @@ export class NFTComponent implements OnInit {
       this.contractAddress = nftContract._address
       this.contractName = await nftContract.methods.name().call()
       this.contractSymbol = await nftContract.methods.symbol().call()
+      this.erc20ContractSymbol = await bscContract.methods.symbol().call()
+      this.isRevealed = await nftContract.methods.revealed().call()
+      console.log(this.isRevealed)
 
       this.contractPrice = Web3.utils.fromWei(await nftContract.methods.cost().call(), "ether")
+      this.contractPriceInUtilityToken = await nftContract.methods.costInUtilityToken().call()
+
       this.isLoading = false;
       this.userAddress = await this.web3.getAccounts()
-      this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
-      this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
+      this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
 
+      this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
       this.contractOwner = await nftContract.methods.owner().call()
       this.userNFTs = await nftContract.methods.walletOfOwner(this.userAddress).call()
 
@@ -77,7 +84,9 @@ export class NFTComponent implements OnInit {
         this.http.get<string>(tokenURI).subscribe(data => {
           this.unstakedResponse = JSON.parse(JSON.stringify(data));
           this.unstakedResponse.id = value
-          this.unstakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + value + ".png"
+          if (this.isRevealed) {
+            this.unstakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + value + ".png"
+          }
           this.unstakedNfts.set(value, this.unstakedResponse)
 
         });
@@ -135,11 +144,43 @@ export class NFTComponent implements OnInit {
     }
   }
 
+  async mintWithUtilityToken() {
+    this.error = ''
+
+    try {
+      this.isLoading = true;
+
+
+
+      if (this.contractOwner == this.userAddress) {
+        await nftContract.methods.mintWithUtilityToken(this.numToBuyWithToken).send({
+          from: this.userAddress
+        })
+      } else {
+        await bscContract.methods.approve(nftContract._address, this.totalPriceWithToken).send({
+          from: this.userAddress
+        })
+        await nftContract.methods.mintWithUtilityToken(this.numToBuyWithToken).send({
+          from: this.userAddress
+        })
+      }
+
+      this.isLoading = false
+      this.getContent()
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+
+    }
+  }
+
+
+
+
   async stake(id: any) {
     this.error = ''
 
     try {
-      console.log(id)
       this.isLoading = true;
       await bscContract.methods.stakeNft(id).send({
         from: this.userAddress
@@ -221,9 +262,12 @@ export class NFTComponent implements OnInit {
   }
 
 
-  setMintAmountWithToken(e: Event) { // without type info
+  setMintAmountWithToken(e: Event) {
     this.numToBuyWithToken = String(e);
-    this.totalPriceWithToken = (Number(this.numToBuyWithToken) * Number(this.contractPriceForToken)).toFixed(6)
+    console.log(this.numToBuyWithToken)
+    console.log(this.contractPriceInUtilityToken)
+
+    this.totalPriceWithToken = (Number(this.numToBuyWithToken) * Number(this.contractPriceInUtilityToken)).toFixed(0)
     if (Number(this.numToBuyWithToken) >= 100000000000) {
       this.numToBuyWithToken = '0'
       this.totalPriceWithToken = '0'

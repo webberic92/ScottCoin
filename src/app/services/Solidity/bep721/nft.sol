@@ -33,8 +33,8 @@ contract NFT is ERC721Enumerable, Ownable {
     return baseURI;
   }
 
-  function setErc20address(address addy) public onlyOwner {
-        erc20Token = ERC20(addy);
+  function setErc20address(address _addy) public onlyOwner {
+        erc20Token = ERC20(_addy);
     }
 
   function mint(uint256 _mintAmount) public payable {
@@ -82,7 +82,7 @@ contract NFT is ERC721Enumerable, Ownable {
     return tokenIds;
   }
 
-  function tokenURI(uint256 tokenId)
+  function tokenURI(uint256 _tokenId)
     public
     view
     virtual
@@ -90,7 +90,7 @@ contract NFT is ERC721Enumerable, Ownable {
     returns (string memory)
   {
     require(
-      _exists(tokenId),
+      _exists(_tokenId),
       "ERC721Metadata: URI query for nonexistent token"
     );
     
@@ -100,7 +100,7 @@ contract NFT is ERC721Enumerable, Ownable {
 
     string memory currentBaseURI = _baseURI();
     return bytes(currentBaseURI).length > 0
-        ? string(abi.encodePacked(currentBaseURI, tokenId.toString(), baseExtension))
+        ? string(abi.encodePacked(currentBaseURI, _tokenId.toString(), baseExtension))
         : "";
   }
 

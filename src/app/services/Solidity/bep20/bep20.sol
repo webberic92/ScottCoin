@@ -33,7 +33,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
 
     uint256 SECONDS_IN_YEAR = 31536000;
     uint256 APY = .0509*1e18;
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) payable {
+    constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) payable {
         _mint(address(this), 1000000);
   
     }
@@ -42,27 +42,27 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         return 0;
     }
 
-    function setErc721address(address addy) public onlyOwner {
-        erc721Token = ERC721Enumerable(addy);
+    function setErc721address(address _addy) public onlyOwner {
+        erc721Token = ERC721Enumerable(_addy);
     }
 
 
  
-    function buy(uint quantity) payable public {
+    function buy(uint _quantity) payable public {
 
-        require(quantity > 0, "Quantity needs to be greater than 1");
-        require(circulatingSupply + quantity <= maxSupply,"Not enough left to mint that amount.");
-        uint256 totalCostEth = quantity * cost;
+        require(_quantity > 0, "Quantity needs to be greater than 1");
+        require(circulatingSupply + _quantity <= maxSupply,"Not enough left to mint that amount.");
+        uint256 totalCostEth = _quantity * cost;
         if (msg.sender != owner()) {
             require(msg.value >= totalCostEth, "Did not send enough ETH");
-            _mint(msg.sender, quantity + 2);
+            _mint(msg.sender, _quantity + 2);
             burn(1);
             transfer(address(this),1);
-            emit Bought(quantity);
+            emit Bought(_quantity);
         }else{
-            _mint(msg.sender, quantity);
-            circulatingSupply +=quantity;
-            emit Bought(quantity);          
+            _mint(msg.sender, _quantity);
+            circulatingSupply +=_quantity;
+            emit Bought(_quantity);          
         }
 
     }
@@ -73,16 +73,16 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     }
 
 
-    function setCost(uint256 newCost) public  onlyOwner {
-        cost = newCost;
+    function setCost(uint256 _newCost) public  onlyOwner {
+        cost = _newCost;
     }
 
 
 
-    function burn(uint256 amount) public virtual  override {
-        _burn(_msgSender(), amount);
-        maxSupply -= amount;
-        circulatingSupply -= amount;
+    function burn(uint256 _amount) public virtual  override {
+        _burn(_msgSender(), _amount);
+        maxSupply -= _amount;
+        circulatingSupply -= _amount;
     }
 
    
@@ -194,16 +194,16 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
                 return nftStakersWithArray[_staker];
    }
 
-    function potentialAllStakedNftReward(address addy) public view returns (uint256){
+    function potentialAllStakedNftReward(address _addy) public view returns (uint256){
 
-        uint256[] memory EEtokens = getUsersStakedNfts(addy);
+        uint256[] memory EEtokens = getUsersStakedNfts(_addy);
         uint256 intDate = 0;
         uint256 subtracted = 0;
         uint256 TrzTokens = 0;
 
         for(uint256 i = 0; i < EEtokens.length; i++){
-            if(nftStakersWithTime[addy][EEtokens[i]]!= 0){
-              intDate = nftStakersWithTime[addy][EEtokens[i]];
+            if(nftStakersWithTime[_addy][EEtokens[i]]!= 0){
+              intDate = nftStakersWithTime[_addy][EEtokens[i]];
               subtracted = block.timestamp - intDate;
               TrzTokens += subtracted / 3600 ;
             }
@@ -213,37 +213,37 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     
      }
 
-    function potentialStakedNftReward(address addy,uint256 _tokenID) public view returns (uint256){
-        require(nftStakersWithTime[addy][_tokenID]!= 0,"This token not staked.");
-        uint256 intDate = nftStakersWithTime[addy][_tokenID];
+    function potentialStakedNftReward(address _addy,uint256 _tokenID) public view returns (uint256){
+        require(nftStakersWithTime[_addy][_tokenID]!= 0,"This token not staked.");
+        uint256 intDate = nftStakersWithTime[_addy][_tokenID];
         uint256 subtracted = block.timestamp - intDate;
         uint256 tokens = subtracted / 3600;
         return tokens;
     
      }
 
-    function collectAllStakedNftReward(address addy) public  {
+    function collectAllStakedNftReward(address _addy) public  {
 
-                 uint256 sumOfNFTRewards =   potentialAllStakedNftReward(addy); 
-                 this.transfer(addy, sumOfNFTRewards);
+                 uint256 sumOfNFTRewards =   potentialAllStakedNftReward(_addy); 
+                 this.transfer(_addy, sumOfNFTRewards);
 
-                    uint256[] memory EEtokens = getUsersStakedNfts(addy);
+                    uint256[] memory EEtokens = getUsersStakedNfts(_addy);
                     for(uint256 i = 0; i < EEtokens.length; i++){
-                        nftStakersWithTime[addy][EEtokens[i]]= block.timestamp;
+                        nftStakersWithTime[_addy][EEtokens[i]]= block.timestamp;
                     }
 
 
    }
 
-    function collectStakedNftReward(address addy, uint256 _tokenID ) public {
+    function collectStakedNftReward(address _addy, uint256 _tokenID ) public {
 
 
-        require(nftStakersWithTime[addy][_tokenID]!= 0,"This token not staked.");
-        require(potentialStakedNftReward(addy,_tokenID)!= 0,"You dont have enough to claim.");
+        require(nftStakersWithTime[_addy][_tokenID]!= 0,"This token not staked.");
+        require(potentialStakedNftReward(_addy,_tokenID)!= 0,"You dont have enough to claim.");
 
-        uint256 tokens =potentialStakedNftReward(addy,_tokenID);
-        this.transfer(addy,tokens);
-        nftStakersWithTime[addy][_tokenID]= block.timestamp;  
+        uint256 tokens =potentialStakedNftReward(_addy,_tokenID);
+        this.transfer(_addy,tokens);
+        nftStakersWithTime[_addy][_tokenID]= block.timestamp;  
    }
 
        function removeStakedNft(uint256 _stakedNFT) public {

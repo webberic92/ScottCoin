@@ -41,7 +41,10 @@
           <div class="center-div">
             <div class="col-xl-4">
               <div class="card-body" id="manageCard">
-                <p class="card-text" style="font-size: 1em">MINT with BNB</p>
+                <p class="card-text" style="font-size: 1em">
+                  MINT with BNB <br />
+                  Price : {{ contractPrice }} BnB
+                </p>
                 <div
                   class="form-outline"
                   id="mintInput"
@@ -70,7 +73,9 @@
             <div class="col-xl-4">
               <div class="card-body" id="manageCard">
                 <p class="card-text" style="font-size: 1em">
-                  MINT with {{ contractSymbol }}
+                  MINT with {{ contractSymbol }}<br />
+                  Cost : {{ contractPriceInUtilityToken }}
+                  {{ erc20ContractSymbol }}
                 </p>
                 <div
                   class="form-outline"
@@ -91,8 +96,15 @@
                   />
                 </div>
                 <br />
-                <p>Buy {{ numToBuyWithToken }} for {{ totalPriceWithToken }}</p>
-                <button class="favorite styled" type="button" (click)="mint()">
+                <p>
+                  Buy {{ numToBuyWithToken }} for {{ totalPriceWithToken }}
+                  {{ erc20ContractSymbol }}
+                </p>
+                <button
+                  class="favorite styled"
+                  type="button"
+                  (click)="mintWithUtilityToken()"
+                >
                   Mint!
                 </button>
               </div>
