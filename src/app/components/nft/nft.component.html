@@ -172,7 +172,7 @@
                   <u> Update Price BNB </u>
                   <br />
 
-                  THis will be to update BNB price.
+                  New Price : {{ updateBnbPrice }} BNB
                   <br />
                 </p>
                 <div
@@ -181,29 +181,31 @@
                   style="max-width: 75%; margin-left: auto; margin-right: auto"
                 >
                   <input
-                    [ngModel]="setERC20Token"
-                    (ngModelChange)="erc20Token($event)"
-                    type="text"
+                    [ngModel]="updateBnbPrice"
+                    (ngModelChange)="setupdateBnbPrice($event)"
+                    type="number"
+                    min="0"
+                    max="100000000000"
+                    step=".000001"
                     onfocus="this.previousValue = this.value"
                     onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
                     class="form-control"
-                    placeholder="Address"
+                    placeholder="Amount"
                   />
                 </div>
                 <br />
                 <button
-                  *ngIf="this.setERC20Token != ''"
+                  *ngIf="this.updateBnbPrice != '0'"
                   class="favorite styled"
                   type="button"
-                  (click)="setErc20address()"
+                  (click)="setUpdateBnbPrice()"
                 >
                   Update
                 </button>
                 <button
-                  *ngIf="this.setERC20Token == ''"
+                  *ngIf="this.updateBnbPrice == '0'"
                   class="favorite styledDisabled"
                   type="button"
-                  (click)="setErc20address()"
                 >
                   Update
                 </button>
@@ -215,7 +217,7 @@
                   <u> Update Price in Utility Token </u>
                   <br />
 
-                  THis will be to update Utility token price price.
+                  New Price : {{ updateUtilityPrice }} {{ erc20ContractSymbol }}
                   <br />
                 </p>
                 <div
@@ -224,29 +226,31 @@
                   style="max-width: 75%; margin-left: auto; margin-right: auto"
                 >
                   <input
-                    [ngModel]="setERC20Token"
-                    (ngModelChange)="erc20Token($event)"
-                    type="text"
+                    [ngModel]="updateUtilityPrice"
+                    (ngModelChange)="setupdateUtilityPrice($event)"
+                    type="number"
+                    min="0"
+                    max="100000000000"
+                    step="1"
                     onfocus="this.previousValue = this.value"
                     onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
                     class="form-control"
-                    placeholder="Address"
+                    placeholder="Amount"
                   />
                 </div>
                 <br />
                 <button
-                  *ngIf="this.setERC20Token != ''"
+                  *ngIf="this.updateUtilityPrice != '0'"
                   class="favorite styled"
                   type="button"
-                  (click)="setErc20address()"
+                  (click)="setUpdateUtilPrice()"
                 >
                   Update
                 </button>
                 <button
-                  *ngIf="this.setERC20Token == ''"
+                  *ngIf="this.updateUtilityPrice == '0'"
                   class="favorite styledDisabled"
                   type="button"
-                  (click)="setErc20address()"
                 >
                   Update
                 </button>

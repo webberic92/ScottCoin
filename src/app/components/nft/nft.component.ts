@@ -53,6 +53,9 @@ export class NFTComponent implements OnInit {
   setERC20TokenBool: boolean = false;
   isERC20ApprovedForAll: boolean = false
   erc20ContractAddress: string = ''
+  updateBnbPrice: string = '0'
+  updateUtilityPrice: string = '0'
+
 
   constructor(private web3: Web3Service, private http: HttpClient,) { }
 
@@ -95,7 +98,7 @@ export class NFTComponent implements OnInit {
 
           }
 
-          this.http.get<string>(tokenURI).subscribe(data => {
+          this.http.get<string>(tokenURI).subscribe((data: any) => {
             this.unstakedResponse = JSON.parse(JSON.stringify(data));
             this.unstakedResponse.id = value
             if (this.isRevealed) {
@@ -119,7 +122,7 @@ export class NFTComponent implements OnInit {
             tokenURI = await nftContract.methods.tokenURI(id).call()
           }
           let stakedNftReward = await bscContract.methods.potentialStakedNftReward(this.userAddress, id).call()
-          this.http.get<string>(tokenURI).subscribe(data => {
+          this.http.get<string>(tokenURI).subscribe((data: any) => {
             this.stakedResponse = JSON.parse(JSON.stringify(data));
             this.stakedResponse.id = id
             if (this.isRevealed) {
@@ -176,6 +179,46 @@ export class NFTComponent implements OnInit {
 
     }
   }
+
+  async setUpdateUtilPrice() {
+    this.error = ''
+
+    try {
+      this.isLoading = true;
+
+      await nftContract.methods.setCostInUtilityToken(this.updateUtilityPrice).send({
+        from: this.userAddress
+
+      })
+      this.isLoading = false
+      this.getContent()
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+
+    }
+  }
+
+  async setUpdateBnbPrice() {
+    this.error = ''
+
+    try {
+      this.isLoading = true;
+
+      await nftContract.methods.setCost(web3.utils.toWei(this.updateBnbPrice, 'ether')).send({
+        from: this.userAddress
+
+      })
+      this.isLoading = false
+      this.getContent()
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+
+    }
+  }
+
+
 
   async mintWithUtilityToken() {
     this.error = ''
@@ -307,6 +350,26 @@ export class NFTComponent implements OnInit {
     if (isNaN(Number(this.totalPrice))) {
       this.numToBuy = '0';
       this.totalPrice = '0'
+    }
+
+
+  }
+
+  setupdateBnbPrice(e: Event) { // without type info
+    this.updateBnbPrice = String(e);
+
+    if (isNaN(Number(this.updateBnbPrice))) {
+      this.updateBnbPrice = '0';
+    }
+
+
+  }
+
+  setupdateUtilityPrice(e: Event) { // without type info
+    this.updateUtilityPrice = String(e);
+
+    if (isNaN(Number(this.updateUtilityPrice))) {
+      this.updateUtilityPrice = '0';
     }
 
 

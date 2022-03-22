@@ -21,6 +21,8 @@ body {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+  // word-wrap: break-word;
+  // word-break: normal;
 }
 .center-div {
   padding: 1%;
@@ -109,13 +111,10 @@ h6 {
   color: #f0b90b;
   font-family: RapidFinger101;
   font-size: 1em;
-  word-wrap: break-word;
-  word-break: break-all;
+  // word-wrap: break-word;
+  // word-break: break-all;
 }
 
-// col-xl-4 {
-//   min-width: 320px;
-// }
 button {
   font-family: RapidFinger101;
 }
@@ -124,7 +123,8 @@ p {
   font-family: EncodeSansCondensedBold;
   font-size: 1em;
   color: #f0b90b;
-  word-break: break-all;
+  // word-break: normal;
+  word-break: break-word;
 }
 
 #list {
@@ -181,6 +181,7 @@ p {
   margin-right: auto;
   min-height: 275px;
   border-radius: 5px;
+  // word-break: break-all;
 }
 
 .cards {

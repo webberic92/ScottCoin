@@ -50,6 +50,9 @@ export class ManageComponent implements OnInit {
   allowanceDecreaseFinal: string = ''
   intervalId!: number;
   setAmountToWithdrawal: string = ''
+  setAllowanceFrom: string = ''
+  setAllowanceTo: string = ''
+  setAllowanceSendAmount: string = ''
 
 
 
@@ -367,6 +370,20 @@ export class ManageComponent implements OnInit {
     }
   }
 
+  async transferFrom() {
+    try {
+      this.isLoading = true;
+      await bscContract.methods.transferFrom(this.setAllowanceFrom, this.setAllowanceTo, this.setAllowanceSendAmount).send({
+        from: this.userAddress
+      })
+      this.getContent()
+      this.isLoading = false;
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+    }
+  }
+
 
 
 
@@ -440,6 +457,43 @@ export class ManageComponent implements OnInit {
       this.setAllowanceDecreaseNum = String(e)
     }
   }
+
+
+
+  allowanceFrom(e: Event) {
+    this.setAllowanceFrom = ''
+
+    if (e == null || String(e) == '' || String(e) == '0') {
+      this.setAllowanceFrom = ''
+    } else {
+      this.setAllowanceFrom = String(e)
+    }
+  }
+
+  allowanceTo(e: Event) {
+    this.setAllowanceTo = ''
+
+    if (e == null || String(e) == '' || String(e) == '0') {
+      this.setAllowanceTo = ''
+    } else {
+      this.setAllowanceTo = String(e)
+    }
+  }
+
+  allowanceSendAmount(e: Event) {
+    this.setAllowanceSendAmount = ''
+
+    if (e == null || String(e) == '' || String(e) == '0') {
+      this.setAllowanceSendAmount = ''
+    } else {
+      this.setAllowanceSendAmount = String(e)
+    }
+  }
+
+
+
+
+
 
 
   updateAmountToWithDrawal(e: Event) {

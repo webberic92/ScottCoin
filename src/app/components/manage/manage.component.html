@@ -708,7 +708,7 @@
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> Spend Allowance </u><br />
-                This needs to be updated to spend allowance
+                Use allowance.
               </p>
               <div
                 class="form-outline"
@@ -716,13 +716,13 @@
                 style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
-                  [ngModel]="setAllowanceDecrease"
-                  (ngModelChange)="allowanceDecrease($event)"
+                  [ngModel]="setAllowanceFrom"
+                  (ngModelChange)="allowanceFrom($event)"
                   type="text"
                   onfocus="this.previousValue = this.value"
                   onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
                   class="form-control"
-                  placeholder="Address"
+                  placeholder="From"
                 />
               </div>
               <br />
@@ -732,8 +732,24 @@
                 style="max-width: 75%; margin-left: auto; margin-right: auto"
               >
                 <input
-                  [ngModel]="setAllowanceDecreaseNum"
-                  (ngModelChange)="allowanceDecreaseNum($event)"
+                  [ngModel]="setAllowanceTo"
+                  (ngModelChange)="allowanceTo($event)"
+                  type="text"
+                  onfocus="this.previousValue = this.value"
+                  onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
+                  class="form-control"
+                  placeholder="To"
+                />
+              </div>
+              <br />
+              <div
+                class="form-outline"
+                id="mintInput"
+                style="max-width: 75%; margin-left: auto; margin-right: auto"
+              >
+                <input
+                  [ngModel]="setAllowanceSendAmount"
+                  (ngModelChange)="allowanceSendAmount($event)"
                   type="number"
                   min="0"
                   max="100000000000"
@@ -741,7 +757,7 @@
                   onfocus="this.previousValue = this.value"
                   onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
                   class="form-control"
-                  placeholder="Amount To Buy"
+                  placeholder="Amount"
                 />
               </div>
 
@@ -749,22 +765,26 @@
               <div class="center-div">
                 <button
                   *ngIf="
-                    setAllowanceDecrease != '' && setAllowanceDecreaseNum != ''
+                    setAllowanceTo != '' &&
+                    setAllowanceFrom != '' &&
+                    setAllowanceSendAmount != ''
                   "
                   class="favorite styled"
                   type="button"
-                  (click)="DecreaseAllowance()"
+                  (click)="transferFrom()"
                 >
-                  Decrease
+                  Send
                 </button>
                 <button
                   *ngIf="
-                    setAllowanceDecrease == '' || setAllowanceDecreaseNum == ''
+                    setAllowanceTo == '' ||
+                    setAllowanceFrom == '' ||
+                    setAllowanceSendAmount == ''
                   "
                   class="favorite styledDisabled"
                   type="button"
                 >
-                  Decrease
+                  Send
                 </button>
                 <br />
               </div>
