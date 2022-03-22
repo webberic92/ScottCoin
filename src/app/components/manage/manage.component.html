@@ -146,7 +146,57 @@
                 </div>
               </div>
             </div>
+            <div
+              class="col-xl-4"
+              style="grid-template-columns: repeat(auto-fit, minmax(275, auto))"
+            >
+              <div class="card-body" id="manageCard">
+                <p class="card-text" style="font-size: 1em">
+                  <u> WITHDRAW Utility Token </u><br /><br />
+                  <br />{{ contractUtilityBalance }} {{ contractSymbol }}
+                </p>
 
+                <div
+                  class="form-outline"
+                  id="mintInput"
+                  style="max-width: 75%; margin-left: auto; margin-right: auto"
+                >
+                  <input
+                    [ngModel]="setUtilityAmountToWithdrawal"
+                    type="number"
+                    (ngModelChange)="utilityAmountToWithdrawal($event)"
+                    min="1"
+                    max="1000000000000"
+                    step="1"
+                    onfocus="this.previousValue = this.value"
+                    onkeydown="this.previousValue =this.value"
+                    class="form-control"
+                    placeholder="Withdrawal"
+                  />
+                </div>
+                <br />
+                <div class="center-div">
+                  <div *ngIf="setUtilityAmountToWithdrawal == '0'">
+                    <button
+                      class="favorite styledDisabled"
+                      disabled
+                      type="button"
+                    >
+                      Withdrawal
+                    </button>
+                  </div>
+                  <div *ngIf="setUtilityAmountToWithdrawal != '0'">
+                    <button
+                      class="favorite styled"
+                      type="button"
+                      (click)="withdrawUtility()"
+                    >
+                      Withdrawal
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="col-xl-4">
               <div class="card-body" id="manageCard">
                 <p class="card-text" style="font-size: 1em">

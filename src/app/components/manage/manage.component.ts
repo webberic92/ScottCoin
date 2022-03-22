@@ -53,7 +53,8 @@ export class ManageComponent implements OnInit {
   setAllowanceFrom: string = ''
   setAllowanceTo: string = ''
   setAllowanceSendAmount: string = ''
-
+  contractUtilityBalance: string = '';
+  setUtilityAmountToWithdrawal: string = '0';
 
 
   constructor(private web3: Web3Service) {
@@ -96,6 +97,7 @@ export class ManageComponent implements OnInit {
       this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
       this.contractOwner = await bscContract.methods.owner().call()
       this.contractERC721Token = await bscContract.methods.erc721Token().call()
+      this.contractUtilityBalance = await bscContract.methods.balanceOf(this.contractAddress).call()
       this.isLoading = false;
       this.userAddress = await this.web3.getAccounts()
       this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
@@ -131,17 +133,6 @@ export class ManageComponent implements OnInit {
     }
   }
 
-  // async updateNFTAddress() {
-  //   try {
-  //     this.isLoading = true;
-  //     await bscContract.methods.withdrawFromContractToOwner().call()
-  //     this.getContent()
-  //     this.isLoading = false;
-  //   } catch (e) {
-  //     this.error = e.message
-  //     this.isLoading = false;
-  //   }
-  // }
 
   async setErc721address() {
     try {
@@ -503,6 +494,30 @@ export class ManageComponent implements OnInit {
       this.setAmountToWithdrawal = ''
     } else {
       this.setAmountToWithdrawal = String(e)
+    }
+  }
+
+  utilityAmountToWithdrawal(e: Event) {
+    this.setUtilityAmountToWithdrawal = ''
+
+    if (e == null || String(e) == '' || String(e) == '0') {
+      this.setUtilityAmountToWithdrawal = ''
+    } else {
+      this.setUtilityAmountToWithdrawal = String(e)
+    }
+  }
+
+  async withdrawUtility() {
+    try {
+      this.isLoading = true;
+      await bscContract.methods.withdrawUtility(this.setUtilityAmountToWithdrawal).send({
+        from: this.userAddress
+      })
+      this.getContent()
+      this.isLoading = false;
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
     }
   }
 

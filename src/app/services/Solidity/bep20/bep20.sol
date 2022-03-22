@@ -15,7 +15,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
 
     uint256 public cost = 0.000001 ether;
     event Bought(uint256 amount);
-    uint256 public maxSupply = 2000000;
+    uint256 public maxSupply = 200000000000;
     uint256 public circulatingSupply = 0;
     uint256 public erc20sStaked = 0;
 
@@ -33,7 +33,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     uint256 SECONDS_IN_YEAR = 31536000;
     uint256 APY = .0509*1e18;
     constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) payable {
-        _mint(address(this), 1000000);
+        _mint(address(this), 100000000000);
   
     }
     
@@ -68,7 +68,9 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         (bool os, ) = payable(owner()).call{value: _amount}("");
         require(os);
     }
-
+   function withdrawUtility(uint256 _amount) public payable onlyOwner {
+    transfer(owner(),_amount);
+  }
 
     function setCost(uint256 _newCost) public  onlyOwner {
         cost = _newCost;
@@ -196,17 +198,17 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         uint256[] memory EEtokens = getUsersStakedNfts(_addy);
         uint256 intDate = 0;
         uint256 subtracted = 0;
-        uint256 TrzTokens = 0;
+        uint256 utilToken = 0;
 
         for(uint256 i = 0; i < EEtokens.length; i++){
             if(nftStakersWithTime[_addy][EEtokens[i]]!= 0){
               intDate = nftStakersWithTime[_addy][EEtokens[i]];
               subtracted = block.timestamp - intDate;
-              TrzTokens += subtracted / 3600 ;
+              utilToken += subtracted / 3600 ;
             }
 
         }
-        return TrzTokens;
+        return utilToken*10000;
     
      }
 
@@ -215,7 +217,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         uint256 intDate = nftStakersWithTime[_addy][_tokenID];
         uint256 subtracted = block.timestamp - intDate;
         uint256 tokens = subtracted / 3600;
-        return tokens;
+        return tokens*10000;
     
      }
 

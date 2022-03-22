@@ -29,7 +29,8 @@ export class NFTComponent implements OnInit {
   contractPrice: string = ''
 
   contractERC721Token: string = ''
-  contractBnbBalance: string | void = ''
+  contractBnbBalance: string = '0'
+  contractUtilityBalance: string = '0'
 
   numToBuy: string = '0';
   numToBuyWithToken: string = '0';
@@ -55,8 +56,8 @@ export class NFTComponent implements OnInit {
   erc20ContractAddress: string = ''
   updateBnbPrice: string = '0'
   updateUtilityPrice: string = '0'
-
-
+  withdrawalBNB: string = '0'
+  withdrawalUtilityToken: string = '0'
   constructor(private web3: Web3Service, private http: HttpClient,) { }
 
   async ngOnInit(): Promise<any> {
@@ -80,6 +81,8 @@ export class NFTComponent implements OnInit {
       this.erc20ContractAddress = await nftContract.methods.erc20Token().call()
       this.isPaused = await nftContract.methods.paused().call()
       this.contractOwner = await nftContract.methods.owner().call()
+      this.contractUtilityBalance = await bscContract.methods.balanceOf(this.contractAddress).call()
+      this.contractBnbBalance = Web3.utils.fromWei(await web3.eth.getBalance(this.contractAddress), 'ether')
 
       if (!this.isPaused) {
         this.isRevealed = await nftContract.methods.revealed().call()
@@ -450,6 +453,58 @@ export class NFTComponent implements OnInit {
       this.setERC20Token = String(e)
     }
   }
+
+  setWithdrawalUtilityToken(e: Event) { // without type info
+    this.withdrawalUtilityToken = String(e);
+
+    if (isNaN(Number(this.withdrawalUtilityToken))) {
+      this.withdrawalUtilityToken = '0';
+    }
+
+
+  }
+  setWithdrawalBNB(e: Event) { // without type info
+    this.withdrawalBNB = String(e);
+
+    if (isNaN(Number(this.withdrawalBNB))) {
+      this.withdrawalBNB = '0';
+    }
+
+
+  }
+
+
+
+  async getWithdrawalBNB() {
+    try {
+      this.isLoading = true;
+      await nftContract.methods.withdraw(Web3.utils.toWei(this.withdrawalBNB, "ether")
+      ).send({
+        from: this.userAddress
+      })
+      this.getContent()
+      this.isLoading = false;
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+    }
+  }
+
+  async getWithdrawalUtilityToken() {
+    try {
+      this.isLoading = true;
+      await nftContract.methods.withdrawUtility(this.withdrawalUtilityToken).send({
+        from: this.userAddress
+      })
+      this.getContent()
+      this.isLoading = false;
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+    }
+  }
+
+
 
 
 }
