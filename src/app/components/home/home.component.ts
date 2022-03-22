@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import bscContract from "src/app/services/Solidity/contract.service"
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,8 @@ export class HomeComponent implements OnInit {
   contractName: string = '';
 
   constructor(private router: Router) {
+
+
   }
   async ngOnInit(): Promise<void> {
     try {
@@ -37,9 +40,6 @@ export class HomeComponent implements OnInit {
   roadmap = () => {
     this.router.navigateByUrl('/roadmap');
   };
-
-
-
 
 }
 

@@ -166,6 +166,92 @@
                 </button>
               </div>
             </div>
+            <div class="col-xl-4">
+              <div class="card-body" id="manageCard">
+                <p class="card-text" style="font-size: 1em">
+                  <u> Update Price BNB </u>
+                  <br />
+
+                  THis will be to update BNB price.
+                  <br />
+                </p>
+                <div
+                  class="form-outline"
+                  id="mintInput"
+                  style="max-width: 75%; margin-left: auto; margin-right: auto"
+                >
+                  <input
+                    [ngModel]="setERC20Token"
+                    (ngModelChange)="erc20Token($event)"
+                    type="text"
+                    onfocus="this.previousValue = this.value"
+                    onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
+                    class="form-control"
+                    placeholder="Address"
+                  />
+                </div>
+                <br />
+                <button
+                  *ngIf="this.setERC20Token != ''"
+                  class="favorite styled"
+                  type="button"
+                  (click)="setErc20address()"
+                >
+                  Update
+                </button>
+                <button
+                  *ngIf="this.setERC20Token == ''"
+                  class="favorite styledDisabled"
+                  type="button"
+                  (click)="setErc20address()"
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+            <div class="col-xl-4">
+              <div class="card-body" id="manageCard">
+                <p class="card-text" style="font-size: 1em">
+                  <u> Update Price in Utility Token </u>
+                  <br />
+
+                  THis will be to update Utility token price price.
+                  <br />
+                </p>
+                <div
+                  class="form-outline"
+                  id="mintInput"
+                  style="max-width: 75%; margin-left: auto; margin-right: auto"
+                >
+                  <input
+                    [ngModel]="setERC20Token"
+                    (ngModelChange)="erc20Token($event)"
+                    type="text"
+                    onfocus="this.previousValue = this.value"
+                    onkeydown="if(event.key==='.'){event.preventDefault();} this.previousValue =this.value"
+                    class="form-control"
+                    placeholder="Address"
+                  />
+                </div>
+                <br />
+                <button
+                  *ngIf="this.setERC20Token != ''"
+                  class="favorite styled"
+                  type="button"
+                  (click)="setErc20address()"
+                >
+                  Update
+                </button>
+                <button
+                  *ngIf="this.setERC20Token == ''"
+                  class="favorite styledDisabled"
+                  type="button"
+                  (click)="setErc20address()"
+                >
+                  Update
+                </button>
+              </div>
+            </div>
           </div>
           <hr
             style="

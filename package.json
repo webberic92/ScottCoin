@@ -31,6 +31,7 @@
     "@imtbl/imx-sdk": "^1.5.0",
     "@ngrx/store": "^13.0.2",
     "angular-bootstrap-md": "^12.2.0",
+    "chart.js": "^3.7.1",
     "crypto-browserify": "^3.12.0",
     "mdb-angular-ui-kit": "^2.0.0",
     "rxjs": "~7.5.0",
