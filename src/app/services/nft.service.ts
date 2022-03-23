@@ -16,7 +16,7 @@ web3.eth.setProvider(Web3.givenProvider);
 
 const NFTContract = new web3.eth.Contract(
   (contract.abi),
-  '0xd77bb2e6FA41Cf04290BCe9A68f0e2f414e9E195'
+  '0xd71234B0cA88E347c68191B3E36d95953aAC9AdF'
 );
 
 

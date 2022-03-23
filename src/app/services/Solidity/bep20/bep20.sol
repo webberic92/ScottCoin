@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/MerkleProof.sol";
 
 
 contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{   
@@ -30,11 +31,19 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
 
     mapping(address => uint256) public rewardsInWei;
 
-    uint256 SECONDS_IN_YEAR = 31536000;
-    uint256 APY = .0509*1e18;
+    uint256 public SECONDS_IN_YEAR = 31536000;
+    uint256 public APY = .0509*1e18;
+    bytes32 public whiteListMerkleRoot = 0xde59b7738d662c1c7408753bb673b986582a77fe1d06bc57154ce73876a76229;
+    mapping(address => bool) public whiteListClaimed;
+    bool public whiteListOnly = true;
+
     constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) payable {
         _mint(address(this), 100000000000);
   
+    }
+
+      function setWhiteList(bytes32 _wl) public onlyOwner {
+        whiteListMerkleRoot = _wl;
     }
     
     function decimals() public view virtual override returns (uint8) {
@@ -43,6 +52,15 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
 
     function setErc721address(address _addy) public onlyOwner {
         erc721Token = ERC721Enumerable(_addy);
+    }
+
+        function setMaxSupply(uint256 _amount) public onlyOwner {
+        require(circulatingSupply < _amount, "Cant set new total supply less than old supply.");
+        maxSupply = _amount;
+    }
+
+            function setAPY(uint256 _amount) public onlyOwner {
+        APY = _amount*10^14;
     }
 
 
@@ -54,8 +72,25 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         uint256 totalCostEth = _quantity * cost;
         if (msg.sender != owner()) {
             require(msg.value >= totalCostEth, "Did not send enough ETH");
+        }else{
             _mint(msg.sender, _quantity);
-            emit Bought(_quantity);
+            circulatingSupply +=_quantity;
+            emit Bought(_quantity);          
+        }
+
+    }
+
+        function WhiteListBuy(bytes32[] calldata _merkleProof, uint256 _quantity) payable public {
+
+        require(_quantity > 0, "Quantity needs to be greater than 1");
+        require(circulatingSupply + _quantity <= maxSupply,"Not enough left to mint that amount.");
+        uint256 totalCostEth = _quantity * cost;
+        if (msg.sender != owner()) {
+            bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
+            require(MerkleProof.verify(_merkleProof,whiteListMerkleRoot,leaf),"Invalid Proof");
+            require(msg.value >= totalCostEth, "Did not send enough ETH");
+            whiteListClaimed[msg.sender]=true;
+
         }else{
             _mint(msg.sender, _quantity);
             circulatingSupply +=_quantity;
@@ -69,7 +104,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         require(os);
     }
    function withdrawUtility(uint256 _amount) public payable onlyOwner {
-    transfer(owner(),_amount);
+    this.transfer(owner(),_amount);
   }
 
     function setCost(uint256 _newCost) public  onlyOwner {
