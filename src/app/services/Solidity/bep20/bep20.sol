@@ -16,7 +16,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
 
     uint256 public cost = 0.000001 ether;
     event Bought(uint256 amount);
-    uint256 public maxSupply = 200000000000;
+    uint256 public maxSupply = 4000000000;
     uint256 public circulatingSupply = 0;
     uint256 public erc20sStaked = 0;
 
@@ -35,15 +35,19 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     uint256 public APY = .0509*1e18;
     bytes32 public whiteListMerkleRoot = 0xde59b7738d662c1c7408753bb673b986582a77fe1d06bc57154ce73876a76229;
     mapping(address => bool) public whiteListClaimed;
-    bool public whiteListOnly = true;
+    bool public whiteListOnly = false;
 
     constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) payable {
-        _mint(address(this), 100000000000);
+        _mint(address(this), 2000000000);
   
     }
 
       function setWhiteList(bytes32 _wl) public onlyOwner {
         whiteListMerkleRoot = _wl;
+    }
+
+    function setWhiteListOnly(bool _b) public onlyOwner {
+        whiteListOnly = _b;
     }
     
     function decimals() public view virtual override returns (uint8) {
@@ -230,20 +234,20 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
 
     function potentialAllStakedNftReward(address _addy) public view returns (uint256){
 
-        uint256[] memory EEtokens = getUsersStakedNfts(_addy);
+        uint256[] memory nfts = getUsersStakedNfts(_addy);
         uint256 intDate = 0;
         uint256 subtracted = 0;
         uint256 utilToken = 0;
 
-        for(uint256 i = 0; i < EEtokens.length; i++){
-            if(nftStakersWithTime[_addy][EEtokens[i]]!= 0){
-              intDate = nftStakersWithTime[_addy][EEtokens[i]];
+        for(uint256 i = 0; i < nfts.length; i++){
+            if(nftStakersWithTime[_addy][nfts[i]]!= 0){
+              intDate = nftStakersWithTime[_addy][nfts[i]];
               subtracted = block.timestamp - intDate;
               utilToken += subtracted / 3600 ;
             }
 
         }
-        return utilToken*10000;
+        return utilToken;
     
      }
 
@@ -252,7 +256,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         uint256 intDate = nftStakersWithTime[_addy][_tokenID];
         uint256 subtracted = block.timestamp - intDate;
         uint256 tokens = subtracted / 3600;
-        return tokens*10000;
+        return tokens;
     
      }
 
@@ -261,9 +265,9 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
                  uint256 sumOfNFTRewards =   potentialAllStakedNftReward(_addy); 
                  this.transfer(_addy, sumOfNFTRewards);
 
-                    uint256[] memory EEtokens = getUsersStakedNfts(_addy);
-                    for(uint256 i = 0; i < EEtokens.length; i++){
-                        nftStakersWithTime[_addy][EEtokens[i]]= block.timestamp;
+                    uint256[] memory nfts = getUsersStakedNfts(_addy);
+                    for(uint256 i = 0; i < nfts.length; i++){
+                        nftStakersWithTime[_addy][nfts[i]]= block.timestamp;
                     }
 
 

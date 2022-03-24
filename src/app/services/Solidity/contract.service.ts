@@ -16,7 +16,7 @@ web3.eth.setProvider(Web3.givenProvider);
 
 const bscContract = new web3.eth.Contract(
   (contract.abi),
-  '0x34cdaf5F5b435bC0da3002DABF03740d1279596C'
+  '0x8Fc1eFB1B5F4E7c2FB3eA291B53AD5AdFa506b66'
 );
 
 

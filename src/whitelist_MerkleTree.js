@@ -3,7 +3,9 @@ const keccak256 = require('keccak256')
 
 let whiteListAddresses = [
 	"0x4bE40dFf0B2B77Aef1d3d783795900c89e6E8Fbf",
-	"0x155CA9e02C57D8b20E22836Cd01Dc97C3D26b894"
+	"0x155CA9e02C57D8b20E22836Cd01Dc97C3D26b894",
+
+
 ]
 const leafNodes = whiteListAddresses.map(addr => keccak256(addr));
 const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
