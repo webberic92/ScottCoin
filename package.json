@@ -1,6 +1,6 @@
 {
-  "name": "angular-app-tdd",
-  "version": "0.0.0",
+  "name": "the-buddha-inu",
+  "version": "0.0.1",
   "scripts": {
     "dev": "lite-server",
     "ng": "ng",
