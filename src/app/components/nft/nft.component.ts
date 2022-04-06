@@ -118,16 +118,23 @@ export class NFTComponent implements OnInit {
 
         });
         this.userStakedNFTs = await bscContract.methods.getUsersStakedNfts(this.userAddress).call()
+
+
         this.userStakedNFTs.forEach(async (id) => {
           if (!this.isRevealed) {
             tokenURI = await nftContract.methods.notRevealedUri().call()
           } else {
             tokenURI = await nftContract.methods.tokenURI(id).call()
+
           }
-          let stakedNftReward = await bscContract.methods.potentialStakedNftReward(this.userAddress, id).call()
-          this.http.get<string>(tokenURI).subscribe((data: any) => {
+
+          this.http.get<string>(tokenURI).subscribe(async (data: any) => {
+            let stakedNftReward = await bscContract.methods.potentialStakedNftReward(this.userAddress, id).call()
+
             this.stakedResponse = JSON.parse(JSON.stringify(data));
             this.stakedResponse.id = id
+            this.stakedResponse.potentialReward = stakedNftReward
+
             if (this.isRevealed) {
 
               this.stakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + id + ".png"
@@ -136,7 +143,7 @@ export class NFTComponent implements OnInit {
               this.stakedResponse.image = "https://ipfs.io/ipfs/QmPmQ5UvdGxXAWtg7JJm9iePbkE4yHQrpjVfa2BQRqD8Ng?filename=example.gif"
 
             }
-            this.stakedResponse.potentialReward = stakedNftReward
+
             this.stakedNfts.set(id, this.stakedResponse)
           });
 
@@ -262,7 +269,6 @@ export class NFTComponent implements OnInit {
     try {
       this.isLoading = true;
       let isApprovedForAll = await nftContract.methods.isApprovedForAll(this.userAddress, this.erc20ContractAddress).call()
-      console.log("is Approved for all = " + isApprovedForAll)
       if (!isApprovedForAll) {
         await nftContract.methods.setApprovalForAll(this.erc20ContractAddress, true).send({
           from: this.userAddress
@@ -291,7 +297,6 @@ export class NFTComponent implements OnInit {
         from: this.userAddress
       })
       let userStakedNFTs = await bscContract.methods.getUsersStakedNfts(this.userAddress).call()
-      console.log("User STAKED NFTS " + userStakedNFTs)
       if (userStakedNFTs.length! > 0) {
         await nftContract.methods.setApprovalForAll(this.erc20ContractAddress, false).send({
           from: this.userAddress
