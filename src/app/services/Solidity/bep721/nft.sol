@@ -21,7 +21,7 @@ contract NFT is ERC721Enumerable, Ownable {
   ERC20 public erc20Token;
   bytes32 public whiteListMerkleRoot = 0xde59b7738d662c1c7408753bb673b986582a77fe1d06bc57154ce73876a76229;
   mapping(address => bool) public whiteListClaimed;
-  bool whiteListOnly = true;
+  bool whiteListOnly = false;
 
   constructor(
     string memory _name,
@@ -43,12 +43,12 @@ contract NFT is ERC721Enumerable, Ownable {
         whiteListMerkleRoot = _wl;
     }
 
-      function whiteListOnly(bool _b) public onlyOwner {
+  function setWhiteListOnly(bool _b) public onlyOwner {
         whiteListOnly = _b;
     }
  
 
-      function setErc20address(address _addy) public onlyOwner {
+  function setErc20address(address _addy) public onlyOwner {
         erc20Token = ERC20(_addy);
     }
 

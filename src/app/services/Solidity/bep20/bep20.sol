@@ -16,7 +16,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
 
     uint256 public cost = 0.000001 ether;
     event Bought(uint256 amount);
-    uint256 public maxSupply = 4000000000;
+    uint256 public maxSupply = 4000000000000;
     uint256 public circulatingSupply = 0;
     uint256 public erc20sStaked = 0;
 
@@ -27,18 +27,17 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     uint256 public stakedNfts = 0;
     mapping(address => mapping(uint256 => uint256))   public nftStakersWithTime;
     mapping(address => uint256[])  private nftStakersWithArray;
-
-
     mapping(address => uint256) public rewardsInWei;
 
     uint256 public SECONDS_IN_YEAR = 31536000;
     uint256 public APY = .0509*1e18;
+
     bytes32 public whiteListMerkleRoot = 0xde59b7738d662c1c7408753bb673b986582a77fe1d06bc57154ce73876a76229;
     mapping(address => bool) public whiteListClaimed;
     bool public whiteListOnly = false;
 
     constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) payable {
-        _mint(address(this), 2000000000);
+        _mint(address(this), maxSupply/2);
   
     }
 
@@ -58,18 +57,17 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         erc721Token = ERC721Enumerable(_addy);
     }
 
-        function setMaxSupply(uint256 _amount) public onlyOwner {
+    function setMaxSupply(uint256 _amount) public onlyOwner {
         require(circulatingSupply < _amount, "Cant set new total supply less than old supply.");
         maxSupply = _amount;
     }
 
-            function setAPY(uint256 _amount) public onlyOwner {
+    function setAPY(uint256 _amount) public onlyOwner {
         APY = _amount*10^14;
     }
 
-
- 
     function buy(uint _quantity) payable public {
+    require(!whiteListOnly,"Only whitelist can mint right now.");
 
         require(_quantity > 0, "Quantity needs to be greater than 1");
         require(circulatingSupply + _quantity <= maxSupply,"Not enough left to mint that amount.");
@@ -84,8 +82,8 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
 
     }
 
-        function WhiteListBuy(bytes32[] calldata _merkleProof, uint256 _quantity) payable public {
-
+    function WhiteListBuy(bytes32[] calldata _merkleProof, uint256 _quantity) payable public {
+        require(whiteListOnly,"Whitelist no longer available.");
         require(_quantity > 0, "Quantity needs to be greater than 1");
         require(circulatingSupply + _quantity <= maxSupply,"Not enough left to mint that amount.");
         uint256 totalCostEth = _quantity * cost;
@@ -107,6 +105,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         (bool os, ) = payable(owner()).call{value: _amount}("");
         require(os);
     }
+
    function withdrawUtility(uint256 _amount) public payable onlyOwner {
     this.transfer(owner(),_amount);
   }
@@ -196,7 +195,11 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
        if(rewardsInWei[msg.sender] == 0){
         rewardsInWei[msg.sender] = calculateDividendsinWei();
        }  
+       if((rewardsInWei[msg.sender]  / 1e18) < 1000000000000000000){
+        rewardsInWei[msg.sender] += calculateDividendsinWei();
+       }        
        uint256 amountThatCanBeWithdrawn = rewardsInWei[msg.sender]  / 1e18;
+
        require(amountThatCanBeWithdrawn > 0, "Need atleast 1 to be able to withdraw.");
        _transfer(address(this),msg.sender, amountThatCanBeWithdrawn);
        erc20StakersWithTime[msg.sender] = block.timestamp;
@@ -247,7 +250,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
             }
 
         }
-        return utilToken;
+        return utilToken*1000;
     
      }
 
@@ -256,7 +259,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         uint256 intDate = nftStakersWithTime[_addy][_tokenID];
         uint256 subtracted = block.timestamp - intDate;
         uint256 tokens = subtracted / 3600;
-        return tokens;
+        return tokens*1000;
     
      }
 
