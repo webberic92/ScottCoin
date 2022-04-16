@@ -75,12 +75,12 @@ export class ManageComponent implements OnInit {
 
   async updateRewards() {
 
-    let stakingRewardA = Number(await bscContract.methods.rewardsInWei(this.userAddress).call())
-    let stakingRewardB = Number(await bscContract.methods.calculateDividendsinWei().call({
+    let stakingRewardA = BigInt(await bscContract.methods.rewardsInWei(this.userAddress).call())
+    let stakingRewardB = BigInt(await bscContract.methods.calculateDividendsinWei().call({
       from: this.userAddress
     }))
+    this.contractUsersRewardFromStaking = Number(Web3.utils.fromWei(String(BigInt((stakingRewardB) + (stakingRewardA))), "ether"))
 
-    this.contractUsersRewardFromStaking = Number(Web3.utils.fromWei(String(stakingRewardA + stakingRewardB), "ether"))
   }
 
 
@@ -104,12 +104,12 @@ export class ManageComponent implements OnInit {
       this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
       this.tokensStaked = await bscContract.methods.stakeOf(this.userAddress).call()
       this.contractBnbBalance = Web3.utils.fromWei(await web3.eth.getBalance(this.contractAddress), 'ether')
-      let stakingRewardA = Number(await bscContract.methods.rewardsInWei(this.userAddress).call())
-      let stakingRewardB = Number(await bscContract.methods.calculateDividendsinWei().call({
+
+      let stakingRewardA = BigInt(await bscContract.methods.rewardsInWei(this.userAddress).call())
+      let stakingRewardB = BigInt(await bscContract.methods.calculateDividendsinWei().call({
         from: this.userAddress
       }))
-
-      this.contractUsersRewardFromStaking = Number(Web3.utils.fromWei(String(stakingRewardA + stakingRewardB), "ether"))
+      this.contractUsersRewardFromStaking = Number(Web3.utils.fromWei(String(BigInt((stakingRewardB) + (stakingRewardA))), "ether"))
 
 
     } catch (e) {
@@ -118,6 +118,29 @@ export class ManageComponent implements OnInit {
 
     }
   }
+
+  // add(A: string, B: string) {
+  //   const AL = A.length
+  //   const BL = B.length
+  //   const ML = Math.max(AL, BL)
+
+  //   let carry = 0, sum = ''
+
+  //   for (let i = 1; i <= ML; i++) {
+  //     let a = +A.charAt(AL - i)
+  //     let b = +B.charAt(BL - i)
+
+  //     let t = carry + a + b
+  //     carry = t / 10 | 0
+  //     t %= 10
+
+  //     sum = (i === ML && carry)
+  //       ? carry * 10 + t + sum
+  //       : t + sum
+  //   }
+
+  //   return sum
+  // }
 
   async withdrawBNB() {
     try {
