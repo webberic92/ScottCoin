@@ -2,18 +2,7 @@
   "contractName": "stakingERC721ForERC20Reward",
   "abi": [
     {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_symbol",
-          "type": "string"
-        }
-      ],
+      "inputs": [],
       "stateMutability": "payable",
       "type": "constructor"
     },
@@ -303,12 +292,38 @@
     {
       "inputs": [
         {
+          "internalType": "bool",
+          "name": "_b",
+          "type": "bool"
+        }
+      ],
+      "name": "setErc20StakingPaused",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "_addy",
           "type": "address"
         }
       ],
       "name": "setErc721address",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "_b",
+          "type": "bool"
+        }
+      ],
+      "name": "setErc721StakingPaused",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -495,7 +510,7 @@
           "type": "uint256"
         }
       ],
-      "name": "withdrawUtility",
+      "name": "withdrawUtilityToken",
       "outputs": [],
       "stateMutability": "payable",
       "type": "function"
@@ -635,6 +650,32 @@
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "erc20StakingPaused",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "erc721StakingPaused",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
         }
       ],
       "stateMutability": "view",

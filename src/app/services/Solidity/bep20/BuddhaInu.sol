@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/MerkleProof.sol";
 
 
-contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{   
+contract BuddhaInu is ERC20, ERC20Burnable, Ownable{   
     using SafeMath for uint256;
 
     ERC721Enumerable public erc721Token;
@@ -21,10 +21,14 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     uint256 public erc20sStaked = 0;
 
     address[] internal stakeholders;
+    bool public erc20StakingPaused = false;
+    bool public erc721StakingPaused = false;
+
     mapping(address => uint256) internal erc20StakersArray;
     mapping(address => uint256)   public erc20StakersWithTime;
 
     uint256 public stakedNfts = 0;
+
     mapping(address => mapping(uint256 => uint256))   public nftStakersWithTime;
     mapping(address => uint256[])  private nftStakersWithArray;
     mapping(address => uint256) public rewardsInWei;
@@ -36,7 +40,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     mapping(address => bool) public whiteListClaimed;
     bool public whiteListOnly = false;
 
-    constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) payable {
+    constructor() ERC20("BuddhaInu", "BINU") payable {
         _mint(address(this), maxSupply/2);
   
     }
@@ -65,6 +69,28 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     function setAPY(uint256 _amount) public onlyOwner {
         APY = _amount*10^14;
     }
+
+    function setErc20StakingPaused(bool _b) public onlyOwner {
+        erc20StakingPaused = _b;
+    }
+    function setErc721StakingPaused(bool _b) public onlyOwner {
+        erc721StakingPaused = _b;
+    }
+
+
+
+    function transfer(address to, uint256 amount) public virtual override returns (bool) {
+        uint256 fee = ceilDiv(amount,100); 
+
+        _transfer(msg.sender, to, amount.sub(fee));
+        _transfer(msg.sender, address(this), fee.mul(2));
+        return true;
+    }
+
+        function ceilDiv(uint256 a, uint256 b) internal pure returns (uint256) {
+        return a / b + (a % b == 0 ? 0 : 1);
+    }
+
 
     function buy(uint _quantity) payable public {
     require(!whiteListOnly,"Only whitelist can mint right now.");
@@ -106,7 +132,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         require(os);
     }
 
-   function withdrawUtility(uint256 _amount) public payable onlyOwner {
+   function withdrawUtilityToken(uint256 _amount) public payable onlyOwner {
     this.transfer(owner(),_amount);
   }
 
@@ -163,7 +189,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
    
    
    function createStake(uint256 _stake) public {
-
+        require(!erc20StakingPaused, "Staking is currently paused.");
         require(stakeOf(msg.sender) >=100 || _stake >=100, "Minimum stake is 100 tokens.");
         transfer(address(this), _stake);
         if(erc20StakersArray[msg.sender] == 0){
@@ -192,6 +218,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
         }
 
    function collectStakingReward() public  {
+        require(!erc20StakingPaused, "Staking is currently paused.");
        if(rewardsInWei[msg.sender] == 0){
         rewardsInWei[msg.sender] = calculateDividendsinWei();
        }  
@@ -201,7 +228,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
        uint256 amountThatCanBeWithdrawn = rewardsInWei[msg.sender]  / 1e18;
 
        require(amountThatCanBeWithdrawn > 0, "Need atleast 1 to be able to withdraw.");
-       _transfer(address(this),msg.sender, amountThatCanBeWithdrawn);
+        this.transfer(msg.sender, amountThatCanBeWithdrawn);
        erc20StakersWithTime[msg.sender] = block.timestamp;
        rewardsInWei[msg.sender] -=  amountThatCanBeWithdrawn*1e18;
    }
@@ -223,6 +250,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
     }
    
     function stakeNft(uint256 _tokenID) public  {
+        require(!erc721StakingPaused, "Staking NFTs is currently paused.");
         require(nftStakersWithTime[msg.sender][_tokenID] == 0,"This token already staked.");
         erc721Token.transferFrom(msg.sender,address(this),_tokenID);
         nftStakersWithTime[msg.sender][_tokenID] = block.timestamp;
@@ -264,7 +292,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
      }
 
     function collectAllStakedNftReward(address _addy) public  {
-
+                require(!erc721StakingPaused, "Staking NFTs is currently paused.");
                  uint256 sumOfNFTRewards =   potentialAllStakedNftReward(_addy); 
                  this.transfer(_addy, sumOfNFTRewards);
 
@@ -278,7 +306,7 @@ contract stakingERC721ForERC20Reward is ERC20, ERC20Burnable, Ownable{
 
     function collectStakedNftReward(address _addy, uint256 _tokenID ) public {
 
-
+        require(!erc721StakingPaused, "Staking NFTs is currently paused.");
         require(nftStakersWithTime[_addy][_tokenID]!= 0,"This token not staked.");
         require(potentialStakedNftReward(_addy,_tokenID)!= 0,"You dont have enough to claim.");
 

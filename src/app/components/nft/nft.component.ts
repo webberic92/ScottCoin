@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import nftContract from "src/app/services/nft.service"
+import nftContract from "src/app/services/Solidity/nft.service"
 import Web3 from 'web3';
 import { Web3Service } from 'src/app/services/Web3/web3.service';
 const web3 = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545');
@@ -31,6 +31,7 @@ export class NFTComponent implements OnInit {
   contractERC721Token: string = ''
   contractBnbBalance: string = '0'
   contractUtilityBalance: string = '0'
+  nftsOwned: string = '0'
 
   numToBuy: string = '0';
   numToBuyWithToken: string = '0';
@@ -91,13 +92,25 @@ export class NFTComponent implements OnInit {
 
         this.contractPriceInUtilityToken = await nftContract.methods.costInUtilityToken().call()
 
-        this.userNFTs = await nftContract.methods.walletOfOwner(this.userAddress).call()
+
+        this.nftsOwned = await nftContract.methods.balanceOf(this.userAddress).call()
+        console.log(this.nftsOwned)
+        for (var i = 0; i < Number(this.nftsOwned); i++) {
+          console.log("i = " + i)
+          console.log(await nftContract.methods.tokenOfOwnerByIndex(this.userAddress, i).call())
+
+          this.userNFTs.push(await nftContract.methods.tokenOfOwnerByIndex(this.userAddress, i).call())
+        }
+        console.log(this.userNFTs)
         let tokenURI = '';
         this.userNFTs.forEach(async (value) => {
           if (!this.isRevealed) {
             tokenURI = await nftContract.methods.notRevealedUri().call()
           } else {
+            console.log("value = " + value)
             tokenURI = await nftContract.methods.tokenURI(value).call()
+            console.log("tokenURI = " + tokenURI)
+
 
           }
 

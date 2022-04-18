@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import NftServiceService from "./services/nft.service"
+import NftServiceService from "./nft.service"
 describe('NftServiceService', () => {
   let service: typeof NftServiceService;
 

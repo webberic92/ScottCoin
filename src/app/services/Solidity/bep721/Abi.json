@@ -2,28 +2,7 @@
   "contractName": "nft",
   "abi": [
     {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_symbol",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_initBaseURI",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_initNotRevealedUri",
-          "type": "string"
-        }
-      ],
+      "inputs": [],
       "stateMutability": "nonpayable",
       "type": "constructor"
     },
@@ -75,25 +54,6 @@
         }
       ],
       "name": "ApprovalForAll",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "previousOwner",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "OwnershipTransferred",
       "type": "event"
     },
     {
@@ -369,6 +329,19 @@
     },
     {
       "inputs": [],
+      "name": "nextOwnerToExplicitlySet",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "notRevealedUri",
       "outputs": [
         {
@@ -413,19 +386,6 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "bool",
-          "name": "_state",
-          "type": "bool"
-        }
-      ],
-      "name": "pause",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [],
       "name": "paused",
       "outputs": [
@@ -436,26 +396,6 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "renounceOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bool",
-          "name": "_b",
-          "type": "bool"
-        }
-      ],
-      "name": "reveal",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -621,12 +561,25 @@
     {
       "inputs": [
         {
-          "internalType": "bytes32",
-          "name": "_wl",
-          "type": "bytes32"
+          "internalType": "bool",
+          "name": "_state",
+          "type": "bool"
         }
       ],
-      "name": "setWhiteList",
+      "name": "setPaused",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "_b",
+          "type": "bool"
+        }
+      ],
+      "name": "setRevealed",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -645,6 +598,19 @@
         }
       ],
       "name": "setWhiteListClaimed",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_wl",
+          "type": "bytes32"
+        }
+      ],
+      "name": "setWhiteListMerkleRoot",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -803,38 +769,6 @@
       "name": "transferFrom",
       "outputs": [],
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "transferOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_owner",
-          "type": "address"
-        }
-      ],
-      "name": "walletOfOwner",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     },
     {
