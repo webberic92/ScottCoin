@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-const contract = require("../Solidity/bep20/ABI.json");
+const contract = require("./bep20/Abi.json");
 const Web3 = require('web3');
 //testNet
 const web3 = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545');
