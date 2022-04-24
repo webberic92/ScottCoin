@@ -1,28 +1,23 @@
 <div class="center-div">
   <div class="card main">
-    <div class="center-img">
-      <img
-        src="assets/mainBuddha.png"
-        alt="BuddhaInu"
-        height="200vh"
-        width="200vw"
-        style="border-radius: 50%"
-      />
-    </div>
+      <div class="center-img">
+        <img
+          src="assets/mainBuddha.png"
+          alt="BuddhaInu"
+          height="200vh"
+          width="200vw"
+          style="border-radius: 50%"
+        />
+      </div>
+      <h3 class="card-text" style="font-size: 2em">
+        <u> Manage Buddha Inu </u>
+      </h3>
+
     <div *ngIf="!this.isLoading">
-      <p>
-        <u>Manage {{ contractName }} ({{ contractSymbol }})</u>
-      </p>
+      <br>     
+   
       <p style="font-size: 1.25em">
         Token Address: {{ contractAddress }}
-        <br />
-        https://testnet.bscscan.com/address/0xf4a085B3d7A6720A6Eb1e0820E3C425156fAcD3e
-
-        <br />
-        Minted: {{ contractMinted }}
-        <br />
-        Total Supply : {{ contractTotalSupply }}
-        <br />
       </p>
       <div *ngIf="this.userAddress == ''">
         <p style="color: red">
@@ -34,6 +29,18 @@
       </div>
 
       <div *ngIf="this.userAddress != ''">
+      
+        <p style="font-size: 1.25em">
+          Token Address: {{ contractAddress }}
+          <br />
+          https://testnet.bscscan.com/address/0xf4a085B3d7A6720A6Eb1e0820E3C425156fAcD3e
+  
+          <br />
+          Minted: {{ contractMinted }}
+          <br />
+          Total Supply : {{ contractTotalSupply }}
+          <br />
+        </p>
         <div *ngIf="this.contractOwner == this.userAddress">
           <br />
           <hr

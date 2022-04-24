@@ -9,16 +9,18 @@
         style="border-radius: 50%"
       />
     </div>
-    <div class="card-body">
       <h3 class="card-text" style="font-size: 2em">
         <u> Mint Buddha Inu </u>
       </h3>
-      <br />
       <div *ngIf="!this.isLoading">
-        <br />
+        <div class="card-body">
+
         <p style="font-size: 1.25em">
           Token Address: {{ contractAddress }}
-          <br />
+        </p>
+
+          <div *ngIf="this.userAddress != ''">
+            <p style="font-size: 1.25em">
 
           Symbol : {{ contractSymbol }}
           <br />
@@ -29,7 +31,7 @@
           Current Price : {{ contractPrice }} BNB
         </p>
 
-        <div *ngIf="this.userAddress != ''">
+       
           <p>
             &nbsp;Your address: {{ userAddress }}
             <br />
