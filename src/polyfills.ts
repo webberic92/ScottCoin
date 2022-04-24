@@ -62,3 +62,4 @@ require.resolve("url/");
 require.resolve("os-browserify/browser");
 require.resolve("assert/");
 require.resolve("stream-browserify");
+//resolve.fallback: { "url": false };
