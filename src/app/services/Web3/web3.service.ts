@@ -16,11 +16,9 @@ export class Web3Service {
 
     window.ethereum.on('accountsChanged', (accounts: string | any[]) => {
       // If user has locked/logout from MetaMask, this resets the accounts array to empty
-      if (!accounts.length) {
-        window.location.replace("https://webberic92.github.io/TheBuddhaInu");
-        // logic to handle what happens once MetaMask is locked
-      }
-      window.location.replace("https://webberic92.github.io/TheBuddhaInu");
+  
+      this.router.navigate(['/']); // navigate to other page
+
     });
 
 

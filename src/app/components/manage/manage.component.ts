@@ -533,7 +533,7 @@ export class ManageComponent implements OnInit {
   async withdrawUtility() {
     try {
       this.isLoading = true;
-      await bscContract.methods.withdrawUtility(this.setUtilityAmountToWithdrawal).send({
+      await bscContract.methods.withdrawUtilityToken(this.setUtilityAmountToWithdrawal).send({
         from: this.userAddress
       })
       this.getContent()

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import bscContract from "src/app/services/Solidity/contract.service"
+import { Web3Service } from 'src/app/services/Web3/web3.service';
+import Web3 from 'web3';
 
 @Component({
   selector: 'app-navbar',
@@ -7,20 +8,35 @@ import bscContract from "src/app/services/Solidity/contract.service"
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  contractName: string = '';
+  userAddress: string = ''
+  isConnected: boolean = false
 
-  constructor() {
+  constructor(private web3: Web3Service) {
   }
 
-  async ngOnInit(): Promise<void> {
+  async ngOnInit() {
+  }
+
+  async tryAndConnect(b: boolean) {
+    if(b == true){
     try {
-      this.contractName = await bscContract.methods.name().call()
+      this.userAddress = await this.web3.getAccounts()
+      if(this.userAddress!= ''){
+        this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
+        this.isConnected= true
+      }
+
     } catch (e) {
       console.log(e)
 
     }
-  }
 
+    }else{
+      this.userAddress = ''
+      this.isConnected= false
+    }
+
+  }
 }
 
 

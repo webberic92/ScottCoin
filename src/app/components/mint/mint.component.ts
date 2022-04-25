@@ -45,10 +45,11 @@ export class MintComponent implements OnInit {
       this.contractMinted = await bscContract.methods.totalSupply().call()
       this.contractTotalSupply = await bscContract.methods.maxSupply().call()
       this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
-      this.isLoading = false;
+      //this.isLoading = false;
       this.userAddress = await this.web3.getAccounts()
       this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
       this.contractOwner = await bscContract.methods.owner().call()
+      this.isLoading = false;
 
     } catch (e) {
       this.error = e.message

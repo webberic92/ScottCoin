@@ -9,6 +9,9 @@
         style="border-radius: 50%"
       />
     </div>
+    <h3 class="card-text" style="font-size: 2em">
+      <u> NFTs </u>
+    </h3>
     <div *ngIf="this.isLoading">
       <br />
       <div
@@ -26,13 +29,9 @@
       <br />
     </div>
     <div *ngIf="!this.isLoading">
-      <p>
-        <u>Manage {{ contractName }} ({{ contractSymbol }}) NFT's!</u>
-      </p>
       <p style="font-size: 1.25em">
-        {{ contractSymbol }} Address: {{ contractAddress }}
-        <br />
-        TBDI20 tokens: {{ tokensOwned }}
+        <br>
+        Token Address: {{ contractAddress }}
       </p>
       <div *ngIf="this.userAddress == ''">
         <p style="color: red">
@@ -44,6 +43,9 @@
       </div>
 
       <div *ngIf="this.userAddress != ''">
+        <p style="font-size: 1.25em">
+          {{ contractSymbol }} tokens: {{ tokensOwned }}
+        </p>
         <img
           src="assets/example.gif"
           alt="logo"

@@ -70,12 +70,12 @@ export class NFTComponent implements OnInit {
     this.error = ''
 
     try {
-      this.isLoading = true;
+      this.isLoading = true;   
+      this.contractAddress = nftContract._address
       this.userAddress = await this.web3.getAccounts()
       this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
       this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
 
-      this.contractAddress = nftContract._address
       this.contractName = await nftContract.methods.name().call()
       this.contractSymbol = await nftContract.methods.symbol().call()
       this.erc20ContractSymbol = await bscContract.methods.symbol().call()
