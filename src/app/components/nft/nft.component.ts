@@ -3,16 +3,16 @@ import nftContract from "src/app/services/Solidity/nft.service"
 import Web3 from 'web3';
 import { Web3Service } from 'src/app/services/Web3/web3.service';
 const web3 = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545');
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from 'rxjs/internal/Observable';
 import bscContract from "src/app/services/Solidity/contract.service"
-
 @Component({
   selector: 'app-nft',
   templateUrl: './nft.component.html',
   styleUrls: ['./nft.component.scss']
 })
 export class NFTComponent implements OnInit {
+
   tokensOwned: string = ''
   tokensStaked: string = ''
 
@@ -59,6 +59,11 @@ export class NFTComponent implements OnInit {
   updateUtilityPrice: string = '0'
   withdrawalBNB: string = '0'
   withdrawalUtilityToken: string = '0'
+
+
+
+
+  
   constructor(private web3: Web3Service, private http: HttpClient,) { }
 
   async ngOnInit(): Promise<any> {
@@ -94,37 +99,25 @@ export class NFTComponent implements OnInit {
 
 
         this.nftsOwned = await nftContract.methods.balanceOf(this.userAddress).call()
-        console.log(this.nftsOwned)
         for (var i = 0; i < Number(this.nftsOwned); i++) {
-          console.log("i = " + i)
-          console.log(await nftContract.methods.tokenOfOwnerByIndex(this.userAddress, i).call())
 
           this.userNFTs.push(await nftContract.methods.tokenOfOwnerByIndex(this.userAddress, i).call())
         }
-        console.log(this.userNFTs)
         let tokenURI = '';
         this.userNFTs.forEach(async (value) => {
           if (!this.isRevealed) {
             tokenURI = await nftContract.methods.notRevealedUri().call()
           } else {
-            console.log("value = " + value)
             tokenURI = await nftContract.methods.tokenURI(value).call()
-            console.log("tokenURI = " + tokenURI)
 
 
           }
-
+    
           this.http.get<string>(tokenURI).subscribe((data: any) => {
             this.unstakedResponse = JSON.parse(JSON.stringify(data));
-            this.unstakedResponse.id = value
-            if (this.isRevealed) {
+             this.unstakedResponse.id = value
 
-              this.unstakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + value + ".png"
-            }
-            else {
-              this.unstakedResponse.image = "https://ipfs.io/ipfs/QmPmQ5UvdGxXAWtg7JJm9iePbkE4yHQrpjVfa2BQRqD8Ng?filename=example.gif"
-
-            }
+       
             this.unstakedNfts.set(value, this.unstakedResponse)
 
           });
@@ -145,17 +138,12 @@ export class NFTComponent implements OnInit {
             let stakedNftReward = await bscContract.methods.potentialStakedNftReward(this.userAddress, id).call()
 
             this.stakedResponse = JSON.parse(JSON.stringify(data));
-            this.stakedResponse.id = id
             this.stakedResponse.potentialReward = stakedNftReward
+            this.stakedResponse.id = id
 
-            if (this.isRevealed) {
+       
 
-              this.stakedResponse.image = "https://ipfs.io/ipfs/QmWrWaK2st7cEBEBjXcDRSPrZkTLsmFcHvNdggyTWACW75/" + id + ".png"
-            }
-            else {
-              this.stakedResponse.image = "https://ipfs.io/ipfs/QmPmQ5UvdGxXAWtg7JJm9iePbkE4yHQrpjVfa2BQRqD8Ng?filename=example.gif"
-
-            }
+            
 
             this.stakedNfts.set(id, this.stakedResponse)
           });
@@ -417,7 +405,7 @@ export class NFTComponent implements OnInit {
 
     try {
       this.isLoading = true;
-      await nftContract.methods.pause(b).send({
+      await nftContract.methods.setPaused(b).send({
         from: this.userAddress
       })
       this.unstakedNfts = new Map<number, any>();
@@ -436,7 +424,7 @@ export class NFTComponent implements OnInit {
 
     try {
       this.isLoading = true;
-      await nftContract.methods.reveal(b).send({
+      await nftContract.methods.setRevealed(b).send({
         from: this.userAddress
       })
       this.unstakedNfts = new Map<number, any>();
