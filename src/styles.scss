@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 body {
-  background-image: url("./assets/test.png");
+  background-image: url("./assets/yellowbg.jpg");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -9,10 +9,13 @@ body {
   background-attachment: fixed;
 }
 .main {
-  background-color: black;
+  background-color: rgb(23, 4, 75);
   border: 1mm ridge #f0b90b;
-  width: 100%;
+  width: 35%;
   min-width: 400px;
+  opacity:95% ; 
+
+  
 }
 
 .card {
