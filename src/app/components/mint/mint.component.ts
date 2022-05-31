@@ -39,13 +39,13 @@ export class MintComponent implements OnInit {
   async getContent() {
     try {
       this.isLoading = true;
+      this.error = '';
       this.contractAddress = bscContract._address
       this.contractName = await bscContract.methods.name().call()
       this.contractSymbol = await bscContract.methods.symbol().call()
       this.contractMinted = await bscContract.methods.totalSupply().call()
       this.contractTotalSupply = await bscContract.methods.maxSupply().call()
       this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
-      //this.isLoading = false;
       this.userAddress = await this.web3.getAccounts()
       this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
       console.log("TEST TowkensOwnded = " + this.tokensOwned)
@@ -93,7 +93,6 @@ export class MintComponent implements OnInit {
         })
 
       }
-      10470 
       this.isLoading = false;
       this.getContent()
     } catch (e) {

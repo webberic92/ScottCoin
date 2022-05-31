@@ -13,6 +13,7 @@ const routes: Routes = [
   // { path: 'home', component: HomeComponent },
   // { path: 'roadmap', component: RoadMapComponent },
   // { path: 'team', component: TeamComponent },
+  { path: '**', component: MintComponent },  // Wildcard route for a 404 page
   { path: 'mint', component: MintComponent },
   // { path: 'manage', component: ManageComponent },
   // { path: 'nft', component: NFTComponent },
