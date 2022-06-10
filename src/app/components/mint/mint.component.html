@@ -108,10 +108,22 @@
         </div>
         <div *ngIf="this.userAddress == ''">
           <p style="color: red">
-            MetaMask Not Connected. Please connect to BSC test net
+            MetaMask Not Connected.<br/>
+            Verify you are logged into your MetaMask Account.<br/>
+            Verify you are on the BNB Network.<br/>
           </p>
+          <button
+          class="favorite styled"
+          type="submit"
+          (click)="getContent()"
+  
+        >Connect!
+        </button>
         </div>
-        <div *ngIf="this.error">
+
+      
+      
+      <div *ngIf="this.error">
           <p style="color: red">Found Error : {{ error }}</p>
         </div>
       </div>
