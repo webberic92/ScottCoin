@@ -2,7 +2,7 @@
   <div class="card main">
     <div class="center-img">
       <img
-        src="assets/mainBuddha.png"
+        src="https://thebuddhainu.s3.amazonaws.com/mainBuddha.png"
         alt="BuddhaInu"
         height="200vh"
         width="200vw"
@@ -49,7 +49,7 @@
           <br />
           Total Supply : {{ contractTotalSupply }}
           <br />
-          Current Price : {{ contractPrice }} BNB
+          Current Price : {{ contractPrice }} ETH
         </p>
 
        
@@ -80,7 +80,7 @@
           <br />
           <p>
             Total price with out gas fees for {{ numToBuy }}
-            {{ contractSymbol }} is {{ totalPrice }} BNB
+            {{ contractSymbol }} is {{ totalPrice }} ETH
           </p>
 
           <br />
@@ -92,6 +92,7 @@
             >
               Disabled
             </button>
+            
             <button
               *ngIf="this.numToBuy != '0' && this.numToBuy != 'null'"
               class="favorite styled"
@@ -100,32 +101,105 @@
             >
               Mint
             </button>
+
+            <br><br>   
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <button
+            class="favorite styled"
+            type="submit"
+            (click)="getContent()"
+    
+          >Refresh!
+          </button>
+
+         
+
+
           </div>
+          <br>
+          <br>
+          <img
+          src="https://thebuddhainu.s3.amazonaws.com/MONK1.png"
+        alt="BuddhaInu"
+        height="200vh"
+        width="200vw"
+        style="border-radius: 50%"
+      />        
+      
+      <img
+      src="https://thebuddhainu.s3.amazonaws.com/MONK4.png"
+    alt="BuddhaInu"
+    height="200vh"
+    width="200vw"
+    style="border-radius: 50%"
+  />         
+   
+  
+  <img
+  src="https://thebuddhainu.s3.amazonaws.com/MONK5.png"
+     alt="BuddhaInu"
+      height="200vh"
+       width="200vw"
+           style="border-radius: 50%"
+/>
           <div *ngIf="this.purchaseString">
             <br />
             <p>{{ purchaseString }}</p>
           </div>
         </div>
         <div *ngIf="this.userAddress == ''">
-          <p style="color: red">
+          <p style="color: yellow">
             MetaMask Not Connected.<br/>
-            Verify you are logged into your MetaMask Account.<br/>
-            Verify you are on the BNB Network.<br/>
+            Please verify you are connected to MAIN ETH.
           </p>
+          <br>
           <button
           class="favorite styled"
           type="submit"
           (click)="getContent()"
   
-        >Connect!
+        >Refresh!
         </button>
+        <br>          <br>
+
+        <br>
+          <img
+          src="https://thebuddhainu.s3.amazonaws.com/MONK1.png"
+        alt="BuddhaInu"
+        height="200vh"
+        width="200vw"
+        style="border-radius: 50%"
+      />        
+      
+      <img
+      src="https://thebuddhainu.s3.amazonaws.com/MONK4.png"
+    alt="BuddhaInu"
+    height="200vh"
+    width="200vw"
+    style="border-radius: 50%"
+  />         
+   
+  
+  <img
+  src="https://thebuddhainu.s3.amazonaws.com/MONK5.png"
+     alt="BuddhaInu"
+      height="200vh"
+       width="200vw"
+           style="border-radius: 50%"
+/>
+      <br>
+      <br>
+          
+
+
+
         </div>
 
-      
-      
-      <div *ngIf="this.error">
+      <!-- <div *ngIf="this.error">
           <p style="color: red">Found Error : {{ error }}</p>
-        </div>
+        </div> -->
       </div>
 
     </div>
