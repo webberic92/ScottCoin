@@ -48,7 +48,7 @@ export class MintComponent implements OnInit {
       this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
       this.userAddress = await this.web3.getAccounts()
       this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
-      console.log("TEST TowkensOwnded = " + this.tokensOwned)
+      // console.log("TEST TowkensOwnded = " + this.tokensOwned)
       this.contractOwner = await bscContract.methods.owner().call()
       this.isLoading = false;
 
