@@ -18,8 +18,6 @@
         style="border-radius: 50%"
       /><br> <br>
 
-
-
       <div *ngIf="this.isLoading">
         <br />
         <div
@@ -39,31 +37,32 @@
 
 
       <div *ngIf="!this.isLoading">
-        <div class="card-body">
 
-        <p style="font-size: 1.25em">
-          Token Address: {{ contractAddress }}
-        </p>
+
 
           <div *ngIf="this.userAddress != ''">
             <p style="font-size: 1.25em">
-
+<br>
           Symbol : {{ contractSymbol }}
           <br />
           Minted: {{ contractMinted }}
           <br />
           Total Supply : {{ contractTotalSupply }}
           <br />
-          Current Price : {{ contractPrice }} BNB
+          Current Price : {{ contractPrice }} ETH
+          <br/>
+          Token Address: {{ contractAddress }}
         </p>
 
-       
+        <div class="card-body" id="manageCard">
+
           <p>
             &nbsp;Your address: {{ userAddress }}
             <br />
             Your {{ contractSymbol }} : {{ tokensOwned }}
             <br />
           </p>
+          <br>
           <div
             class="form-outline"
             id="mintInput"

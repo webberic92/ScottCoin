@@ -1,19 +1,24 @@
 <div class="center-div">
   <div class="card main">
+    
       <div class="center-img">
+        <br/>
+
         <img
-          src="assets/mainBuddha.png"
-          alt="BuddhaInu"
-          height="200vh"
-          width="200vw"
-          style="border-radius: 50%"
+        src="https://thebuddhainu.s3.amazonaws.com/vault.jpg"
+        alt="BuddhaInu"
+          height="300vh"
+          width="400vw"
+          style="border-radius: 5%"
         />
       </div>
-      <h3 class="card-text" style="font-size: 2em">
+
+      <h3 class="card-text" style="font-size: 2em">      
+          <br/>
+
         <u> Manage Buddha Inu </u>
       </h3>
       <div *ngIf="this.isLoading">
-        <br />
         <div
           class="spinner-grow"
           style="width: 10em; height: 10em; color: #f0b90b"
@@ -32,9 +37,7 @@
     <div *ngIf="!this.isLoading">
       <br>     
    
-      <p style="font-size: 1.25em">
-        Token Address: {{ contractAddress }}
-      </p>
+
       <div *ngIf="this.userAddress == ''">
         <p style="color: red">
           MetaMask Not Connected. Please connect to BSC test net
@@ -48,9 +51,6 @@
       
         <p style="font-size: 1.25em">
           Token Address: {{ contractAddress }}
-          <br />
-          https://testnet.bscscan.com/address/0xf4a085B3d7A6720A6Eb1e0820E3C425156fAcD3e
-  
           <br />
           Minted: {{ contractMinted }}
           <br />
@@ -327,13 +327,6 @@
           Your {{ contractSymbol }} : {{ tokensOwned }}
           <br />
           Staked {{ contractSymbol }} : {{ tokensStaked }}
-          <br />
-          Current Staking based off of 5% a year (31,536,000 seconds)
-          <br />
-          Excluding leap years compounded quarterly.
-          <br />
-          APY = %5.09
-        </p>
 
         <div class="row">
           <div class="col-xl-4">
@@ -383,6 +376,8 @@
             <div class="card-body" id="manageCard">
               <p class="card-text" style="font-size: 1em">
                 <u> STAKE </u>
+                <br />
+
                 <br />
                 Has to be more than 100.
               </p>
@@ -486,8 +481,7 @@
                 Has to be greater than 1 to claim.
               </p>
               <br />
-              <br />
-              <br />
+           
               <button
                 *ngIf="contractUsersRewardFromStaking >= 1"
                 class="favorite styled"
@@ -505,6 +499,21 @@
               </button>
             </div>
           </div>
+          <hr
+          style="
+            color: #f0b90b;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+          "
+        />          <br />
+          <p>
+          Current Staking based off of 5% a year (31,536,000 seconds)
+          <br />
+          Excluding leap years compounded quarterly.
+          <br />
+          APY = %5.09
+        </p>
         </div>
     </div>
   </div>
