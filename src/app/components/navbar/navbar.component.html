@@ -1,19 +1,27 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-md text-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-md text-dark fixed-top" style="background-color: rgb(23, 4, 75);">
   <!-- Container wrapper -->
   <div class="container-fluid">
     <!-- Navbar brand -->
-    <a class="navbar-brand text-white" routerLink="home">
+    <a class="navbar-brand text-white"  href="https://thebuddhainu.com/">
       <h6 id="yellow">
         <img
-          src="assets/bi.png"
+          src="https://thebuddhainu.s3.amazonaws.com/logo.png"
           alt="logo"
           width="50"
           style="border-radius: 50%"
         />
       </h6>
       &nbsp;
-      <h6 id="yellow">Buddha Inu</h6>
+      <li class="nav-item">
+        <a
+          class="nav-link text-white"
+          routerLink="home"
+          (click)="basicNavbar.toggle()"
+          ><h5 id="yellow"  style="font-size: 1.5em">The BuddhaInu-Finanace</h5></a
+        >
+      </li>
+      <!-- <h6 id="yellow">The BuddhaInu-Finanace</h6> -->
     </a>
 
     <!-- Toggle button -->
@@ -60,7 +68,7 @@
             ><h5 id="yellow" style="font-size: 1.5em">NFT's</h5></a
           >
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a
             class="nav-link text-white"
             routerLink="team"
@@ -75,7 +83,7 @@
             (click)="basicNavbar.toggle()"
             ><h5 id="yellow" style="font-size: 1.5em">RoadMap</h5></a
           >
-        </li>
+        </li> -->
       </ul>
     </div>
   </div>

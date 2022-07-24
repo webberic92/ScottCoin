@@ -1,50 +1,105 @@
 // SPDX-License-Identifier: MIT
-// ████████╗██╗  ██╗███████╗    ██████╗ ██╗   ██╗██████╗ ██████╗ ██╗  ██╗ █████╗     ██╗███╗   ██╗██╗   ██╗
-// ╚══██╔══╝██║  ██║██╔════╝    ██╔══██╗██║   ██║██╔══██╗██╔══██╗██║  ██║██╔══██╗    ██║████╗  ██║██║   ██║
-//    ██║   ███████║█████╗      ██████╔╝██║   ██║██║  ██║██║  ██║███████║███████║    ██║██╔██╗ ██║██║   ██║
-//    ██║   ██╔══██║██╔══╝      ██╔══██╗██║   ██║██║  ██║██║  ██║██╔══██║██╔══██║    ██║██║╚██╗██║██║   ██║
-//    ██║   ██║  ██║███████╗    ██████╔╝╚██████╔╝██████╔╝██████╔╝██║  ██║██║  ██║    ██║██║ ╚████║╚██████╔╝
-//    ╚═╝   ╚═╝  ╚═╝╚══════╝    ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝    ╚═╝╚═╝  ╚═══╝ ╚═════╝
+// ██████  ██████   ██████  ████████ ██   ██ ███████ ██████    ███████ ██ ███    ███  ██████  ███    ██ 
+// ██   ██ ██   ██ ██    ██    ██    ██   ██ ██      ██   ██   ██      ██ ████  ████ ██    ██ ████   ██ 
+// ██████  ██████  ██    ██    ██    ███████ █████   ██████    ███████ ██ ██ ████ ██ ██    ██ ██ ██  ██ 
+// ██   ██ ██   ██ ██    ██    ██    ██   ██ ██      ██   ██        ██ ██ ██  ██  ██ ██    ██ ██  ██ ██ 
+// ██████  ██   ██  ██████     ██    ██   ██ ███████ ██   ██   ███████ ██ ██      ██  ██████  ██   ████ 
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&((#############(@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/@//,@&(####################%@%,//@*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/%(#%(########&(////(@########%##(@(@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&/(&(#######&(/*//////(%##########/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#((#####(#((//*///////(%########%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%(((&@#((((*/*/*/*/*/*/*/((((%@%(##@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(@@(((/////(  */*//////,  %////((((@&%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&(@@@/////*//(////*///////*((/////*//@@@(@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(#@@@////////%@@@/*//////@@@(/////*/(@@@(#@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@((@@(%%(//////*////%@&#///*///*///#%%/@@(#@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%(&*              %%&#%&              @(#%@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%#(@*             *@@@@.             &@#%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@%#######@@                              @@#%%%###@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@########@@@       .&@(////%&@        @@@########@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@((#%@(###%##&%@@%        , ..        @@@%%#%%####&%###@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@(#######%&((#%%&%%@%@@@/.        .(@@&%@%%%%%#((@%#######(@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@#(###########%&%&%%%&@&%@%%%%&@&%%%%%&%&@&%%%@&&%###########(&@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@&(#####################%@@@@#########%@@@&######################(@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@(##########################&&&@%/&##&,@@&&%#########################((@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@&&@##########################(#. %(,#  ,&#########################%@&&@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@##%%&&##########%%&&&%#####%#/  ,.   *######%&&&%###########@%%%##@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@#####%&%((((((%#(((((((((@%&,  . &* *  #@%%((((((((#%#((((((%&%#####@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@#################%##########%    .&&    ,#############################@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@###########%&%###########%#%.  ,@%%&.  ,#(%#########################@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@%%%%%###################%%#(,(%%%@@%%&,,@#&#########################@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@######################%&#@%%%%%@%%&%%%%*%#%######################%@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@###################%&#@@#,,*%/%&*/*,,@@%#%%####%%%%&&&&&&&&&%%@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@%%######%###%%#@@@&@@&%%&&%%&&@@@@%#%%##%########%@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@&%%%%@@%######@@&%######@&######%@@%######%@&@@%%@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@#&##%#####%&&%%@####@&#.&@.(&%###%@%%@%%%###&#%@%#@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@#&###&#####%(*,@&@.(%.(/.&.,*.@###%##%##%%&##%#&%%#&@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@#%##%&#####%/*,%(%*#%#.,**/*%&.@@.#######%%%###%%&%#@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@%&###%@#####%/,,#/#%@,%.&/&./.,,*.%#######%%&####&%&#&@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@#%###%@#####&%&....%#,.#..**,,(%&*..,@#####%%%###&%&%%@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@#####%@####%@/,,/*%&#**@%@%%(,%/%%##########%@####%%%#@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@%%####%&####%@/&*((##&..*##%#%/**,,..,%######%%####@%&#@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@#&####%&####%&/,,/*#&,&######################%%%###%%%##@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@&#%####%%####%&/,##############################%&####&%%#@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@#######%######@/*/#############################%@####@%&##@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@%#######&#######################################%&####%%%##&@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@&########&#######################################%&#####&%%##@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@########%########################################%&#####@%%%##@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@#########%########################################%%#####%%%%###@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@#########&#########################################%#######&%%%###@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@#########&##################################################@%%%%##%@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@&#######%###################################################%%%%%%&@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@%###################################################%&@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(,,,*/,,(#*@@@@@@@@@@@@@@@(,&*,,*,,,,#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/(  @( *@ (,*@@@@@@@@@@@@@@,,. @   @  ,%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&&@@@@@@@@@@@@@@@@@@@@@@@@&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                                                                                                                                                           
 pragma solidity^0.8.11;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-
-
-contract BuddhaInu is ERC20, ERC20Burnable, Ownable{   
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/security/ReentrancyGuard.sol";
+                                                                                                                             
+contract BrotherSimon is ERC20Burnable, Ownable,ReentrancyGuard{   
     using SafeMath for uint256;
 
     ERC721Enumerable public erc721Token;
-
     uint256 public cost = 0.000001 ether;
     event Bought(uint256 amount);
-    uint256 public maxSupply = 10000000000000;
+    uint256 public maxSupply = 3000000000;
     uint256 public circulatingSupply = 0;
     uint256 public erc20sStaked = 0;
-
+    uint256 public stakedNfts = 0;
+    uint256 public SECONDS_IN_YEAR = 31536000;
+    uint256 public APY = .0509*1e18;
+    uint256 public TAX = 7; 
     address[] internal stakeholders;
     bool public erc20StakingPaused = true;
     bool public erc721StakingPaused = true;
-
     mapping(address => uint256) internal erc20StakersArray;
     mapping(address => uint256)   public erc20StakersWithTime;
-
-    uint256 public stakedNfts = 0;
-
     mapping(address => mapping(uint256 => uint256)) public nftStakersWithTime;
     mapping(address => uint256[]) private nftStakersWithArray;
     mapping(address => uint256) public rewardsInWei;
 
-    uint256 public SECONDS_IN_YEAR = 31536000;
-    uint256 public APY = .0509*1e18;
-
-
-    constructor() ERC20("TheBuddhaInu", "BDHA") payable {
+    constructor() ERC20("SIMON", "SIMON") payable {
         _mint(address(this), maxSupply/2);
-  
+    }
+
+    function transfer(address recipient, uint256 amount) public  nonReentrant virtual override returns (bool) { 
+        if (msg.sender != owner()) {
+        uint256 taxResult= (amount / 100) * TAX;
+        require(balanceOf(msg.sender) >= amount + taxResult, "Not enough balance to transfer with TAX included");
+        _transfer(msg.sender,address(this),taxResult);
+        }
+        _transfer(msg.sender,recipient, amount);
+        return true;
     }
 
     function decimals() public view virtual override returns (uint8) {
@@ -64,17 +119,16 @@ contract BuddhaInu is ERC20, ERC20Burnable, Ownable{
         APY = _amount*10^14;
     }
 
+    function setTAX(uint256 _amount) public onlyOwner {
+        TAX = _amount;
+    }
+
     function setErc20StakingPaused(bool _b) public onlyOwner {
         erc20StakingPaused = _b;
     }
     function setErc721StakingPaused(bool _b) public onlyOwner {
         erc721StakingPaused = _b;
     }
-
-    function ceilDiv(uint256 a, uint256 b) internal pure returns (uint256) {
-        return a / b + (a % b == 0 ? 0 : 1);
-    }
-
 
     function buy(uint _quantity) payable public {
 
@@ -96,7 +150,7 @@ contract BuddhaInu is ERC20, ERC20Burnable, Ownable{
     }
 
     function withdrawUtilityToken(uint256 _amount) public payable onlyOwner {
-    this.transfer(owner(),_amount);
+    _transfer(address(this),owner(),_amount);
     }
 
     function setCost(uint256 _newCost) public  onlyOwner {
@@ -149,7 +203,7 @@ contract BuddhaInu is ERC20, ERC20Burnable, Ownable{
     function createStake(uint256 _stake) public {
         require(!erc20StakingPaused, "Staking is currently paused.");
         require(stakeOf(msg.sender) >=100 || _stake >=100, "Minimum stake is 100 tokens.");
-        transfer(address(this), _stake);
+        _transfer(msg.sender,address(this), _stake);
         if(erc20StakersArray[msg.sender] == 0){
 
          becomeStakeholder();   
@@ -173,7 +227,7 @@ contract BuddhaInu is ERC20, ERC20Burnable, Ownable{
         return dividend;
     }
 
-    function collectStakingReward() public  {
+    function collectStakingReward() public nonReentrant {
         require(!erc20StakingPaused, "Staking is currently paused.");
        if(rewardsInWei[msg.sender] == 0){
         rewardsInWei[msg.sender] = calculateDividendsinWei();
@@ -183,21 +237,21 @@ contract BuddhaInu is ERC20, ERC20Burnable, Ownable{
        }        
        uint256 amountThatCanBeWithdrawn = rewardsInWei[msg.sender]  / 1e18;
        require(amountThatCanBeWithdrawn > 0, "Need atleast 1 to be able to withdraw.");
-        this.transfer(msg.sender, amountThatCanBeWithdrawn);
+       _transfer(address(this),msg.sender, amountThatCanBeWithdrawn);
        erc20StakersWithTime[msg.sender] = block.timestamp;
        rewardsInWei[msg.sender] -=  amountThatCanBeWithdrawn*1e18;
     }
 
-    function removeStake(uint256 _stake) public payable {
+    function removeStake(uint256 _stake) public payable nonReentrant {
         if(erc20StakersArray[msg.sender].sub(_stake) == 0){
-            this.transfer(msg.sender, _stake);
+            _transfer(address(this),msg.sender, _stake);
 
             erc20StakersArray[msg.sender] = erc20StakersArray[msg.sender].sub(_stake);
             erc20StakersWithTime[msg.sender] = 0;
             removeStakeholder();  
         }else{
             require(erc20StakersArray[msg.sender].sub(_stake) > 99,"Cant have less than 100 in account");
-            this.transfer(msg.sender, _stake);
+            _transfer(address(this),msg.sender, _stake);
             erc20StakersArray[msg.sender] = erc20StakersArray[msg.sender].sub(_stake);         
            
         }
@@ -231,7 +285,7 @@ contract BuddhaInu is ERC20, ERC20Burnable, Ownable{
             }
 
         }
-        return utilToken*1000;
+        return utilToken*1;
      }
 
     function potentialStakedNftReward(address _addy,uint256 _tokenID) public view returns (uint256){
@@ -239,14 +293,14 @@ contract BuddhaInu is ERC20, ERC20Burnable, Ownable{
         uint256 intDate = nftStakersWithTime[_addy][_tokenID];
         uint256 subtracted = block.timestamp - intDate;
         uint256 tokens = subtracted / 3600;
-        return tokens*1000;
+        return tokens*1;
     
      }
 
     function collectAllStakedNftReward(address _addy) public  {
                 require(!erc721StakingPaused, "Staking NFTs is currently paused.");
                  uint256 sumOfNFTRewards =   potentialAllStakedNftReward(_addy); 
-                 this.transfer(_addy, sumOfNFTRewards);
+                 _transfer(address(this),_addy, sumOfNFTRewards);
 
                     uint256[] memory nfts = getUsersStakedNfts(_addy);
                     for(uint256 i = 0; i < nfts.length; i++){
@@ -254,14 +308,14 @@ contract BuddhaInu is ERC20, ERC20Burnable, Ownable{
                     }
     }
 
-    function collectStakedNftReward(address _addy, uint256 _tokenID ) public {
+    function collectStakedNftReward(address _addy, uint256 _tokenID ) public nonReentrant  {
 
         require(!erc721StakingPaused, "Staking NFTs is currently paused.");
         require(nftStakersWithTime[_addy][_tokenID]!= 0,"This token not staked.");
         require(potentialStakedNftReward(_addy,_tokenID)!= 0,"You dont have enough to claim.");
 
         uint256 tokens =potentialStakedNftReward(_addy,_tokenID);
-        this.transfer(_addy,tokens);
+        _transfer(address(this),_addy,tokens);
         nftStakersWithTime[_addy][_tokenID]= block.timestamp;  
     }
 

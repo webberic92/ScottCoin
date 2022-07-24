@@ -1,18 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 body {
-  background-image: url("./assets/test.png");
-  -webkit-background-size: cover;
+  background-image: url("https://thebuddhainu.s3.amazonaws.com/background.png");
+  -webkit-background-size: wrap;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   background-attachment: fixed;
 }
 .main {
-  background-color: black;
+  background-color: rgb(23, 4, 75);
   border: 1mm ridge #f0b90b;
-  width: 100%;
+  width: 65%;
   min-width: 400px;
+  opacity:95% ; 
+
+  
+}
+.inside {
+  background-color: rgb(23, 4, 75);
+  border: 1mm ridge #f0b90b;
+  width: 90%;
+  min-width: 400px;
+  opacity:95% ; 
 }
 
 .card {
@@ -92,15 +102,15 @@ body {
     inset 2px 2px 3px rgba(0, 0, 0, 0.6);
 }
 
-@font-face {
-  font-family: EncodeSansCondensedBold;
-  src: url("./assets/encode-sans-font/EncodeSansCondensedBold-r7LO.ttf");
-}
+// @font-face {
+//   font-family: EncodeSansCondensedBold;
+//   src: url("./assets/encode-sans-font/EncodeSansCondensedBold-r7LO.ttf");
+// }
 
-@font-face {
-  font-family: RapidFinger101;
-  src: url("./assets/cooper-hewitt-font/CooperhewittBold-K4BW.ttf");
-}
+// @font-face {
+//   font-family: RapidFinger101;
+//   src: url("./assets/cooper-hewitt-font/CooperhewittBold-K4BW.ttf");
+// }
 
 h2,
 h3,
