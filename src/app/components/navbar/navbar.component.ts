@@ -17,26 +17,26 @@ export class NavbarComponent implements OnInit {
   async ngOnInit() {
   }
 
-  async tryAndConnect(b: boolean) {
-    if(b == true){
-    try {
-      this.userAddress = await this.web3.getAccounts()
-      if(this.userAddress!= ''){
-        this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
-        this.isConnected= true
-      }
+  // async tryAndConnect(b: boolean) {
+  //   if(b == true){
+  //   try {
+  //     this.userAddress = await this.web3.getAccounts()
+  //     if(this.userAddress!= ''){
+  //       this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
+  //       this.isConnected= true
+  //     }
 
-    } catch (e) {
-      console.log(e)
+  //   } catch (e) {
+  //     console.log(e)
 
-    }
+  //   }
 
-    }else{
-      this.userAddress = ''
-      this.isConnected= false
-    }
+  //   }else{
+  //     this.userAddress = ''
+  //     this.isConnected= false
+  //   }
 
-  }
+  // }
 }
 
 

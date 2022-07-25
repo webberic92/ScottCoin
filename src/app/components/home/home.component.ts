@@ -16,12 +16,12 @@ export class HomeComponent implements OnInit {
 
   }
   async ngOnInit(): Promise<void> {
-    try {
-      this.contractName = await bscContract.methods.name().call()
-    } catch (e) {
-      console.log(e)
+    // try {
+    //   this.contractName = await bscContract.methods.name().call()
+    // } catch (e) {
+    //   console.log(e)
 
-    }
+    // }
   }
 
   mint = () => {

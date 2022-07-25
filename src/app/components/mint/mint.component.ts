@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import bscContract from "src/app/services/Solidity/contract.service"
+import ethContract from "src/app/services/Solidity/contract.service"
 import Web3 from 'web3';
 import { Web3Service } from 'src/app/services/Web3/web3.service';
 
@@ -39,16 +39,16 @@ export class MintComponent implements OnInit {
   async getContent() {
     try {
       this.isLoading = true;
-      this.contractAddress = bscContract._address
-      this.contractName = await bscContract.methods.name().call()
-      this.contractSymbol = await bscContract.methods.symbol().call()
-      this.contractMinted = await bscContract.methods.totalSupply().call()
-      this.contractTotalSupply = await bscContract.methods.maxSupply().call()
-      this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
+      this.contractAddress = ethContract._address
+      this.contractName = await ethContract.methods.name().call()
+      this.contractSymbol = await ethContract.methods.symbol().call()
+      this.contractMinted = await ethContract.methods.totalSupply().call()
+      this.contractTotalSupply = await ethContract.methods.maxSupply().call()
+      this.contractPrice = Web3.utils.fromWei(await ethContract.methods.cost().call(), 'ether')
       //this.isLoading = false;
       this.userAddress = await this.web3.getAccounts()
-      this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
-      this.contractOwner = await bscContract.methods.owner().call()
+      this.tokensOwned = await ethContract.methods.balanceOf(this.userAddress[0]).call()
+      this.contractOwner = await ethContract.methods.owner().call()
       this.isLoading = false;
 
     } catch (e) {
@@ -82,11 +82,11 @@ export class MintComponent implements OnInit {
     this.isLoading = true;
     try {
       if (this.contractOwner == Web3.utils.toChecksumAddress(this.userAddress[0])) {
-        await bscContract.methods.buy(this.numToBuy).send({
+        await ethContract.methods.buy(this.numToBuy).send({
           from: this.userAddress[0],
         })
       } else {
-        await bscContract.methods.buy(this.numToBuy).send({
+        await ethContract.methods.buy(this.numToBuy).send({
           from: this.userAddress[0],
           value: Web3.utils.toWei(this.totalPrice, 'ether')
         })

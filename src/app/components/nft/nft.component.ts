@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import nftContract from "src/app/services/Solidity/nft.service"
 import Web3 from 'web3';
 import { Web3Service } from 'src/app/services/Web3/web3.service';
-const web3 = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545');
+const provider = new Web3('https://mainnet.infura.io/v3/acec92755ab44329bf4ffd95280afa27');
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from 'rxjs/internal/Observable';
 import bscContract from "src/app/services/Solidity/contract.service"
@@ -13,20 +13,20 @@ import bscContract from "src/app/services/Solidity/contract.service"
 })
 export class NFTComponent implements OnInit {
 
-  tokensOwned: string = ''
+  tokensOwned: string = '0'
   tokensStaked: string = ''
 
   isLoading: boolean = false;
   userAddress: string = ''
-  contractAddress: string = ''
+  contractAddress: string = '**TBD**'
   contractOwner: string = ''
   contractName: string = ''
-  contractSymbol: string = ''
+  contractSymbol: string = 'SIMON'
   userNFTs: number[] = []
   userStakedNFTs: number[] = []
 
   contractTotalSupply: string = ''
-  contractPrice: string = ''
+  contractPrice: string = '1'
 
   contractERC721Token: string = ''
   contractBnbBalance: string = '0'
@@ -47,7 +47,7 @@ export class NFTComponent implements OnInit {
 
   unstakedNfts = new Map<number, any>();
   stakedNfts = new Map<number, any>();
-  contractPriceInUtilityToken: string = ''
+  contractPriceInUtilityToken: string = '10000'
   erc20ContractSymbol: string = ''
   isRevealed: boolean = false
   isPaused: boolean = false
@@ -74,91 +74,91 @@ export class NFTComponent implements OnInit {
   async getContent() {
     this.error = ''
 
-    try {
-      this.isLoading = true;   
-      this.contractAddress = nftContract._address
-      this.userAddress = await this.web3.getAccounts()
-      this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
-      this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
+    // try {
+    //   this.isLoading = true;   
+    //   this.contractAddress = nftContract._address
+    //   this.userAddress = await this.web3.getAccounts()
+    //   this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
+    //   this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
 
-      this.contractName = await nftContract.methods.name().call()
-      this.contractSymbol = await nftContract.methods.symbol().call()
-      this.erc20ContractSymbol = await bscContract.methods.symbol().call()
-      this.erc20ContractAddress = await nftContract.methods.erc20Token().call()
-      this.isPaused = await nftContract.methods.paused().call()
-      this.contractOwner = await nftContract.methods.owner().call()
-      this.contractUtilityBalance = await bscContract.methods.balanceOf(this.contractAddress).call()
-      this.contractBnbBalance = Web3.utils.fromWei(await web3.eth.getBalance(this.contractAddress), 'ether')
+    //   this.contractName = await nftContract.methods.name().call()
+    //   this.contractSymbol = await nftContract.methods.symbol().call()
+    //   this.erc20ContractSymbol = await bscContract.methods.symbol().call()
+    //   this.erc20ContractAddress = await nftContract.methods.erc20Token().call()
+    //   this.isPaused = await nftContract.methods.paused().call()
+    //   this.contractOwner = await nftContract.methods.owner().call()
+    //   this.contractUtilityBalance = await bscContract.methods.balanceOf(this.contractAddress).call()
+    //   this.contractBnbBalance = Web3.utils.fromWei(await provider.eth.getBalance(this.contractAddress), 'ether')
 
-      if (!this.isPaused) {
-        this.isRevealed = await nftContract.methods.revealed().call()
+    //   if (!this.isPaused) {
+    //     this.isRevealed = await nftContract.methods.revealed().call()
 
-        this.contractPrice = Web3.utils.fromWei(await nftContract.methods.cost().call(), "ether")
+    //     this.contractPrice = provider.utils.fromWei(await nftContract.methods.cost().call(), "ether")
 
-        this.contractPriceInUtilityToken = await nftContract.methods.costInUtilityToken().call()
-
-
-        this.nftsOwned = await nftContract.methods.balanceOf(this.userAddress).call()
-        for (var i = 0; i < Number(this.nftsOwned); i++) {
-
-          this.userNFTs.push(await nftContract.methods.tokenOfOwnerByIndex(this.userAddress, i).call())
-        }
-        let tokenURI = '';
-        this.userNFTs.forEach(async (value) => {
-          if (!this.isRevealed) {
-            tokenURI = await nftContract.methods.notRevealedUri().call()
-          } else {
-            tokenURI = await nftContract.methods.tokenURI(value).call()
+    //     this.contractPriceInUtilityToken = await nftContract.methods.costInUtilityToken().call()
 
 
-          }
+    //     this.nftsOwned = await nftContract.methods.balanceOf(this.userAddress).call()
+    //     for (var i = 0; i < Number(this.nftsOwned); i++) {
+
+    //       this.userNFTs.push(await nftContract.methods.tokenOfOwnerByIndex(this.userAddress, i).call())
+    //     }
+    //     let tokenURI = '';
+    //     this.userNFTs.forEach(async (value) => {
+    //       if (!this.isRevealed) {
+    //         tokenURI = await nftContract.methods.notRevealedUri().call()
+    //       } else {
+    //         tokenURI = await nftContract.methods.tokenURI(value).call()
+
+
+    //       }
     
-          this.http.get<string>(tokenURI).subscribe((data: any) => {
-            this.unstakedResponse = JSON.parse(JSON.stringify(data));
-             this.unstakedResponse.id = value
+    //       this.http.get<string>(tokenURI).subscribe((data: any) => {
+    //         this.unstakedResponse = JSON.parse(JSON.stringify(data));
+    //          this.unstakedResponse.id = value
 
        
-            this.unstakedNfts.set(value, this.unstakedResponse)
+    //         this.unstakedNfts.set(value, this.unstakedResponse)
 
-          });
+    //       });
 
-        });
-        this.userStakedNFTs = await bscContract.methods.getUsersStakedNfts(this.userAddress).call()
+    //     });
+    //     this.userStakedNFTs = await bscContract.methods.getUsersStakedNfts(this.userAddress).call()
 
 
-        this.userStakedNFTs.forEach(async (id) => {
-          if (!this.isRevealed) {
-            tokenURI = await nftContract.methods.notRevealedUri().call()
-          } else {
-            tokenURI = await nftContract.methods.tokenURI(id).call()
+    //     this.userStakedNFTs.forEach(async (id) => {
+    //       if (!this.isRevealed) {
+    //         tokenURI = await nftContract.methods.notRevealedUri().call()
+    //       } else {
+    //         tokenURI = await nftContract.methods.tokenURI(id).call()
 
-          }
+    //       }
 
-          this.http.get<string>(tokenURI).subscribe(async (data: any) => {
-            let stakedNftReward = await bscContract.methods.potentialStakedNftReward(this.userAddress, id).call()
+    //       this.http.get<string>(tokenURI).subscribe(async (data: any) => {
+    //         let stakedNftReward = await bscContract.methods.potentialStakedNftReward(this.userAddress, id).call()
 
-            this.stakedResponse = JSON.parse(JSON.stringify(data));
-            this.stakedResponse.potentialReward = stakedNftReward
-            this.stakedResponse.id = id
+    //         this.stakedResponse = JSON.parse(JSON.stringify(data));
+    //         this.stakedResponse.potentialReward = stakedNftReward
+    //         this.stakedResponse.id = id
 
        
 
             
 
-            this.stakedNfts.set(id, this.stakedResponse)
-          });
+    //         this.stakedNfts.set(id, this.stakedResponse)
+    //       });
 
-        });
-      }
-      this.isLoading = false;
+    //     });
+    //   }
+    //   this.isLoading = false;
 
 
 
-    } catch (e) {
-      this.error = e.message
-      this.isLoading = false;
+    // } catch (e) {
+    //   this.error = e.message
+    //   this.isLoading = false;
 
-    }
+    // }
   }
 
 
@@ -178,7 +178,7 @@ export class NFTComponent implements OnInit {
       } else {
         this.contractName = await nftContract.methods.mint(this.numToBuy).send({
           from: this.userAddress,
-          value: web3.utils.toWei(this.totalPrice, "ether")
+          value: provider.utils.toWei(this.totalPrice, "ether")
         })
       }
 
@@ -216,7 +216,7 @@ export class NFTComponent implements OnInit {
     try {
       this.isLoading = true;
 
-      await nftContract.methods.setCost(web3.utils.toWei(this.updateBnbPrice, 'ether')).send({
+      await nftContract.methods.setCost(provider.utils.toWei(this.updateBnbPrice, 'ether')).send({
         from: this.userAddress
 
       })
