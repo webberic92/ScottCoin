@@ -14,12 +14,19 @@ export class Web3Service {
 
   constructor(private route: ActivatedRoute, private router: Router) {
 
-    // window.ethereum.on('accountsChanged', (accounts: string | any[]) => {
-    //   // If user has locked/logout from MetaMask, this resets the accounts array to empty
+    try{
+      window.ethereum.on('accountsChanged', (accounts: string | any[]) => {
+        // If user has locked/logout from MetaMask, this resets the accounts array to empty
+    
+        this.router.navigate(['/']); // navigate to other page
   
-    //   this.router.navigate(['/']); // navigate to other page
+      });
+    }catch{
+      this.router.navigate(['/']); // navigate to other page
 
-    // });
+    }
+
+
 
 
   }

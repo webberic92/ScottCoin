@@ -1,19 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 body {
-  background-image: url("https://thebuddhainu.s3.amazonaws.com/background.png");
-  -webkit-background-size: wrap;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-attachment: fixed;
+  // background-image: url("https://thebuddhainu.s3.amazonaws.com/background.png");
+  background-image: url("https://thebuddhainu.s3.amazonaws.com/background2.jpeg");
+  // -webkit-background-size: wrap;
+  // -moz-background-size: cover;
+  // -o-background-size: cover;
+   background-size: cover;
+ background-attachment: fixed;
 }
 .main {
   background-color: rgb(23, 4, 75);
   border: 1mm ridge #f0b90b;
   width: 65%;
   min-width: 400px;
-  opacity:95% ; 
+  opacity:99% ; 
 
   
 }

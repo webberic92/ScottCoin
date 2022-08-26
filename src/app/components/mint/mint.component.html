@@ -6,10 +6,10 @@
       <h3 class="card-text" style="font-size: 2em">
         <br> 
 
-        <u> Mint SIMON! </u>
+        <u> Mint $SIMON. </u>
         <br><br>
       </h3>
-      <br> <br>
+     
       <img
         src="https://thebuddhainu.s3.amazonaws.com/coin.png"
         alt="BuddhaInu"
@@ -36,28 +36,42 @@
       </div>
 
 
-      <div *ngIf="!this.isLoading">
+        <div *ngIf="!this.isLoading">
 
 
+          <div *ngIf="this.userAddress == ''">
+            <p>              MetaMask Not Connected. Please connect to ETH MAIN net.
 
-          <div *ngIf="this.userAddress != ''">
-            <p style="font-size: 1.25em">
+                           <br> 
+
+              This is where you will be able to see more details about the token and be able to mint.
+              <br>
+            </p>
+            
+          </div>
+
+        <div *ngIf="this.userAddress != ''">
+          <p style="font-size: 1.25em">
 <br>
-          Symbol : {{ contractSymbol }}
-          <br />
-          Minted: {{ contractMinted }}
-          <br />
-          Total Supply : {{ contractTotalSupply }}
-          <br />
-          Current Price : {{ contractPrice }} ETH
-          <br/>
-          Token Address: {{ contractAddress }}
-          <br />
-          <br />
-
-        </p>
-
-        <div class="card-body" id="manageCard">
+            Symbol : {{ contractSymbol }}
+            <br />
+            Minted: {{ contractMinted }}
+            <br />
+            Total Supply : {{ contractTotalSupply }}
+            <br />
+            Current Price : {{ contractPrice }} ETH
+            <br />
+  
+          </p>
+          <hr
+            style="
+              color: #f0b90b;
+              width: 85%;
+              margin-left: auto;
+              margin-right: auto;
+            "
+          />
+          <div class="card-body" id="manageCard">
 
           <p>
             &nbsp;Your address: {{ userAddress }}
@@ -86,7 +100,7 @@
           </div>
           <br />
           <p>
-            Total price with out gas fees for {{ numToBuy }}
+            Total price without gas fees for {{ numToBuy }}
             {{ contractSymbol }} is {{ totalPrice }} ETH
           </p>
 
@@ -113,6 +127,8 @@
             <p>{{ purchaseString }}</p>
           </div>
         </div>
+
+
         <div *ngIf="this.userAddress == ''">
           <p style="color: red">
             MetaMask Not Connected. Please connect to BSC test net

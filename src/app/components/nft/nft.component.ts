@@ -159,6 +159,182 @@ export class NFTComponent implements OnInit {
     //   this.isLoading = false;
 
     // }
+
+
+
+
+    //Fake data
+        try {
+      this.isLoading = true;   
+      // 
+      this.contractAddress = "**TBD**"
+      // this.userAddress = await this.web3.getAccounts()
+      // this.userAddress = Web3.utils.toChecksumAddress(this.userAddress[0])
+      // this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress).call()
+
+      // this.contractName = await nftContract.methods.name().call()
+      // this.contractSymbol = await nftContract.methods.symbol().call()
+      // this.erc20ContractSymbol = await bscContract.methods.symbol().call()
+      // this.erc20ContractAddress = await nftContract.methods.erc20Token().call()
+      // this.isPaused = await nftContract.methods.paused().call()
+      // this.contractOwner = await nftContract.methods.owner().call()
+      // this.contractUtilityBalance = await bscContract.methods.balanceOf(this.contractAddress).call()
+      // this.contractBnbBalance = Web3.utils.fromWei(await provider.eth.getBalance(this.contractAddress), 'ether')
+
+      if (!this.isPaused) {
+        console.log("TEST1")
+        //  this.isRevealed = await nftContract.methods.revealed().call()
+
+        // this.contractPrice = provider.utils.fromWei(await nftContract.methods.cost().call(), "ether")
+
+        // this.contractPriceInUtilityToken = await nftContract.methods.costInUtilityToken().call()
+
+
+        // this.nftsOwned = await nftContract.methods.balanceOf(this.userAddress).call()
+        // for (var i = 0; i < Number(this.nftsOwned); i++) {
+
+        //   this.userNFTs.push(await nftContract.methods.tokenOfOwnerByIndex(this.userAddress, i).call())
+        // }
+        // let tokenURI = '';
+        // this.userNFTs.forEach(async (value) => {
+        //   if (!this.isRevealed) {
+        //     tokenURI = await nftContract.methods.notRevealedUri().call()
+        //   } else {
+        //     tokenURI = await nftContract.methods.tokenURI(value).call()
+
+
+        //   }
+    
+        //   this.http.get<string>(tokenURI).subscribe((data: any) => {
+let data = {
+  "name": "Acoustic #7",
+  "description": "A Sample collection of NFT's.",
+  "image": "https://thebuddhainu.s3.amazonaws.com/simon_guitar.jpeg",
+  "dna": "f8fd1aa0edb3e91b97ae74f0b53bc066c2aba172",
+  "edition": 7,
+  "date": 1650861425400,
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Stage 4"
+    },
+    {
+      "trait_type": "Gender",
+      "value": "Male"
+    },
+    {
+      "trait_type": "Robe",
+      "value": "Brown"
+    },
+    {
+      "trait_type": "Necklace",
+      "value": " Brown Beads"
+    },
+    {
+      "trait_type": "Midsection",
+      "value": "Rope belt"
+    },
+    {
+      "trait_type": "Floor",
+      "value": "Wood"
+    },
+    {
+      "trait_type": "Instrument",
+      "value": "Guitar"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}
+
+            this.unstakedResponse = JSON.parse(JSON.stringify(data));
+             this.unstakedResponse.id = 17
+
+       
+            this.unstakedNfts.set(17, this.unstakedResponse)
+
+        //   });
+
+        // });
+        // this.userStakedNFTs = await bscContract.methods.getUsersStakedNfts(this.userAddress).call()
+
+
+        // this.userStakedNFTs.forEach(async (id) => {
+        //   if (!this.isRevealed) {
+        //     tokenURI = await nftContract.methods.notRevealedUri().call()
+        //   } else {
+        //     tokenURI = await nftContract.methods.tokenURI(id).call()
+
+        //   }
+
+        //   this.http.get<string>(tokenURI).subscribe(async (data: any) => {
+        //     let stakedNftReward = await bscContract.methods.potentialStakedNftReward(this.userAddress, id).call()
+           data ={
+            "name": "Rythm Section #12",
+            "description": "A Sample collection of NFT's.",
+            "image": "https://thebuddhainu.s3.amazonaws.com/tbi_Drum.jpeg",
+            "dna": "f8fd1aa0edb3e91b97ae74f0b53bc066c2aba172",
+            "edition": 12,
+            "date": 1650861425400,
+            "attributes": [
+              {
+                "trait_type": "Background",
+                "value": "Smoke Stage 4"
+              },
+              {
+                "trait_type": "Gender",
+                "value": "Male"
+              },
+              {
+                "trait_type": "Robe",
+                "value": "Gold"
+              },
+              {
+                "trait_type": "Necklace",
+                "value": " Brown Beads"
+              },
+              {
+                "trait_type": "Midsection",
+                "value": "Belly"
+              },
+              {
+                "trait_type": "Floor",
+                "value": "Wood"
+              },
+              {
+                "trait_type": "Instrument",
+                "value": "Drums"
+              }
+            ],
+            "compiler": "HashLips Art Engine"
+          }
+          
+            this.stakedResponse = JSON.parse(JSON.stringify(data));
+            console.log("TEST2 BEGIN")
+
+            console.log(this.stakedResponse)
+            console.log("TEST2 END")
+
+            this.stakedResponse.potentialReward = 32
+            this.stakedResponse.id = 1;
+
+       
+
+            
+
+             this.stakedNfts.set(1, this.stakedResponse)
+          // });
+
+        // });
+      }
+      this.isLoading = false;
+
+
+
+    } catch (e) {
+      this.error = e.message
+      this.isLoading = false;
+
+    }
   }
 
 
@@ -280,6 +456,7 @@ export class NFTComponent implements OnInit {
       })
       this.unstakedNfts = new Map<number, any>();
       this.stakedNfts = new Map<number, any>();
+      
       this.isLoading = false
       this.getContent()
     } catch (e) {

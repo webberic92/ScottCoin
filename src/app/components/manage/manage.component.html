@@ -1,23 +1,22 @@
 <div class="center-div">
   <div class="card main">
     
-      <div class="center-img">
-        <br/>
+    <h3 class="card-text" style="font-size: 2em">
+      <br> 
 
-        <img
-        src="https://thebuddhainu.s3.amazonaws.com/vault.jpg"
-        alt="BuddhaInu"
-          height="300vh"
-          width="400vw"
-          style="border-radius: 5%"
-        />
-      </div>
+      <u> Manage $SIMON. </u>
+      <br><br>
+    </h3>
+   
+    <img
+      src="https://thebuddhainu.s3.amazonaws.com/coin.png"
+      alt="BuddhaInu"
+      height="200vh"
+      width="200vw"
+      style="border-radius: 50%"
+    /><br> <br>
 
-      <h3 class="card-text" style="font-size: 2em">      
-          <br/>
 
-        <u> Manage Buddha Inu </u>
-      </h3>
       <div *ngIf="this.isLoading">
         <div
           class="spinner-grow"
@@ -39,11 +38,15 @@
    
 
       <div *ngIf="this.userAddress == ''">
-        <p style="color: red">
-          MetaMask Not Connected. Please connect to BSC test net
+        <p >
+          MetaMask Not Connected. Please connect to ETH MAIN net.
+          <br>
+          This is where you will be able to burn, stake, unstake, and collect SIMON.
+<br>
+
         </p>
       </div>
-      <div *ngIf="this.error">
+      <div *ngIf="this.error && this.userAddress != ''">
         <p style="color: red">Found Error : {{ error }}</p>
       </div>
 
