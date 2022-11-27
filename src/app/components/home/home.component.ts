@@ -24,22 +24,22 @@ export class HomeComponent implements OnInit {
     // }
   }
 
-  mint = () => {
-    this.router.navigateByUrl('/mint');
-  };
-  manage = () => {
-    this.router.navigateByUrl('/manage');
-  };
-  nft = () => {
-    this.router.navigateByUrl('/nft');
-  };
-  team = () => {
-    this.router.navigateByUrl('/team');
-  };
+  // mint = () => {
+  //   this.router.navigateByUrl('/mint');
+  // };
+  // manage = () => {
+  //   this.router.navigateByUrl('/manage');
+  // };
+  // nft = () => {
+  //   this.router.navigateByUrl('/nft');
+  // };
+  // team = () => {
+  //   this.router.navigateByUrl('/team');
+  // };
 
-  roadmap = () => {
-    this.router.navigateByUrl('/roadmap');
-  };
+  // roadmap = () => {
+  //   this.router.navigateByUrl('/roadmap');
+  // };
 
 }
 

@@ -2,7 +2,7 @@
 @import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 body {
   // background-image: url("https://thebuddhainu.s3.amazonaws.com/background.png");
-  background-image: url("https://thebuddhainu.s3.amazonaws.com/background2.jpeg");
+  background-image: url("https://toonverse.s3.amazonaws.com/background.jpg");
   // -webkit-background-size: wrap;
   // -moz-background-size: cover;
   // -o-background-size: cover;
@@ -10,8 +10,8 @@ body {
  background-attachment: fixed;
 }
 .main {
-  background-color: rgb(23, 4, 75);
-  border: 1mm ridge #f0b90b;
+  background-color: #fbf1e6;
+  border: 1mm ridge pink;
   width: 65%;
   min-width: 400px;
   opacity:99% ; 
@@ -19,8 +19,8 @@ body {
   
 }
 .inside {
-  background-color: rgb(23, 4, 75);
-  border: 1mm ridge #f0b90b;
+  background-color: #404756;
+  border: 1mm ridge pink;
   width: 90%;
   min-width: 400px;
   opacity:95% ; 
@@ -58,17 +58,17 @@ body {
   padding: 0 20px;
   font-size: 1rem;
   text-align: center;
-  color: #f0b90b;
+  color: black;
   text-shadow: 1px 1px 1px #000;
   border-radius: 10px;
-  background-color: rgb(23, 4, 75);
+  background-color: white;
   background-image: linear-gradient(
     to top left,
     rgba(0, 0, 0, 0.2),
     rgba(0, 0, 0, 0.2) 30%,
     rgba(0, 0, 0, 0)
   );
-  box-shadow: inset 2px 2px 3px #f0b90b, inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 2px 2px 3px pink, inset -2px -2px 3px rgba(0, 0, 0, 0.6);
 }
 
 .styledDisabled {
@@ -81,7 +81,7 @@ body {
   padding: 0 20px;
   font-size: 1rem;
   text-align: center;
-  color: #f0b90b;
+  color: black;
   text-shadow: 1px 1px 1px #000;
   border-radius: 10px;
   background-color: rgb(141, 139, 110);
@@ -91,11 +91,11 @@ body {
     rgba(0, 0, 0, 0.2) 30%,
     rgba(0, 0, 0, 0)
   );
-  box-shadow: inset 2px 2px 3px #f0b90b, inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 2px 2px 3px pink, inset -2px -2px 3px rgba(0, 0, 0, 0.6);
 }
 
 .styled:hover {
-  background-color: #f0b90b;
+  background-color: pink;
 }
 
 .styled:active {
@@ -118,7 +118,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #f0b90b;
+  color: black;
   font-family: RapidFinger101;
   font-size: 1em;
   font-size: min(6vw, 35px);
@@ -135,7 +135,7 @@ button {
 
 p {
   font-family: EncodeSansCondensedBold;
-  color: #f0b90b;
+  color: black;
   // word-break: normal;
   word-break: break-word;
   font-size: min(4vw, 20px);
@@ -163,7 +163,7 @@ p {
 }
 
 #yellow {
-  color: #f0b90b;
+  color: pink;
 }
 
 #yellow:hover {
@@ -172,7 +172,7 @@ p {
 }
 
 #yellowHamburger {
-  color: #f0b90b;
+  color: pink;
 }
 
 #yellowHamburger:hover {
@@ -184,13 +184,13 @@ p {
   min-width: 275px;
   max-width: 310px;
   background-color: rgb(54, 28, 126);
-    border: 1mm ridge #f0b90b;
+    border: 1mm ridge pink;
 }
 #manageCard {
   width: 95%;
   margin-bottom: 25px;
   background-color: rgb(54, 28, 126);
-    border: 1mm ridge #f0b90b;
+    border: 1mm ridge pink;
   margin-left: auto;
   margin-right: auto;
   min-height: 275px;
