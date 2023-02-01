@@ -11,50 +11,22 @@ import { Web3Service } from 'src/app/services/Web3/web3.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+
+  constructor(private web3: Web3Service) {
+
+  }  
   contractName: string = '';
-
-  // constructor(private router: Router) {
-
-  // }
-  // async ngOnInit(): Promise<void> {
-  //   try {
-  //     this.contractName = await bscContract.methods.name().call()
-  //   } catch (e) {
-  //     console.log(e)
-
-  //   }
-  // }
-
-  // mint = () => {
-  //   this.router.navigateByUrl('/mint');
-  // };
-  // manage = () => {
-  //   this.router.navigateByUrl('/manage');
-  // };
-  // nft = () => {
-  //   this.router.navigateByUrl('/nft');
-  // };
-  // team = () => {
-  //   this.router.navigateByUrl('/team');
-  // };
-
-  // roadmap = () => {
-  //   this.router.navigateByUrl('/roadmap');
-  // };
-
-  constructor(private web3: Web3Service) {}
-  tokensOwned: string = '';
-  tokensStaked: string = '';
+  tokensOwned: string = ''
+  tokensStaked: string = ''
 
   isLoading: boolean = false;
-  userAddress: string = '';
-  contractAddress: string = '';
-  contractOwner: string = '';
-  // contractName: string = ''
-  contractSymbol: string = '';
-  contractMinted: string = '';
-  contractTotalSupply: string = '';
-  contractPrice: string = '';
+  userAddress: string = ''
+  contractAddress: string = ''
+  contractOwner: string = ''
+  contractSymbol: string = ''
+  contractMinted: string = ''
+  contractTotalSupply: string = ''
+  contractPrice: string = ''
   numToBuy: string = '0';
   totalPrice: string = '0';
   purchaseString: string = '';
@@ -67,19 +39,15 @@ export class HomeComponent implements OnInit {
     try {
       this.isLoading = true;
       this.error = '';
-      this.contractAddress = bscContract._address;
-      this.contractName = await bscContract.methods.name().call();
-      this.contractSymbol = await bscContract.methods.symbol().call();
-      this.contractMinted = await bscContract.methods.totalSupply().call();
-      this.contractTotalSupply = await bscContract.methods.maxSupply().call();
-      this.contractPrice = Web3.utils.fromWei(
-        await bscContract.methods.cost().call(),
-        'ether'
-      );
-      this.userAddress = await this.web3.getAccounts();
-      this.tokensOwned = await bscContract.methods
-        .balanceOf(this.userAddress[0])
-        .call();
+      this.contractAddress = bscContract._address
+      this.contractName = await bscContract.methods.name().call()
+      console.log(this.contractName)
+      this.contractSymbol = await bscContract.methods.symbol().call()
+      this.contractMinted = await bscContract.methods.totalSupply().call()
+      this.contractTotalSupply = await bscContract.methods.maxSupply().call()
+      this.contractPrice = Web3.utils.fromWei(await bscContract.methods.cost().call(), 'ether')
+      this.userAddress = await this.web3.getAccounts()
+      this.tokensOwned = await bscContract.methods.balanceOf(this.userAddress[0]).call()
       // console.log("TEST TowkensOwnded = " + this.tokensOwned)
       this.contractOwner = await bscContract.methods.owner().call();
       this.isLoading = false;
@@ -131,3 +99,36 @@ export class HomeComponent implements OnInit {
     }
   }
 }
+
+
+
+
+  // constructor(private router: Router) {
+
+
+  // }
+  // async ngOnInit(): Promise<void> {
+  //   try {
+  //     this.contractName = await bscContract.methods.name().call()
+  //   } catch (e) {
+  //     console.log(e)
+
+  //   }
+  // }
+
+  // mint = () => {
+  //   this.router.navigateByUrl('/mint');
+  // };
+  // manage = () => {
+  //   this.router.navigateByUrl('/manage');
+  // };
+  // nft = () => {
+  //   this.router.navigateByUrl('/nft');
+  // };
+  // team = () => {
+  //   this.router.navigateByUrl('/team');
+  // };
+
+  // roadmap = () => {
+  //   this.router.navigateByUrl('/roadmap');
+  // };
