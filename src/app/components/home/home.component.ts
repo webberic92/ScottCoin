@@ -11,47 +11,11 @@ import { Web3Service } from 'src/app/services/Web3/web3.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  contractName: string = '';
-
-
-
-
-
-
-  // constructor(private router: Router) {
-
-
-  // }
-  // async ngOnInit(): Promise<void> {
-  //   try {
-  //     this.contractName = await bscContract.methods.name().call()
-  //   } catch (e) {
-  //     console.log(e)
-
-  //   }
-  // }
-
-  // mint = () => {
-  //   this.router.navigateByUrl('/mint');
-  // };
-  // manage = () => {
-  //   this.router.navigateByUrl('/manage');
-  // };
-  // nft = () => {
-  //   this.router.navigateByUrl('/nft');
-  // };
-  // team = () => {
-  //   this.router.navigateByUrl('/team');
-  // };
-
-  // roadmap = () => {
-  //   this.router.navigateByUrl('/roadmap');
-  // };
-
 
   constructor(private web3: Web3Service) {
 
-  }
+  }  
+  contractName: string = '';
   tokensOwned: string = ''
   tokensStaked: string = ''
 
@@ -59,7 +23,6 @@ export class HomeComponent implements OnInit {
   userAddress: string = ''
   contractAddress: string = ''
   contractOwner: string = ''
-  // contractName: string = ''
   contractSymbol: string = ''
   contractMinted: string = ''
   contractTotalSupply: string = ''
@@ -79,6 +42,7 @@ export class HomeComponent implements OnInit {
       this.error = '';
       this.contractAddress = bscContract._address
       this.contractName = await bscContract.methods.name().call()
+      console.log(this.contractName)
       this.contractSymbol = await bscContract.methods.symbol().call()
       this.contractMinted = await bscContract.methods.totalSupply().call()
       this.contractTotalSupply = await bscContract.methods.maxSupply().call()
@@ -147,3 +111,35 @@ export class HomeComponent implements OnInit {
 
 }
 
+
+
+
+  // constructor(private router: Router) {
+
+
+  // }
+  // async ngOnInit(): Promise<void> {
+  //   try {
+  //     this.contractName = await bscContract.methods.name().call()
+  //   } catch (e) {
+  //     console.log(e)
+
+  //   }
+  // }
+
+  // mint = () => {
+  //   this.router.navigateByUrl('/mint');
+  // };
+  // manage = () => {
+  //   this.router.navigateByUrl('/manage');
+  // };
+  // nft = () => {
+  //   this.router.navigateByUrl('/nft');
+  // };
+  // team = () => {
+  //   this.router.navigateByUrl('/team');
+  // };
+
+  // roadmap = () => {
+  //   this.router.navigateByUrl('/roadmap');
+  // };
