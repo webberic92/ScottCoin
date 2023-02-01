@@ -10,13 +10,13 @@ import { NFTComponent } from './components/nft/nft.component';
 const routes: Routes = [
 
   { path: '', pathMatch: 'full', redirectTo: '/' },
-  // { path: 'home', component: HomeComponent },
-  // { path: 'roadmap', component: RoadMapComponent },
-  // { path: 'team', component: TeamComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'roadmap', component: RoadMapComponent },
+  { path: 'team', component: TeamComponent },
   { path: '**', component: HomeComponent },  // Wildcard route for a 404 page
-  // { path: '', component: MintComponent },
-  // { path: 'manage', component: ManageComponent },
-  // { path: 'nft', component: NFTComponent },
+  { path: '', component: MintComponent },
+  { path: 'manage', component: ManageComponent },
+  { path: 'nft', component: NFTComponent },
 
 
 ];
