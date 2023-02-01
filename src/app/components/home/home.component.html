@@ -220,7 +220,8 @@
           Token Address: {{ contractAddress }}
         </p>
 
-         
+        <div *ngIf="this.contractSymbol != ''">
+
             <p style="font-size: 1.25em">
 
           Symbol : {{ contractSymbol }}
@@ -232,8 +233,8 @@
           Current Price : {{ contractPrice }} ETH
           <br />
           <br />
-
         </p>
+            </div>
 
         <div *ngIf="this.userAddress != ''">
           <p>
