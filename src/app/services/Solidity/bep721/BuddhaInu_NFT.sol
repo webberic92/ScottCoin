@@ -5,8 +5,8 @@
     import "./ERC721A.sol";
     import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/MerkleProof.sol";
     import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+    import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Strings.sol";
 
-   
 
     contract BuddhaInu_NFT is ERC721A {
     using Strings for uint256;
@@ -27,9 +27,9 @@
 
     ERC20 public erc20Token;
 
-    constructor() ERC721A("BuddhaInu_NFT", "BINU_NFT",maxMintAmount,maxSupply) {
-        baseURI = "https://ipfs.io/ipfs/QmYEExVEGTm1qqb7xEzhY6v7KtgN5r2Wp5BFRynQ3sCf4B/";
-        notRevealedUri = "https://ipfs.io/ipfs/QmShmPVB1PQAH9iqgJVqTsxegwW1ncfnkkUjqtEP8Ut4mP?filename=PreReveal.json";
+    constructor() ERC721A("BuddhaInu_NFT", "BINU_NFT",maxMintAmount) {
+        baseURI = "https://ethereyez.s3.amazonaws.com/";
+        notRevealedUri = "https://ethereyez.s3.amazonaws.com/preReveal.json";
         setPaused(false);
         setRevealed(true);
     }

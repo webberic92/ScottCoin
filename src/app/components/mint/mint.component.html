@@ -6,10 +6,10 @@
       <h3 class="card-text" style="font-size: 2em">
         <br> 
 
-        <u> Mint SIMON! </u>
+        <u> Mint $SIMON. </u>
         <br><br>
       </h3>
-      <br> <br>
+     
       <img
         src="https://thebuddhainu.s3.amazonaws.com/coin.png"
         alt="BuddhaInu"
@@ -17,8 +17,6 @@
         width="200vw"
         style="border-radius: 50%"
       /><br> <br>
-
-
 
       <div *ngIf="this.isLoading">
         <br />
@@ -38,35 +36,50 @@
       </div>
 
 
-      <div *ngIf="!this.isLoading">
-        <div class="card-body">
+        <div *ngIf="!this.isLoading">
 
-        <p style="font-size: 1.25em">
-          Token Address: {{ contractAddress }}
-        </p>
 
-         
-            <p style="font-size: 1.25em">
+          <div *ngIf="this.userAddress == ''">
+            <p>              MetaMask Not Connected. Please connect to ETH MAIN net.
 
-          Symbol : {{ contractSymbol }}
-          <br />
-          Minted: {{ contractMinted }}
-          <br />
-          Total Supply : {{ contractTotalSupply }}
-          <br />
-          Current Price : {{ contractPrice }} ETH
-          <br />
-          <br />
+                           <br> 
 
-        </p>
+              This is where you will be able to see more details about the token and be able to mint.
+              <br>
+            </p>
+            
+          </div>
 
         <div *ngIf="this.userAddress != ''">
+          <p style="font-size: 1.25em">
+<br>
+            Symbol : {{ contractSymbol }}
+            <br />
+            Minted: {{ contractMinted }}
+            <br />
+            Total Supply : {{ contractTotalSupply }}
+            <br />
+            Current Price : {{ contractPrice }} ETH
+            <br />
+  
+          </p>
+          <hr
+            style="
+              color: #f0b90b;
+              width: 85%;
+              margin-left: auto;
+              margin-right: auto;
+            "
+          />
+          <div class="card-body" id="manageCard">
+
           <p>
             &nbsp;Your address: {{ userAddress }}
             <br />
             Your {{ contractSymbol }} : {{ tokensOwned }}
             <br />
           </p>
+          <br>
           <div
             class="form-outline"
             id="mintInput"
@@ -87,7 +100,11 @@
           </div>
           <br />
           <p>
+<<<<<<< HEAD
             Total price with out gas fees for {{ numToBuy }}
+=======
+            Total price without gas fees for {{ numToBuy }}
+>>>>>>> bb005541eb62f08def91192867af924e18eb832e
             {{ contractSymbol }} is {{ totalPrice }} ETH
           </p>
 
@@ -157,6 +174,8 @@
             <p>{{ purchaseString }}</p>
           </div>
         </div>
+
+
         <div *ngIf="this.userAddress == ''">
           <p style="color: yellow">
             MetaMask Not Connected.<br/>
